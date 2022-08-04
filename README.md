@@ -2,10 +2,7 @@
 
 > Datepicker library based for Reactjs
 
-<img src="./docs/datepicker.jpg" width="300"/>
-
-<img src="./docs/timepicker.jpg" width="300"/>
-<img src="./docs/datetimepicker.jpg" width="300"/>
+<img src="./docs/dropdown.jpg" width="300"/>
 
 [![NPM](https://img.shields.io/npm/v/bear-react-dropdown.svg)](https://www.npmjs.com/package/bear-react-dropdown)
 [![npm](https://img.shields.io/npm/dm/bear-react-dropdown.svg)](https://www.npmjs.com/package/bear-react-dropdown)
@@ -17,7 +14,7 @@
 React | React Scripts | Bear React Grid | 
 ------|:--------------|----------------:|
 18    | 5.0.1         |           2.0.0 |
-17    | 4.0.3         |          1.0.12 |
+
 
 ## Install
 
@@ -39,14 +36,23 @@ import {Datepicker, Dropdown, DateTimepicker} from 'bear-react-dropdown';
 
 
 const BaseUsed = () => {
-
+    const options1 = [
+        {text: 'Jack Wu', value: '1'},
+        {text: 'Imagine Chiu', value: '2'},
+        {text: 'Jason Dinwiddie', value: '3'},
+        {text: 'Gloria Lu', value: '4'},
+    ];
+    const options2 = [
+        {text: 'Jack Wu', value: '1', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+        {text: 'Imagine Chiu', value: '2', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+        {text: 'Jason Dinwiddie', value: '3', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+        {text: 'Gloria Lu', value: '4', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+    ];
+    
     return (
         <div>
-            <Datepicker value={myDate} onChange={setMyDate} isVisibleSetToday locale="zh-CN"/>
-
-            <Dropdown value={myTime} onChange={setMyTime} onClickOk={() => {}}/>
-            
-            <DateTimepicker value={myDateTime} onChange={setMyDateTime}  />
+            <Dropdown value={value} onChange={setValue} options={options1} className="mr-3"/>
+            <Dropdown value={value} onChange={setValue} options={options2} isDark/>
         </div>
     );
 
