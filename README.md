@@ -2,10 +2,10 @@
 
 > Datepicker library based for Reactjs
 
-<img src="./docs/dropdown.jpg" width="300"/>
-
 [![NPM](https://img.shields.io/npm/v/bear-react-dropdown.svg)](https://www.npmjs.com/package/bear-react-dropdown)
 [![npm](https://img.shields.io/npm/dm/bear-react-dropdown.svg)](https://www.npmjs.com/package/bear-react-dropdown)
+
+<img src="./docs/dropdown.jpg" width="300"/>
 
 
 
