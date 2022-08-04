@@ -38,15 +38,17 @@ const halfHeight = (30 * maxItem) / 2;
  * 時間選擇器
  * @param className
  * @param style
+ * @param options
  * @param onChange 選擇視窗當項目異動時
- * @param onClickOk 選擇視窗按下OK時
  * @param value Input Value
+ * @param searchTextPlaceholder
+ * @param isVisibleSearchText
  * @param isDark 暗黑模式
  */
 const Dropdown = ({
     className,
     style,
-    options = [{text: '', value: '', avatarUrl: ''}],
+    options = [],
     value,
     onChange,
     searchTextPlaceholder = 'type keyword...',
@@ -67,7 +69,6 @@ const Dropdown = ({
 
         if(listRef.current && isNotEmpty(value)){
             const activeIndex = options?.findIndex(row => String(row.value) === String(value));
-            console.log('activeIndex', activeIndex);
 
             if(activeIndex >= 0){
                 listRef.current?.scrollTo({ top: (activeIndex * unitHeight) - (halfHeight)});
@@ -88,11 +89,11 @@ const Dropdown = ({
      * 處理點擊項目
      */
     const handleOnClick = useCallback((value: string) => {
-            if (onChange) {
-                onChange(value);
-            }
+        if (onChange) {
+            onChange(value);
+        }
 
-        }, [onChange]);
+    }, [onChange]);
 
 
     /**
