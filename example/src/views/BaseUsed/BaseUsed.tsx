@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dropdown, Timepicker, DateTimepicker, RangeDatepicker, IRangeDateValue} from 'bear-react-dropdown';
+import {Dropdown} from 'bear-react-dropdown';
 import styled from 'styled-components/macro';
 
 
@@ -65,8 +65,8 @@ const BaseUsed = () => {
 
             {isVisible1 && (
                 <div className="d-flex flex-row my-2">
-                    <Dropdown value={value} onChange={setValue} options={options1} className="mr-3"/>
-                    <Dropdown value={value} onChange={setValue} options={options1} isDark/>
+                    <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable className="mr-3"/>
+                    <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable isDark/>
                 </div>
             )}
 
@@ -92,4 +92,4 @@ export default BaseUsed;
 const Button = styled.button`
   background-color: rgba(0, 224, 112, 0.8);
   color: #fff;
-`
+`;

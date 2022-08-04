@@ -19,7 +19,7 @@ interface IProps {
     style?: CSS.Properties;
 
     onChange?: (value: string) => void;
-    isVisibleSearchText?: boolean,
+    isSearchEnable?: boolean,
     value?: string|number;
     options?: IDropdownOption[];
     searchTextPlaceholder?: string
@@ -52,7 +52,7 @@ const Dropdown = ({
     value,
     onChange,
     searchTextPlaceholder = 'type keyword...',
-    isVisibleSearchText = false,
+    isSearchEnable = false,
     isDark = false,
 }: IProps) => {
     const [keyword, setKeyword] = useState<string>('');
@@ -63,7 +63,7 @@ const Dropdown = ({
      * 開啟自動 focus 再輸入框
      */
     useEffect(() => {
-        if(isVisibleSearchText && textRef?.current !== null){
+        if(isSearchEnable && textRef?.current !== null){
             textRef.current.focus();
         }
 
@@ -71,7 +71,7 @@ const Dropdown = ({
             const activeIndex = options?.findIndex(row => String(row.value) === String(value));
 
             if(activeIndex >= 0){
-                listRef.current?.scrollTo({ top: (activeIndex * unitHeight) - (halfHeight)});
+                listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
             }
         }
 
@@ -115,10 +115,10 @@ const Dropdown = ({
                         className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
                         key={`option-${row.value}`}
                         onClick={() => handleOnClick(String(row.value))}
-                >
-                    {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
-                    <div className={elClassNames.listItemText}>{row.text}</div>
-                </button>);
+                    >
+                        {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
+                        <div className={elClassNames.listItemText}>{row.text}</div>
+                    </button>);
             });
     }, [options]);
 
@@ -126,12 +126,14 @@ const Dropdown = ({
 
     return (
         <div className={cx(elClassNames.root, className, {'dark-theme': isDark})} style={style}>
-            <input className={elClassNames.textField}
-                  type="text"
-                  value={keyword}
-                  onChange={handleSetKeyword}
-                  placeholder={searchTextPlaceholder}
-            />
+            {isSearchEnable &&
+                <input className={elClassNames.textField}
+                    type="text"
+                    value={keyword}
+                    onChange={handleSetKeyword}
+                    placeholder={searchTextPlaceholder}
+                />
+            }
 
             <div className={elClassNames.list} ref={listRef}>
                 {renderOptions(keyword, value)}
