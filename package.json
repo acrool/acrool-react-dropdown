@@ -54,6 +54,9 @@
     "bear-react-grid": "^2.0.0",
     "eslint-config-react-app": "^7.0.1"
   },
+  "dependencies": {
+    "bear-jsutils": "1.0.13"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -64,7 +67,6 @@
     "@types/react-dom": "18.0.5",
     "@types/react-transition-group": "^4.4.4",
     "babel-eslint": "^10.0.3",
-    "bear-jsutils": "1.0.11",
     "cross-env": "^7.0.2",
     "cz-conventional-changelog": "3.3.0",
     "cz-customizable": "6.3.0",

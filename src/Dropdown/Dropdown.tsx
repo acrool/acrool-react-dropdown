@@ -1,11 +1,8 @@
 import React, {useState, useRef, useEffect, useCallback, RefObject, startTransition, useMemo} from 'react';
-import dayjs from 'dayjs';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
-import {isEmpty} from 'bear-jsutils/equal';
-import {getTimeList, getTimeFormat} from '../utils';
-import translateI18n from '../locales';
+import {isNotEmpty} from 'bear-jsutils/equal';
 
 import './styles.css';
 
@@ -20,29 +17,22 @@ interface IDropdownOption  {
 interface IProps {
     className?: string;
     style?: CSS.Properties;
-    // value?: string;
+
     onChange?: (value: string) => void;
-    onClickOk?: () => void;
-    locale?: string,
     isVisibleSearchText?: boolean,
     value?: string|number;
     options?: IDropdownOption[];
     searchTextPlaceholder?: string
 
-
     isDark?: boolean,
 }
 
-const {hourList, minuteList, secondList} = getTimeList();
-
-const unitHeight = 32;
-const halfHeight = (32 * 6) / 2;
 
 
 
-
-
-
+const unitHeight = 30;
+const maxItem = 15;
+const halfHeight = (30 * maxItem) / 2;
 
 /**
  * 時間選擇器
@@ -51,14 +41,13 @@ const halfHeight = (32 * 6) / 2;
  * @param onChange 選擇視窗當項目異動時
  * @param onClickOk 選擇視窗按下OK時
  * @param value Input Value
- * @param locale
  * @param isDark 暗黑模式
  */
 const Dropdown = ({
     className,
     style,
     options = [{text: '', value: '', avatarUrl: ''}],
-    value='',
+    value,
     onChange,
     searchTextPlaceholder = 'type keyword...',
     isVisibleSearchText = false,
@@ -66,6 +55,7 @@ const Dropdown = ({
 }: IProps) => {
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
+    const listRef = useRef<HTMLDivElement>(null);
 
     /**
      * 開啟自動 focus 再輸入框
@@ -73,6 +63,15 @@ const Dropdown = ({
     useEffect(() => {
         if(isVisibleSearchText && textRef?.current !== null){
             textRef.current.focus();
+        }
+
+        if(listRef.current && isNotEmpty(value)){
+            const activeIndex = options?.findIndex(row => String(row.value) === String(value));
+            console.log('activeIndex', activeIndex);
+
+            if(activeIndex >= 0){
+                listRef.current?.scrollTo({ top: (activeIndex * unitHeight) - (halfHeight)});
+            }
         }
 
     }, []);
@@ -84,45 +83,22 @@ const Dropdown = ({
         });
     }, []);
 
-    /**
-     * 處理控制 Picker顯示隱藏
-     */
-    // const handleVisiblePanel = useCallback((isVisible = false) => {
-    //     setIsVisiblePanel(isVisible);
-    //
-    //     setTimeout(() => {
-    //         if(isVisible){
-    //             document.addEventListener('click', handleClickOutSite);
-    //         }else{
-    //             document.removeEventListener('click', handleClickOutSite);
-    //         }
-    //     }, 0);
-    //
-    //
-    // }, []);
-
-
 
     /**
-     * 處理點擊遮罩
+     * 處理點擊項目
      */
-        // const handleClickOutSite = useCallback((evt: MouseEvent) => {
-        //     if (menuRef && menuRef.current && menuRef.current.contains(evt.target as Node)) return;
-        //
-        //     handleVisiblePanel(false);
-        // }, [menuRef]);
-        //
-        //
     const handleOnClick = useCallback((value: string) => {
             if (onChange) {
                 onChange(value);
             }
-            // setIsVisiblePanel(false);
+
+        }, [onChange]);
 
 
-        }, [onChange, value]);
-
-    const renderOptions = useCallback((keyword: string) => {
+    /**
+     * 產生選單
+     */
+    const renderOptions = useCallback((keyword: string, value?: string|number) => {
         return options
             .filter(row => {
                 if(keyword?.length > 0){
@@ -131,15 +107,16 @@ const Dropdown = ({
                 return true;
             })
             .map((row) => {
+                const isActive = value && String(value) === String(row.value);
                 return (
                     <button
                         type="button"
-                        className={elClassNames.dropdownItem}
+                        className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
                         key={`option-${row.value}`}
                         onClick={() => handleOnClick(String(row.value))}
                 >
-                    {/*{row.avatarUrl && <OptionAvatar image={row.avatarUrl} size={26}/>}*/}
-                    <div className={elClassNames.dropdownText}>{row.text}</div>
+                    {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
+                    <div className={elClassNames.listItemText}>{row.text}</div>
                 </button>);
             });
     }, [options]);
@@ -155,8 +132,8 @@ const Dropdown = ({
                   placeholder={searchTextPlaceholder}
             />
 
-            <div className={elClassNames.dropdownList}>
-                {renderOptions(keyword)}
+            <div className={elClassNames.list} ref={listRef}>
+                {renderOptions(keyword, value)}
             </div>
         </div>
 

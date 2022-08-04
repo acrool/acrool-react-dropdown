@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
 import {Dropdown, Timepicker, DateTimepicker, RangeDatepicker, IRangeDateValue} from 'bear-react-dropdown';
+import styled from 'styled-components/macro';
 
 
 
 
 const BaseUsed = () => {
-    const [myDateTime, setMyDateTime] = useState('');
-    const [myDate, setMyDate] = useState('');
-    const [myTime, setMyTime] = useState('');
-    const [myRangeDate, setMyRangeDate] = useState<IRangeDateValue>({startDate: undefined, endDate: undefined});
+    const [value, setValue] = useState('');
+    const [isVisible, setIsVisible] = useState(true);
 
     const options = [
         {text: 'Jack Wu', value: '1'},
@@ -26,24 +25,41 @@ const BaseUsed = () => {
         {text: 'Gary Chien', value: '12'},
         {text: 'Keira Hsiao', value: '13'},
         {text: 'Morris Wang', value: '14'},
-        {text: 'Nick Yang', value: '14'},
-        {text: 'Wayne Chen', value: '15'},
-        {text: 'NtdGamers電玩咖', value: '16'},
-        {text: 'Kwun Hung Mak', value: '17'},
-        {text: 'Daro Hang', value: '18'},
-        {text: 'Monica Camilleri', value: '19'},
+        {text: 'Nick Yang', value: '15'},
+        {text: 'Wayne Chen', value: '16'},
+
+        {text: 'NtdGamers電玩咖', value: '17'},
+        {text: 'Kwun Hung Mak', value: '18'},
+        {text: 'Daro Hang', value: '19'},
+        {text: 'Monica Camilleri', value: '20'},
+
+        {text: 'Drian Huang', value: '21'},
+        {text: 'Alix Huang', value: '22'},
+        {text: 'Ary Chien', value: '23'},
+        {text: 'Eira Hsiao', value: '24'},
+        {text: 'Orris Wang', value: '25'},
+        {text: 'Ick Yang', value: '26'},
+        {text: 'Ayne Chen', value: '27'},
+
+        {text: 'TdGamers', value: '28'},
+        {text: 'Hung Mak', value: '29'},
+        {text: 'Aro Hang', value: '30'},
+        {text: 'Onica Camilleri', value: '31'},
     ];
 
     return (
         <div>
-            <input type="text" value={myDate} onChange={(event) => setMyTime(event.target.value)}/>
             <div className="d-flex flex-row my-2">
-                <Dropdown value={myDate} onChange={setMyDate} options={options} locale="zh-CN" className="mr-3"/>
-                <Dropdown value={myDate} onChange={setMyDate} options={options} locale="zh-CN" isDark/>
+                <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
+                <Button type="button" onClick={() => setIsVisible(curr => !curr)}>Switch IsVisible</Button>
             </div>
 
-
-
+            {isVisible && (
+                <div className="d-flex flex-row my-2">
+                    <Dropdown value={value} onChange={setValue} options={options} className="mr-3"/>
+                    <Dropdown value={value} onChange={setValue} options={options} isDark/>
+                </div>
+            )}
 
 
         </div>
@@ -52,3 +68,9 @@ const BaseUsed = () => {
 };
 
 export default BaseUsed;
+
+
+const Button = styled.button`
+  background-color: rgba(0, 224, 112, 0.8);
+  color: #fff;
+`
