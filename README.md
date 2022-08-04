@@ -35,7 +35,7 @@ import "bear-react-dropdown/dist/index.css";
 
 then in your page
 ```tsx
-import {Datepicker, Timepicker, DateTimepicker} from 'bear-react-dropdown';
+import {Datepicker, Dropdown, DateTimepicker} from 'bear-react-dropdown';
 
 
 const BaseUsed = () => {
@@ -44,7 +44,7 @@ const BaseUsed = () => {
         <div>
             <Datepicker value={myDate} onChange={setMyDate} isVisibleSetToday locale="zh-CN"/>
 
-            <Timepicker value={myTime} onChange={setMyTime} onClickOk={() => {}}/>
+            <Dropdown value={myTime} onChange={setMyTime} onClickOk={() => {}}/>
             
             <DateTimepicker value={myDateTime} onChange={setMyDateTime}  />
         </div>

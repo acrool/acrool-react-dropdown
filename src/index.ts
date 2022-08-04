@@ -7,4 +7,6 @@ export {default as Timepicker} from './Timepicker/Timepicker';
 export {default as timepickerElClassNames} from './Timepicker/el-class-names';
 export {default as DateTimepicker} from './DateTimepicker/DateTimepicker';
 export {default as DatetimepickerElClassNames} from './DateTimepicker/el-class-names';
+export {default as Dropdown} from './Dropdown/Dropdown';
+export {default as DropdownElClassNames} from './Dropdown/el-class-names';
 

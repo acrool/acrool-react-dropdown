@@ -1,0 +1,109 @@
+.bear-react-dropdown__root,
+.bear-react-dropdown__root *,
+.bear-react-dropdown__root *::before,
+.bear-react-dropdown__root *::after{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    line-height: normal;
+    user-select: none;
+}
+
+.bear-react-dropdown__root{
+    --primary-color: #00a3e0;
+    --bg-color: #fff;
+    --text-color: #333333;
+    --bg-active-color: #e6f7ff;
+    --bg-hover-color: #f5f5f5;
+    --border-color: #f0f0f0;
+
+
+}
+
+.bear-react-dropdown__root.dark-theme {
+    --bg-color: #38393a;
+    --text-color: rgba(255, 255, 255, 0.65);
+    --bg-active-color: #727373;
+    --bg-hover-color: #5e5e5e;
+    --border-color: rgba(255, 255, 255, 0.25);
+}
+
+
+.bear-react-dropdown__dropdown-list{
+    border: 1px #6c757d;
+    border-radius: 4px;
+    /*color: #fff;*/
+    font-size: 14px;
+    padding: 2px;
+    overflow-y: scroll;
+    width: 100%;
+    height: auto;
+    flex: 1;
+}
+.bear-react-dropdown__dropdown-item{
+    overflow : hidden;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+}
+
+.bear-react-dropdown__dropdown-item{
+    padding: 5px 10px;
+    cursor: pointer;
+    color: var(--text-color);
+    text-align: left;
+    justify-content: flex-start;
+    white-space:nowrap;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.bear-react-dropdown__dropdown-item:hover{
+    background-color: var(--primary-color);
+    color: #fff;
+    opacity: .8;
+}
+
+.bear-react-dropdown__text-field{
+    background-color: var(--bg-color);
+
+    position: relative;
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 30px;
+    color: var(--text-color);
+    padding: 0 12px;
+    border: none;
+    border-bottom: 1px solid rgb(52, 58, 64);
+}
+
+.bear-react-dropdown__text-field:focus {
+    outline: 0;
+}
+
+
+
+.bear-react-dropdown__root {
+    width: auto;
+    max-width: 500px;
+    max-height: 450px;
+    min-width: 100px;
+    min-height: 50px;
+    height: auto;
+
+    z-index: 10;
+
+
+    display: flex;
+    border-radius: 3px;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    /*width: 168px;*/
+    margin: 0;
+    box-shadow:
+            0 3px 6px -4px rgba(0, 0, 0, 0.12),
+            0 6px 16px 0 rgba(0, 0, 0, 0.08),
+            0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
