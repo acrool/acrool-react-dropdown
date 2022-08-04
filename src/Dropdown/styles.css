@@ -75,6 +75,7 @@
     color: var(--text-color);
     text-align: left;
     justify-content: flex-start;
+    align-items: center;
     white-space:nowrap;
     overflow: hidden;
     display: flex;
@@ -100,6 +101,7 @@
     overflow: hidden;
     flex: 0 0 auto;
     border: 2px solid #343a40;
+    margin-right: 4px;
     background: rgb(70, 70, 70) center center;
     background-size: cover;
     align-items: center;

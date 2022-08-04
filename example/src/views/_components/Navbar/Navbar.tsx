@@ -40,7 +40,7 @@ const Navbar = () => {
 
             <NavbarBrand onClick={()=>history.push('/')}>
                 <Logo/>
-                <Name>Bear React Datepicker</Name>
+                <Name>Bear React Dropdown</Name>
             </NavbarBrand>
 
             <DebugSize id="debug-resize"/>

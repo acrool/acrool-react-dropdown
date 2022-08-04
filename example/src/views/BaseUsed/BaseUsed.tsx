@@ -7,9 +7,9 @@ import styled from 'styled-components/macro';
 
 const BaseUsed = () => {
     const [value, setValue] = useState('');
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible1, setIsVisible1] = useState(true);
 
-    const options = [
+    const options1 = [
         {text: 'Jack Wu', value: '1'},
         {text: 'Imagine Chiu', value: '2'},
         {text: 'Jason Dinwiddie', value: '3'},
@@ -45,21 +45,40 @@ const BaseUsed = () => {
         {text: 'Hung Mak', value: '29'},
         {text: 'Aro Hang', value: '30'},
         {text: 'Onica Camilleri', value: '31'},
+
+    ];
+    const options2 = [
+        {text: 'Jack Wu', value: '1', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+        {text: 'Imagine Chiu', value: '2', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+        {text: 'Jason Dinwiddie', value: '3', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+        {text: 'Gloria Lu', value: '4', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+
+
     ];
 
     return (
         <div>
             <div className="d-flex flex-row my-2">
                 <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
-                <Button type="button" onClick={() => setIsVisible(curr => !curr)}>Switch IsVisible</Button>
+                <Button type="button" onClick={() => setIsVisible1(curr => !curr)}>Switch IsVisible</Button>
             </div>
 
-            {isVisible && (
+            {isVisible1 && (
                 <div className="d-flex flex-row my-2">
-                    <Dropdown value={value} onChange={setValue} options={options} className="mr-3"/>
-                    <Dropdown value={value} onChange={setValue} options={options} isDark/>
+                    <Dropdown value={value} onChange={setValue} options={options1} className="mr-3"/>
+                    <Dropdown value={value} onChange={setValue} options={options1} isDark/>
                 </div>
             )}
+
+
+            <div className="d-flex flex-row my-2">
+                <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
+            </div>
+
+            <div className="d-flex flex-row my-2">
+                <Dropdown value={value} onChange={setValue} options={options2} className="mr-3"/>
+                <Dropdown value={value} onChange={setValue} options={options2} isDark/>
+            </div>
 
 
         </div>
