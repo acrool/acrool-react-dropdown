@@ -31,8 +31,7 @@
     width: auto;
     max-width: 500px;
     max-height: 450px;
-    min-width: 100px;
-    min-height: 50px;
+    min-height: 30px;
     height: auto;
 
     z-index: 10;
