@@ -80,6 +80,11 @@ const BaseUsed = () => {
                 <Dropdown value={value} onChange={setValue} options={options2} isDark/>
             </div>
 
+            <div className="d-flex flex-row my-2">
+                <Dropdown value={value} onChange={setValue} options={[]} className="mr-3"/>
+                <Dropdown value={value} onChange={setValue} options={[]} isDark/>
+            </div>
+
 
         </div>
     );

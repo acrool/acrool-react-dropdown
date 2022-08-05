@@ -100,7 +100,7 @@ const Dropdown = ({
      * 產生選單
      */
     const renderOptions = useCallback((keyword: string, value?: string|number) => {
-        return options
+        const formatOption = options
             .filter(row => {
                 if(keyword?.length > 0){
                     return row.text.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
@@ -120,6 +120,21 @@ const Dropdown = ({
                         <div className={elClassNames.listItemText}>{row.text}</div>
                     </button>);
             });
+
+
+        if(formatOption.length > 0){
+            return formatOption;
+        }
+
+        return (<div
+            key="no-data"
+            className={elClassNames.listItem}
+            onClick={() => handleOnClick(String(''))}
+        >
+            <div className={elClassNames.listItemText}>No data</div>
+        </div>);
+
+
     }, [options]);
 
 
