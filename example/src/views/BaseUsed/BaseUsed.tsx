@@ -53,8 +53,6 @@ const BaseUsed = () => {
         {text: 'Imagine Chiu', value: '2', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
         {text: 'Jason Dinwiddie', value: '3', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
         {text: 'Gloria Lu', value: '4', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
-
-
     ];
 
     return (
@@ -76,6 +74,11 @@ const BaseUsed = () => {
             <div className="d-flex flex-row my-2">
                 <Dropdown value={value} onChange={setValue} options={[]} className="mr-3"/>
                 <Dropdown value={value} onChange={setValue} options={[]} isDark/>
+            </div>
+
+            <div className="d-flex flex-row my-2">
+                <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable isCheckedEnable={false} className="mr-3"/>
+                <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable isCheckedEnable={false} isDark/>
             </div>
 
 
