@@ -64,8 +64,7 @@
 }
 
 .bear-react-dropdown__list-item{
-    /*padding: 5px 10px;*/
-    padding: 0 10px;
+    padding: 0 5px;
     cursor: pointer;
     color: var(--text-color);
     text-align: left;
@@ -80,7 +79,9 @@
     position: relative;
 }
 
-.bear-react-dropdown__list-item:hover, .bear-react-dropdown__list-item-active{
+.bear-react-dropdown__list-item:hover,
+.bear-react-dropdown__list-item:hover .bear-react-dropdown__list-item-checked svg,
+.bear-react-dropdown__list-item:hover .bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-placeholder{
     background-color: var(--primary-color);
     color: #fff;
     opacity: .8;
@@ -107,6 +108,18 @@
 
 .bear-react-dropdown__list-item-text {
     padding: 5px 0;
+}
+.bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-placeholder{
+    color: #757575;
+}
+
+.bear-react-dropdown__list-item-checked {
+    margin-right: 5px;
+    width: 15px;
+}
+.bear-react-dropdown__list-item-checked svg{
+    color: var(--text-color);
+    fill: currentColor;
 }
 
 

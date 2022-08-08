@@ -5,6 +5,7 @@ import cx from 'classnames';
 import {isNotEmpty} from 'bear-jsutils/equal';
 
 import './styles.css';
+import {CheckIcon} from './Icon';
 
 
 interface IDropdownOption  {
@@ -108,7 +109,8 @@ const Dropdown = ({
                 return true;
             })
             .map((row) => {
-                const isActive = value ? String(value) === String(row.value): '';
+                const formatValue = value ?? '';
+                const isActive = String(formatValue) === String(row.value);
                 return (
                     <button
                         type="button"
@@ -116,8 +118,11 @@ const Dropdown = ({
                         key={`option-${row.value}`}
                         onClick={() => handleOnClick(String(row.value))}
                     >
+                        <div className={elClassNames.listItemChecked}>
+                        {isActive && <CheckIcon/>}
+                        </div>
                         {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
-                        <div className={elClassNames.listItemText}>{row.text}</div>
+                        <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
                     </button>);
             });
 

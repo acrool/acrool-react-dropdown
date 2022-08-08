@@ -48,6 +48,7 @@ const BaseUsed = () => {
 
     ];
     const options2 = [
+        {text: 'Select option item...', value: '', avatarUrl: ''},
         {text: 'Jack Wu', value: '1', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
         {text: 'Imagine Chiu', value: '2', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
         {text: 'Jason Dinwiddie', value: '3', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
