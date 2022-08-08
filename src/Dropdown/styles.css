@@ -29,9 +29,8 @@
 
 .bear-react-dropdown__root {
     width: auto;
-    max-width: 500px;
-    max-height: 450px;
     min-height: 30px;
+    max-height: 450px;
     height: auto;
 
     z-index: 10;
@@ -41,12 +40,8 @@
     border-radius: 3px;
     flex-direction: column;
     background-color: var(--bg-color);
-    /*width: 168px;*/
     margin: 0;
-    box-shadow:
-            0 3px 6px -4px rgba(0, 0, 0, 0.12),
-            0 6px 16px 0 rgba(0, 0, 0, 0.08),
-            0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 2px 1px 9px 1px #00000040;
 }
 
 
@@ -69,7 +64,8 @@
 }
 
 .bear-react-dropdown__list-item{
-    padding: 5px 10px;
+    /*padding: 5px 10px;*/
+    padding: 0 10px;
     cursor: pointer;
     color: var(--text-color);
     text-align: left;
@@ -80,6 +76,8 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    border-radius: 3px;
+    position: relative;
 }
 
 .bear-react-dropdown__list-item:hover, .bear-react-dropdown__list-item-active{
@@ -93,18 +91,22 @@
 .bear-react-dropdown__list-item-avatar {
     display: flex;
 
-    position: relative;
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
     border-radius: 100%;
     overflow: hidden;
     flex: 0 0 auto;
     border: 2px solid #343a40;
-    margin-right: 4px;
     background: rgb(70, 70, 70) center center;
     background-size: cover;
     align-items: center;
     justify-content: center;
+    margin-right: 5px;
+
+}
+
+.bear-react-dropdown__list-item-text {
+    padding: 5px 0;
 }
 
 

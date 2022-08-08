@@ -71,19 +71,33 @@ const BaseUsed = () => {
             )}
 
 
-            <div className="d-flex flex-row my-2">
-                <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
-            </div>
-
-            <div className="d-flex flex-row my-2">
-                <Dropdown value={value} onChange={setValue} options={options2} className="mr-3"/>
-                <Dropdown value={value} onChange={setValue} options={options2} isDark/>
-            </div>
 
             <div className="d-flex flex-row my-2">
                 <Dropdown value={value} onChange={setValue} options={[]} className="mr-3"/>
                 <Dropdown value={value} onChange={setValue} options={[]} isDark/>
             </div>
+
+
+            <div className="d-flex flex-row my-2">
+                <InputGroup className="mr-3">
+                    <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
+
+                    <InputDropdown>
+                        <Dropdown value={value} onChange={setValue} options={options2}/>
+                    </InputDropdown>
+                </InputGroup>
+
+                <InputGroup>
+                    <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
+
+                    <InputDropdown>
+                        <Dropdown value={value} onChange={setValue} options={options2} isDark/>
+                    </InputDropdown>
+                </InputGroup>
+
+            </div>
+
+
 
 
         </div>
@@ -93,6 +107,19 @@ const BaseUsed = () => {
 
 export default BaseUsed;
 
+
+
+const InputDropdown = styled.div`
+    position: absolute;
+  z-index: 50;
+  top: 25px;
+  left: 0;
+  right: 0;
+`;
+
+const InputGroup = styled.div`
+    position: relative;
+`;
 
 const Button = styled.button`
   background-color: rgba(0, 224, 112, 0.8);
