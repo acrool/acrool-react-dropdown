@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dropdown} from 'bear-react-dropdown';
+import {Dropdown, DropdownMulti} from 'bear-react-dropdown';
 import styled from 'styled-components/macro';
 
 
@@ -7,6 +7,7 @@ import styled from 'styled-components/macro';
 
 const BaseUsed = () => {
     const [value, setValue] = useState('');
+    const [multiValue, setMultiValue] = useState<Array<string|number>>([]);
     const [isVisible1, setIsVisible1] = useState(true);
 
     const options1 = [
@@ -60,12 +61,15 @@ const BaseUsed = () => {
             <div className="d-flex flex-row my-2">
                 <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
                 <Button type="button" onClick={() => setIsVisible1(curr => !curr)}>Switch IsVisible</Button>
+                <input type="text" value={JSON.stringify(multiValue)}/>
             </div>
 
             {isVisible1 && (
                 <div className="d-flex flex-row my-2">
                     <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable className="mr-3"/>
-                    <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable isDark/>
+                    <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable isDark className="mr-3"/>
+                    <DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} className="mr-3"/>
+                    <DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isDark className="mr-3"/>
                 </div>
             )}
 

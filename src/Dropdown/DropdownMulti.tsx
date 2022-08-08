@@ -3,6 +3,7 @@ import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
 import {isNotEmpty} from 'bear-jsutils/equal';
+import {removeByIndex} from 'bear-jsutils/array';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
@@ -14,15 +15,16 @@ interface IDropdownOption  {
     avatarUrl?: string,
 }
 
+type TValue = number|string
 
 interface IProps {
     className?: string;
     style?: CSS.Properties;
 
-    onChange?: (value: string) => void;
+    onChange?: (value: TValue[]) => void;
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
-    value?: string|number;
+    value?: TValue[];
     options?: IDropdownOption[];
     searchTextPlaceholder?: string
 
@@ -47,11 +49,11 @@ const halfHeight = (30 * maxItem) / 2;
  * @param isVisibleSearchText
  * @param isDark 暗黑模式
  */
-const Dropdown = ({
+const DropdownMulti = ({
     className,
     style,
     options = [],
-    value,
+    value = [],
     onChange,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
@@ -71,7 +73,7 @@ const Dropdown = ({
         }
 
         if(listRef.current && isNotEmpty(value)){
-            const activeIndex = options?.findIndex(row => String(row.value) === String(value));
+            const activeIndex = options?.findIndex(row => value?.includes(row.value));
 
             if(activeIndex >= 0){
                 listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
@@ -91,18 +93,25 @@ const Dropdown = ({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((newValue: string) => {
+    const handleOnClick = (newValue: TValue) => {
         if (onChange) {
-            onChange(newValue);
+            const index = value.findIndex(rowVal => rowVal === newValue);
+            let formatValues = [];
+            if(index >= 0){
+                formatValues = removeByIndex(value, index);
+            }else{
+                formatValues = [...value, newValue];
+            }
+            onChange(formatValues);
         }
 
-    }, [onChange]);
+    }
 
 
     /**
      * 產生選單
      */
-    const renderOptions = useCallback((keyword: string, value?: string|number) => {
+    const renderOptions = useCallback((keyword: string, value: TValue[]) => {
         const formatOption = options
             .filter(row => {
                 if(keyword?.length > 0){
@@ -111,14 +120,13 @@ const Dropdown = ({
                 return true;
             })
             .map((row) => {
-                const formatValue = value ?? '';
-                const isActive = String(formatValue) === String(row.value);
+                const isActive = value.includes(row.value);
                 return (
                     <button
                         type="button"
                         className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
                         key={`option-${row.value}`}
-                        onClick={() => handleOnClick(String(row.value))}
+                        onClick={() => handleOnClick(row.value)}
                     >
                         {isCheckedEnable && <div className={elClassNames.listItemChecked}>
                             {isActive && <CheckIcon/>}
@@ -137,7 +145,7 @@ const Dropdown = ({
         return (<div
             key="no-data"
             className={elClassNames.listItem}
-            onClick={() => handleOnClick(String(''))}
+            onClick={() => {}}
         >
             <div className={elClassNames.listItemText}>No data</div>
         </div>);
@@ -166,5 +174,5 @@ const Dropdown = ({
     );
 };
 
-export default Dropdown;
+export default DropdownMulti;
 
