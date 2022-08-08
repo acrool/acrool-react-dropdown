@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.7](https://github.com/imagine10255/bear-react-dropdown/compare/v2.1.6...v2.1.7) (2022-08-08)
+
 ### [2.1.6](https://github.com/imagine10255/bear-react-dropdown/compare/v2.1.5...v2.1.6) (2022-08-08)
 
 
