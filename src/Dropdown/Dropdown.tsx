@@ -108,7 +108,7 @@ const Dropdown = ({
                 return true;
             })
             .map((row) => {
-                const isActive = value && String(value) === String(row.value);
+                const isActive = value ? String(value) === String(row.value): '';
                 return (
                     <button
                         type="button"
