@@ -92,7 +92,7 @@ const BaseUsed = () => {
                     <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
 
                     <InputDropdown>
-                        <Dropdown value={value} onChange={setValue} options={options2} isDark/>
+                        <Dropdown isCheckedEnable={false} onChange={setValue} options={options2} isDark/>
                     </InputDropdown>
                 </InputGroup>
 

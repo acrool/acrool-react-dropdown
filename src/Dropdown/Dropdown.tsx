@@ -21,6 +21,7 @@ interface IProps {
 
     onChange?: (value: string) => void;
     isSearchEnable?: boolean,
+    isCheckedEnable?: boolean,
     value?: string|number;
     options?: IDropdownOption[];
     searchTextPlaceholder?: string
@@ -54,6 +55,7 @@ const Dropdown = ({
     onChange,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
+    isCheckedEnable = true,
     isDark = false,
 }: IProps) => {
     const [keyword, setKeyword] = useState<string>('');
@@ -118,9 +120,10 @@ const Dropdown = ({
                         key={`option-${row.value}`}
                         onClick={() => handleOnClick(String(row.value))}
                     >
-                        <div className={elClassNames.listItemChecked}>
-                        {isActive && <CheckIcon/>}
+                        {isCheckedEnable && <div className={elClassNames.listItemChecked}>
+                            {isActive && <CheckIcon/>}
                         </div>
+                        }
                         {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
                         <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
                     </button>);

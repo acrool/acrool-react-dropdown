@@ -102,19 +102,20 @@
     background-size: cover;
     align-items: center;
     justify-content: center;
-    margin-right: 5px;
+    margin-right: 2.5px;
 
 }
 
 .bear-react-dropdown__list-item-text {
     padding: 5px 0;
+    margin-left: 2.5px;
 }
 .bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-placeholder{
     color: #757575;
 }
 
 .bear-react-dropdown__list-item-checked {
-    margin-right: 5px;
+    margin-right: 2.5px;
     width: 15px;
 }
 .bear-react-dropdown__list-item-checked svg{
