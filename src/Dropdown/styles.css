@@ -148,6 +148,7 @@ button::-moz-focus-inner,
 
 .bear-react-dropdown__list-item-text {
     padding: 5px 2.5px;
+    flex: 1;
 }
 .bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-placeholder{
     color: #757575;
@@ -156,6 +157,7 @@ button::-moz-focus-inner,
 .bear-react-dropdown__list-item-checked {
     padding: 0 2.5px;
     width: 15px;
+    flex: 0 0 15px;
 }
 .bear-react-dropdown__list-item-checked svg{
     color: var(--text-color);
