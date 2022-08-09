@@ -32,7 +32,7 @@ import "bear-react-dropdown/dist/index.css";
 
 then in your page
 ```tsx
-import {DropdownMulti} from 'bear-react-dropdown';
+import {Dropdown, DropdownMulti} from 'bear-react-dropdown';
 
 
 const BaseUsed = () => {
