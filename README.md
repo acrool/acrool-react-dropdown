@@ -43,10 +43,11 @@ const BaseUsed = () => {
         {text: 'Gloria Lu', value: '4'},
     ];
     const options2 = [
-        {text: 'Jack Wu', value: '1', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
-        {text: 'Imagine Chiu', value: '2', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
-        {text: 'Jason Dinwiddie', value: '3', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
-        {text: 'Gloria Lu', value: '4', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+        {text: 'Select option item...', value: '', avatarUrl: ''},
+        {text: 'Jack Wu', value: '1', avatarUrl: asset('/images/avatar/female-1.jpg')},
+        {text: 'Imagine Chiu', value: '2', avatarUrl: asset('/images/avatar/female-2.jpg')},
+        {text: 'Jason Dinwiddie', value: '3', avatarUrl: asset('/images/avatar/female-3.jpg')},
+        {text: 'Gloria Lu', value: '4', avatarUrl: asset('/images/avatar/female-4.jpg')},
     ];
     
     return (
@@ -62,7 +63,7 @@ const BaseUsed = () => {
 
 There is also a codesandbox template that you can fork and play with it:
 
-[![Edit react-editext-template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/9he8m8)
+[![Edit react-editext-template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/bear-react-dropdown-1uvhiw)
 
 
 ## License

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Dropdown, DropdownMulti} from 'bear-react-dropdown';
 import styled from 'styled-components/macro';
+import {asset} from '../../config/utils';
 
 
 
@@ -50,10 +51,10 @@ const BaseUsed = () => {
     ];
     const options2 = [
         {text: 'Select option item...', value: '', avatarUrl: ''},
-        {text: 'Jack Wu', value: '1', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
-        {text: 'Imagine Chiu', value: '2', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
-        {text: 'Jason Dinwiddie', value: '3', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
-        {text: 'Gloria Lu', value: '4', avatarUrl: 'https://bearests.com/uploads/sample-team-avatar/igroup-frontend.jpg?v=1'},
+        {text: 'Jack Wu', value: '1', avatarUrl: asset('/images/avatar/female-1.jpg')},
+        {text: 'Imagine Chiu', value: '2', avatarUrl: asset('/images/avatar/female-2.jpg')},
+        {text: 'Jason Dinwiddie', value: '3', avatarUrl: asset('/images/avatar/female-3.jpg')},
+        {text: 'Gloria Lu', value: '4', avatarUrl: asset('/images/avatar/female-4.jpg')},
     ];
 
     return (
