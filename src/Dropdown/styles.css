@@ -58,26 +58,19 @@
     text-transform: none;
 }
 .bear-react-dropdown__root button:focus {
-    outline: 1px dotted;
     outline: none;
 }
 
 .bear-react-dropdown__root button,
-.bear-react-dropdown__root [type="button"],
-.bear-react-dropdown__root [type="reset"],
-.bear-react-dropdown__root [type="submit"] {
+.bear-react-dropdown__root [type="button"]{
     -webkit-appearance: button;
 }
 .bear-react-dropdown__root button:not(:disabled),
-.bear-react-dropdown__root [type="button"]:not(:disabled),
-.bear-react-dropdown__root [type="reset"]:not(:disabled),
-.bear-react-dropdown__root [type="submit"]:not(:disabled) {
+.bear-react-dropdown__root [type="button"]:not(:disabled){
     cursor: pointer;
 }
-button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
+.bear-react-dropdown__root button::-moz-focus-inner,
+.bear-react-dropdown__root [type="button"]::-moz-focus-inner{
     padding: 0;
     border-style: none;
 }
@@ -155,7 +148,6 @@ button::-moz-focus-inner,
 }
 
 .bear-react-dropdown__list-item-checked {
-    padding: 0 2.5px;
     width: 15px;
     flex: 0 0 15px;
 }
