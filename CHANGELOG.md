@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.12](https://github.com/imagine10255/bear-react-dropdown/compare/v2.1.11...v2.1.12) (2022-08-09)
+
+
+### Bug Fixes
+
+* fix check flex width ([8b93c4d](https://github.com/imagine10255/bear-react-dropdown/commit/8b93c4d21111a7f1a3747d14a5eab957807a63ee))
+
 ### [2.1.11](https://github.com/imagine10255/bear-react-dropdown/compare/v2.1.10...v2.1.11) (2022-08-09)
 
 ### [2.1.10](https://github.com/imagine10255/bear-react-dropdown/compare/v2.1.9...v2.1.10) (2022-08-08)
