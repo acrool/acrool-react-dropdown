@@ -32,10 +32,13 @@ import "bear-react-dropdown/dist/index.css";
 
 then in your page
 ```tsx
-import {Datepicker, Dropdown, DateTimepicker} from 'bear-react-dropdown';
+import {DropdownMulti} from 'bear-react-dropdown';
 
 
 const BaseUsed = () => {
+    const [value, setValue] = useState('');
+    const [multiValue, setMultiValue] = useState<Array<string|number>>([]);
+    
     const options1 = [
         {text: 'Jack Wu', value: '1'},
         {text: 'Imagine Chiu', value: '2'},
@@ -53,7 +56,7 @@ const BaseUsed = () => {
     return (
         <div>
             <Dropdown value={value} onChange={setValue} options={options1} className="mr-3"/>
-            <Dropdown value={value} onChange={setValue} options={options2} isDark/>
+            <DropdownMulti value={multiValue} onChange={setMultiValue} options={options2} isDark/>
         </div>
     );
 
