@@ -7,13 +7,10 @@ import {removeByIndex} from 'bear-jsutils/array';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
+import {TOption} from './typings';
+import {filterOptions, isGroupOptions} from './utils';
 
 
-interface IDropdownOption  {
-    value: string;
-    text: string;
-    avatarUrl?: string,
-}
 
 type TValue = number|string
 
@@ -25,7 +22,7 @@ interface IProps {
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
     value?: TValue[];
-    options?: IDropdownOption[];
+    options?: TOption[];
     searchTextPlaceholder?: string
 
     isDark?: boolean,
@@ -73,7 +70,15 @@ const DropdownMulti = ({
         }
 
         if(listRef.current && isNotEmpty(value)){
-            const activeIndex = options?.findIndex(row => value?.includes(row.value));
+            const activeIndex = options?.findIndex(row => {
+                if(isGroupOptions(row)){
+                    return row.children.findIndex(child => {
+                        return String(child.value) === String(value)
+                    });
+                }else{
+                    return String(row.value) === String(value)
+                }
+            });
 
             if(activeIndex >= 0){
                 listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
@@ -114,12 +119,42 @@ const DropdownMulti = ({
     const renderOptions = useCallback((keyword: string, value: TValue[]) => {
         const formatOption = options
             .filter(row => {
-                if(keyword?.length > 0){
-                    return row.text.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+                if(isGroupOptions(row)){
+                    return filterOptions(row.children.map(child => child), keyword).length > 0;
                 }
-                return true;
+                return filterOptions([row], keyword).length > 0;
             })
             .map((row) => {
+
+                if(isGroupOptions(row)){
+
+                    return <div key={`group_${row.groupName}`}>
+                        <div className={elClassNames.listGroupName}>{row.groupName}</div>
+                        <div className={elClassNames.listGroupChildren}>
+                            {filterOptions(row.children, keyword)
+                                .map(row => {
+                                    const isActive = value.includes(row.value);
+
+                                    return <button
+                                        type="button"
+                                        className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
+                                        key={`option-${row.value}`}
+                                        onClick={() => handleOnClick(String(row.value))}
+                                    >
+                                        {isCheckedEnable && <div className={elClassNames.listItemChecked}>
+                                            {isActive && <CheckIcon/>}
+                                        </div>
+                                        }
+                                        {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
+                                        <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
+                                    </button>;
+                                })}
+
+                        </div>
+                    </div>;
+                }
+
+
                 const isActive = value.includes(row.value);
                 return (
                     <button

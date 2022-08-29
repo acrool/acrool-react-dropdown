@@ -92,8 +92,8 @@ const BaseUsed = () => {
             <div className="d-flex flex-row my-2">
                 <Dropdown value={value} onChange={setValue} options={groupOptions1} isSearchEnable className="mr-3"/>
                 <Dropdown value={value} onChange={setValue} options={groupOptions1} isSearchEnable isDark className="mr-3"/>
-                {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={groupOptions1} className="mr-3"/>*/}
-                {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={groupOptions1} isDark className="mr-3"/>*/}
+                <DropdownMulti value={multiValue} onChange={setMultiValue} options={groupOptions1} className="mr-3"/>
+                <DropdownMulti value={multiValue} onChange={setMultiValue} options={groupOptions1} isDark className="mr-3"/>
             </div>
 
 

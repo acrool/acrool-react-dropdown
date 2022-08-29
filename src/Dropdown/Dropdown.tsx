@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useCallback, RefObject, startTransition, useMemo} from 'react';
+import React, {useState, useRef, useEffect, useCallback, startTransition} from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
@@ -6,7 +6,8 @@ import {isNotEmpty} from 'bear-jsutils/equal';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownGroupOption, IDropdownOption, TOption} from './typings';
+import {TOption} from './typings';
+import {filterOptions, isGroupOptions} from './utils';
 
 
 
@@ -104,19 +105,7 @@ const Dropdown = ({
     }, [onChange]);
 
 
-    function isGroupOptions(options: TOption): options is IDropdownGroupOption {
-        return (options as IDropdownGroupOption).groupName !== undefined;
-    }
 
-
-    const filterOptions = (options: IDropdownOption[], filterKeyword: string): IDropdownOption[] => {
-        if(filterKeyword?.length > 0){
-            return options.filter(row => {
-                return row.text.toLowerCase().indexOf(filterKeyword.toLowerCase()) !== -1;
-            });
-        }
-        return options;
-    }
 
     /**
      * 產生選單
@@ -146,7 +135,7 @@ const Dropdown = ({
                                 return <button
                                     type="button"
                                     className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
-                                    // key={`option-${row.value}`}
+                                    key={`option-${row.value}`}
                                     onClick={() => handleOnClick(String(row.value))}
                                 >
                                     {isCheckedEnable && <div className={elClassNames.listItemChecked}>
