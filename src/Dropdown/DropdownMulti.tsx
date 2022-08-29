@@ -7,7 +7,7 @@ import {removeByIndex} from 'bear-jsutils/array';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {TOption} from './typings';
+import {IDropdownOption, TOption} from './typings';
 import {filterOptions, isGroupOptions} from './utils';
 
 
@@ -21,6 +21,7 @@ interface IProps {
     onChange?: (value: TValue[]) => void;
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
+    isAvatarEnable?: boolean,
     value?: TValue[];
     options?: TOption[];
     searchTextPlaceholder?: string
@@ -55,6 +56,7 @@ const DropdownMulti = ({
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
     isCheckedEnable = true,
+    isAvatarEnable = false,
     isDark = false,
 }: IProps) => {
     const [keyword, setKeyword] = useState<string>('');
@@ -114,6 +116,31 @@ const DropdownMulti = ({
 
 
     /**
+     * 渲染子層 (兩種顯示方式子層顯示方式相同)
+     * @param row
+     */
+    const renderOptionsButton = (row: IDropdownOption) => {
+
+        const isActive = value.includes(row.value);
+
+        return <button
+            type="button"
+            className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
+            key={`option-${row.value}`}
+            onClick={() => handleOnClick(String(row.value))}
+        >
+            {isCheckedEnable && <div className={elClassNames.listItemChecked}>
+                {isActive && <CheckIcon/>}
+            </div>
+            }
+            {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={row.avatarUrl ? {backgroundImage: `url(${row.avatarUrl})`}: {}}/>}
+            <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
+        </button>;
+    };
+
+
+
+    /**
      * 產生選單
      */
     const renderOptions = useCallback((keyword: string, value: TValue[]) => {
@@ -131,45 +158,15 @@ const DropdownMulti = ({
                     return <div key={`group_${row.groupName}`}>
                         <div className={elClassNames.listGroupName}>{row.groupName}</div>
                         <div className={elClassNames.listGroupChildren}>
-                            {filterOptions(row.children, keyword)
-                                .map(row => {
-                                    const isActive = value.includes(row.value);
-
-                                    return <button
-                                        type="button"
-                                        className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
-                                        key={`option-${row.value}`}
-                                        onClick={() => handleOnClick(String(row.value))}
-                                    >
-                                        {isCheckedEnable && <div className={elClassNames.listItemChecked}>
-                                            {isActive && <CheckIcon/>}
-                                        </div>
-                                        }
-                                        {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
-                                        <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
-                                    </button>;
-                                })}
-
+                            {
+                                filterOptions(row.children, keyword)
+                                    .map(row => renderOptionsButton(row))
+                            }
                         </div>
                     </div>;
                 }
 
-
-                const isActive = value.includes(row.value);
-                return (
-                    <button
-                        type="button"
-                        className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
-                        key={`option-${row.value}`}
-                        onClick={() => handleOnClick(row.value)}
-                    >
-                        {isCheckedEnable && <div className={elClassNames.listItemChecked}>
-                            {isActive && <CheckIcon/>}
-                        </div>
-                        }
-                        {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
-                        <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
-                    </button>);
+                return renderOptionsButton(row);
             });
 
 
