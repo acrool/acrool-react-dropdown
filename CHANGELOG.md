@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0-alpha.0](https://github.com/imagine10255/bear-react-dropdown/compare/v2.1.14...v2.2.0-alpha.0) (2022-08-29)
+
+
+### Features
+
+* add Dropdown group feature ([3e652fb](https://github.com/imagine10255/bear-react-dropdown/commit/3e652fbd6befa98c7a2b93c49bc7329bf108e323))
+* add Group feature in DropdownMulti ([bfa8f1f](https://github.com/imagine10255/bear-react-dropdown/commit/bfa8f1f9958e1e0e2915ed54fe9f78aef787a0a3))
+* add isAvatarEnable props, and opt renderButton same code ([ef13592](https://github.com/imagine10255/bear-react-dropdown/commit/ef13592f8a4003b93f577399f8c01c8f24f012d6))
+
 ### [2.1.14](https://github.com/imagine10255/bear-react-dropdown/compare/v2.1.13...v2.1.14) (2022-08-09)
 
 ### [2.1.13](https://github.com/imagine10255/bear-react-dropdown/compare/v2.1.12...v2.1.13) (2022-08-09)
