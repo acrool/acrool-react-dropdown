@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dropdown, DropdownMulti} from 'bear-react-dropdown';
+import {Dropdown, DropdownMulti, IDropdownGroupOption} from 'bear-react-dropdown';
 import styled from 'styled-components/macro';
 import {asset} from '../../config/utils';
 
@@ -56,6 +56,29 @@ const BaseUsed = () => {
         {text: 'Jason Dinwiddie', value: '3', avatarUrl: asset('/images/avatar/female-3.jpg')},
         {text: 'Gloria Lu', value: '4', avatarUrl: asset('/images/avatar/female-4.jpg')},
     ];
+    const groupOptions1: IDropdownGroupOption[] = [
+        {
+            groupName: 'Yahoo',
+            children: [
+                {text: 'Jack Wu', value: '1', avatarUrl: asset('/images/avatar/female-1.jpg')},
+            ]
+        },
+        {
+            groupName: 'Google',
+            children: [
+                {text: 'Imagine Chiu', value: '2', avatarUrl: asset('/images/avatar/female-2.jpg')},
+                {text: 'Jason Dinwiddie', value: '3', avatarUrl: asset('/images/avatar/female-3.jpg')},
+            ]
+        },
+        {
+            groupName: 'Bearests',
+            children: [
+                {text: 'Gloria Lu', value: '4', avatarUrl: asset('/images/avatar/female-4.jpg')},
+            ]
+        },
+
+
+    ];
 
     return (
         <div>
@@ -64,6 +87,16 @@ const BaseUsed = () => {
                 <Button type="button" onClick={() => setIsVisible1(curr => !curr)}>Switch IsVisible</Button>
                 <input type="text" value={JSON.stringify(multiValue)}/>
             </div>
+
+
+            <div className="d-flex flex-row my-2">
+                <Dropdown value={value} onChange={setValue} options={groupOptions1} isSearchEnable className="mr-3"/>
+                <Dropdown value={value} onChange={setValue} options={groupOptions1} isSearchEnable isDark className="mr-3"/>
+                {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={groupOptions1} className="mr-3"/>*/}
+                {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={groupOptions1} isDark className="mr-3"/>*/}
+            </div>
+
+
 
             {isVisible1 && (
                 <div className="d-flex flex-row my-2">

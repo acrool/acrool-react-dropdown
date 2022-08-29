@@ -6,13 +6,8 @@ import {isNotEmpty} from 'bear-jsutils/equal';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
+import {IDropdownGroupOption, IDropdownOption, TOption} from './typings';
 
-
-interface IDropdownOption  {
-    value: string;
-    text: string;
-    avatarUrl?: string,
-}
 
 
 interface IProps {
@@ -23,7 +18,7 @@ interface IProps {
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
     value?: string|number;
-    options?: IDropdownOption[];
+    options?: TOption[];
     searchTextPlaceholder?: string
 
     isDark?: boolean,
@@ -71,7 +66,17 @@ const Dropdown = ({
         }
 
         if(listRef.current && isNotEmpty(value)){
-            const activeIndex = options?.findIndex(row => String(row.value) === String(value));
+
+
+            const activeIndex = options?.findIndex(row => {
+                if(isGroupOptions(row)){
+                    return row.children.findIndex(child => {
+                        return String(child.value) === String(value)
+                    });
+                }else{
+                    return String(row.value) === String(value)
+                }
+            });
 
             if(activeIndex >= 0){
                 listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
@@ -99,20 +104,66 @@ const Dropdown = ({
     }, [onChange]);
 
 
+    function isGroupOptions(options: TOption): options is IDropdownGroupOption {
+        return (options as IDropdownGroupOption).groupName !== undefined;
+    }
+
+
+    const filterOptions = (options: IDropdownOption[], filterKeyword: string): IDropdownOption[] => {
+        if(filterKeyword?.length > 0){
+            return options.filter(row => {
+                return row.text.toLowerCase().indexOf(filterKeyword.toLowerCase()) !== -1;
+            });
+        }
+        return options;
+    }
+
     /**
      * 產生選單
      */
     const renderOptions = useCallback((keyword: string, value?: string|number) => {
+
         const formatOption = options
             .filter(row => {
-                if(keyword?.length > 0){
-                    return row.text.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+                if(isGroupOptions(row)){
+                    return filterOptions(row.children.map(child => child), keyword).length > 0;
                 }
-                return true;
+                return filterOptions([row], keyword).length > 0;
             })
             .map((row) => {
+
                 const formatValue = value ?? '';
+
+                if(isGroupOptions(row)){
+
+                    return <div key={`group_${row.groupName}`}>
+                        <div className={elClassNames.listGroupName}>{row.groupName}</div>
+                        <div className={elClassNames.listGroupChildren}>
+                            {filterOptions(row.children, keyword)
+                                .map(row => {
+                                const isActive = String(formatValue) === String(row.value);
+
+                                return <button
+                                    type="button"
+                                    className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
+                                    // key={`option-${row.value}`}
+                                    onClick={() => handleOnClick(String(row.value))}
+                                >
+                                    {isCheckedEnable && <div className={elClassNames.listItemChecked}>
+                                        {isActive && <CheckIcon/>}
+                                    </div>
+                                    }
+                                    {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
+                                    <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
+                                </button>;
+                            })}
+
+                        </div>
+                    </div>;
+                }
+
                 const isActive = String(formatValue) === String(row.value);
+
                 return (
                     <button
                         type="button"
@@ -158,6 +209,7 @@ const Dropdown = ({
                 />
             }
 
+            {/* Options */}
             <div className={elClassNames.list} ref={listRef}>
                 {renderOptions(keyword, value)}
             </div>
@@ -167,4 +219,5 @@ const Dropdown = ({
 };
 
 export default Dropdown;
+
 
