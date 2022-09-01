@@ -126,7 +126,7 @@ const DropdownMulti = ({
             type="button"
             className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
             key={`option-${row.value}`}
-            onClick={() => handleOnClick(String(row.value))}
+            onClick={() => handleOnClick(row.value)}
         >
             {isCheckedEnable && <div className={elClassNames.listItemChecked}>
                 {isActive && <CheckIcon/>}
