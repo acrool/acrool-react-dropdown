@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0-alpha.3](https://github.com/imagine10255/bear-react-dropdown/compare/v2.2.0-alpha.2...v2.2.0-alpha.3) (2022-09-01)
+
+
+### Bug Fixes
+
+* fix click return value by dropdownMulti ([ce75b88](https://github.com/imagine10255/bear-react-dropdown/commit/ce75b88df14957b2385aba692032f5e68f4e489f))
+
 ## [2.2.0-alpha.2](https://github.com/imagine10255/bear-react-dropdown/compare/v2.2.0-alpha.0...v2.2.0-alpha.2) (2022-09-01)
 
 
