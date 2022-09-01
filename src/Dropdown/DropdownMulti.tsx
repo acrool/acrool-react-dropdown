@@ -7,12 +7,11 @@ import {removeByIndex} from 'bear-jsutils/array';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOption} from './typings';
+import {IDropdownOption, TOption, TValue} from './typings';
 import {filterOptions, isGroupOptions} from './utils';
 
 
 
-type TValue = number|string
 
 interface IProps {
     className?: string;

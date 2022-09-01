@@ -1,6 +1,8 @@
 
+export type TValue = number|string
+
 export interface IDropdownOption  {
-    value: string;
+    value: TValue;
     text: string;
     avatarUrl?: string,
 }
