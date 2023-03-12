@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Dropdown, DropdownMulti, IDropdownGroupOption} from 'bear-react-dropdown';
 import styled from 'styled-components/macro';
-import {emptyToNull} from 'bear-jsutils/convert';
 import {asset} from '../../config/utils';
 
 
@@ -112,11 +111,21 @@ const BaseUsed = () => {
             )}
 
 
+            <h2>options1 (options is [])</h2>
 
             <div className="d-flex flex-row my-2">
                 <Dropdown value={value1} onChange={setValue1} options={[]} className="mr-3"/>
                 <Dropdown value={value1} onChange={setValue1} options={[]} isDark/>
             </div>
+
+            <h2>options1 (options is null)</h2>
+
+            <div className="d-flex flex-row my-2">
+                <Dropdown value={value1} onChange={setValue1} options={undefined} className="mr-3"/>
+                <Dropdown value={value1} onChange={setValue1} options={undefined} isDark/>
+            </div>
+
+            <h2>options1 isCheckedEnable = false</h2>
 
             <div className="d-flex flex-row my-2">
                 <Dropdown value={value1} onChange={setValue1} options={options1} isSearchEnable isCheckedEnable={false} className="mr-3"/>

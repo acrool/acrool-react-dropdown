@@ -74,10 +74,10 @@ function DropdownMulti<T extends string|number>({
             const activeIndex = options?.findIndex(row => {
                 if(isGroupOptions(row)){
                     return row.children.findIndex(child => {
-                        return String(child.value) === String(value)
+                        return String(child.value) === String(value);
                     });
                 }else{
-                    return String(row.value) === String(value)
+                    return String(row.value) === String(value);
                 }
             }) ?? -1;
 
@@ -115,7 +115,7 @@ function DropdownMulti<T extends string|number>({
 
             onChange(formatValues);
         }
-    }
+    };
 
 
     /**

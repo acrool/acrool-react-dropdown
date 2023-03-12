@@ -74,10 +74,10 @@ function Dropdown<T extends string|number>({
             const activeIndex = options?.findIndex(row => {
                 if(isGroupOptions(row)){
                     return row.children.findIndex(child => {
-                        return String(child.value) === String(value)
+                        return String(child.value) === String(value);
                     });
                 }else{
-                    return String(row.value) === String(value)
+                    return String(row.value) === String(value);
                 }
             }) ?? -1;
 
@@ -131,7 +131,7 @@ function Dropdown<T extends string|number>({
         </button>;
     };
 
-     /**
+    /**
      * 產生選單
      */
     const renderOptions = useCallback((keyword: string) => {
@@ -152,7 +152,7 @@ function Dropdown<T extends string|number>({
                             {
                                 filterOptions(row.children, keyword)
                                     .map(row => renderOptionsButton(row)
-                            )}
+                                    )}
                         </div>
                     </div>;
                 }

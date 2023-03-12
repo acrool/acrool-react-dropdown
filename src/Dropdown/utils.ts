@@ -6,7 +6,7 @@ import {IDropdownGroupOption, IDropdownOption, TOption} from './typings';
  */
 export const isGroupOptions = <T>(options: TOption<T>): options is IDropdownGroupOption<T> => {
     return (options as IDropdownGroupOption<T>).groupName !== undefined;
-}
+};
 
 
 /**
@@ -21,4 +21,4 @@ export const filterOptions = <T>(options: IDropdownOption<T>[], filterKeyword: s
         });
     }
     return options;
-}
+};
