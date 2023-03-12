@@ -1,17 +1,18 @@
 
-export type TValue = number|string
+export type TOfNull<T> = T|null;
 
-export interface IDropdownOption  {
-    value: TValue;
+
+export interface IDropdownOption<T>  {
+    value: T;
     text: string;
     avatarUrl?: string,
 }
 
 
-export interface IDropdownGroupOption  {
+export interface IDropdownGroupOption<T>  {
     groupName: string,
-    children: IDropdownOption[],
+    children: IDropdownOption<T>[],
 }
 
-export type TOption = IDropdownOption|  IDropdownGroupOption
+export type TOption<T> = IDropdownOption<T>|  IDropdownGroupOption<T>
 

@@ -4,8 +4,8 @@ import {IDropdownGroupOption, IDropdownOption, TOption} from './typings';
  * 檢查傳入類型
  * @param options
  */
-export const isGroupOptions = (options: TOption): options is IDropdownGroupOption => {
-    return (options as IDropdownGroupOption).groupName !== undefined;
+export const isGroupOptions = <T>(options: TOption<T>): options is IDropdownGroupOption<T> => {
+    return (options as IDropdownGroupOption<T>).groupName !== undefined;
 }
 
 
@@ -14,10 +14,10 @@ export const isGroupOptions = (options: TOption): options is IDropdownGroupOptio
  * @param options
  * @param filterKeyword
  */
-export const filterOptions = (options: IDropdownOption[], filterKeyword: string): IDropdownOption[] => {
+export const filterOptions = <T>(options: IDropdownOption<T>[], filterKeyword: string): IDropdownOption<T>[] => {
     if(filterKeyword?.length > 0){
         return options.filter(row => {
-            return row.text.toLowerCase().indexOf(filterKeyword.toLowerCase()) !== -1;
+            return String(row.text).toLowerCase().indexOf(filterKeyword.toLowerCase()) !== -1;
         });
     }
     return options;
