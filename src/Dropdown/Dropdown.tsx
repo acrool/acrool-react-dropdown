@@ -173,7 +173,7 @@ function Dropdown<T extends string|number>({
         </div>);
 
 
-    }, [options]);
+    }, [options, value]);
 
 
 
