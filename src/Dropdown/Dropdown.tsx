@@ -74,10 +74,10 @@ function Dropdown<T extends string|number>({
             const activeIndex = options?.findIndex(row => {
                 if(isGroupOptions(row)){
                     return row.children.findIndex(child => {
-                        return String(child.value) === String(value);
+                        return child.value === value;
                     });
                 }else{
-                    return String(row.value) === String(value);
+                    return row.value === value;
                 }
             }) ?? -1;
 
@@ -113,8 +113,7 @@ function Dropdown<T extends string|number>({
      */
     const renderOptionsButton = (row: IDropdownOption<TOfNull<T>>) => {
 
-        const formatValue = value ?? '';
-        const isActive = String(formatValue) === String(row.value);
+        const isActive = value === row.value;
 
         return <button
             type="button"
