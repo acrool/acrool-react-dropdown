@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dropdown, DropdownMulti} from 'bear-react-dropdown';
+import {Dropdown, DropdownMulti, IDropdownGroupOption} from 'bear-react-dropdown';
 import styled from 'styled-components/macro';
 import {asset} from '../../config/utils';
 
@@ -7,8 +7,9 @@ import {asset} from '../../config/utils';
 
 
 const BaseUsed = () => {
-    const [value, setValue] = useState('');
-    const [multiValue, setMultiValue] = useState<Array<string|number>>([]);
+    const [value1, setValue1] = useState<string|null>(null);
+    const [value2, setValue2] = useState<number|null>(null);
+    const [multiValue, setMultiValue] = useState<Array<string|null>|null>(null);
     const [isVisible1, setIsVisible1] = useState(true);
 
     const options1 = [
@@ -50,57 +51,111 @@ const BaseUsed = () => {
 
     ];
     const options2 = [
-        {text: 'Select option item...', value: '', avatarUrl: ''},
-        {text: 'Jack Wu', value: '1', avatarUrl: asset('/images/avatar/female-1.jpg')},
-        {text: 'Imagine Chiu', value: '2', avatarUrl: asset('/images/avatar/female-2.jpg')},
-        {text: 'Jason Dinwiddie', value: '3', avatarUrl: asset('/images/avatar/female-3.jpg')},
-        {text: 'Gloria Lu', value: '4', avatarUrl: asset('/images/avatar/female-4.jpg')},
+        {text: 'Select option item...', value: null, avatarUrl: ''},
+        {text: 'Jack Wu', value: 1, avatarUrl: asset('/images/avatar/female-1.jpg')},
+        {text: 'Imagine Chiu', value: 2, avatarUrl: asset('/images/avatar/female-2.jpg')},
+        {text: 'Jason Dinwiddie', value: 3, avatarUrl: asset('/images/avatar/female-3.jpg')},
+        {text: 'Gloria Lu', value: 4, avatarUrl: asset('/images/avatar/female-4.jpg')},
+    ];
+    const groupOptions1: IDropdownGroupOption<string>[] = [
+        {
+            groupName: 'Yahoo',
+            children: [
+                {text: 'Jack Wu', value: '1', avatarUrl: asset('/images/avatar/female-1.jpg')},
+            ]
+        },
+        {
+            groupName: 'Google',
+            children: [
+                {text: 'Imagine Chiu', value: '2', avatarUrl: asset('/images/avatar/female-2.jpg')},
+                {text: 'Jason Dinwiddie', value: '3', avatarUrl: asset('/images/avatar/female-3.jpg')},
+            ]
+        },
+        {
+            groupName: 'Bearests',
+            children: [
+                {text: 'Gloria Lu', value: '4', avatarUrl: asset('/images/avatar/female-4.jpg')},
+            ]
+        },
+
+
     ];
 
     return (
         <div>
             <div className="d-flex flex-row my-2">
-                <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
+                <input type="text" value={value1 ?? ''} onChange={(event) => setValue1(event.target.value)}/>
                 <Button type="button" onClick={() => setIsVisible1(curr => !curr)}>Switch IsVisible</Button>
                 <input type="text" value={JSON.stringify(multiValue)}/>
             </div>
 
+
+            <h2>options1 (value is string)</h2>
+
+            <div className="d-flex flex-row my-2">
+                <Dropdown value={value1} onChange={setValue1} options={groupOptions1} isAvatarEnable isSearchEnable className="mr-3"/>
+                <Dropdown value={value1} onChange={setValue1} options={groupOptions1} isAvatarEnable isSearchEnable isDark className="mr-3"/>
+                <DropdownMulti value={multiValue} onChange={setMultiValue} options={groupOptions1} isAvatarEnable className="mr-3"/>
+                <DropdownMulti value={multiValue} onChange={setMultiValue} options={groupOptions1} isAvatarEnable isDark className="mr-3"/>
+            </div>
+
+
+
             {isVisible1 && (
                 <div className="d-flex flex-row my-2">
-                    <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable className="mr-3"/>
-                    <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable isDark className="mr-3"/>
-                    <DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} className="mr-3"/>
-                    <DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isDark className="mr-3"/>
+                    <Dropdown value={value1} onChange={setValue1} options={options1} isSearchEnable className="mr-3"/>
+                    <Dropdown value={value1} onChange={setValue1} options={options1} isSearchEnable isDark className="mr-3"/>
+                    <DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isSearchEnable className="mr-3"/>
+                    <DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isSearchEnable isDark className="mr-3"/>
                 </div>
             )}
 
 
+            <h2>options1 (options is [])</h2>
 
             <div className="d-flex flex-row my-2">
-                <Dropdown value={value} onChange={setValue} options={[]} className="mr-3"/>
-                <Dropdown value={value} onChange={setValue} options={[]} isDark/>
+                <Dropdown value={value1} onChange={setValue1} options={[]} className="mr-3"/>
+                <Dropdown value={value1} onChange={setValue1} options={[]} isDark/>
             </div>
+
+            <h2>options1 (options is null)</h2>
 
             <div className="d-flex flex-row my-2">
-                <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable isCheckedEnable={false} className="mr-3"/>
-                <Dropdown value={value} onChange={setValue} options={options1} isSearchEnable isCheckedEnable={false} isDark/>
+                <Dropdown value={value1} onChange={setValue1} options={undefined} className="mr-3"/>
+                <Dropdown value={value1} onChange={setValue1} options={undefined} isDark/>
             </div>
 
+            <h2>options1 isCheckedEnable = false</h2>
+
+            <div className="d-flex flex-row my-2">
+                <Dropdown value={value1} onChange={setValue1} options={options1} isSearchEnable isCheckedEnable={false} className="mr-3"/>
+                <Dropdown value={value1} onChange={setValue1} options={options1} isSearchEnable isCheckedEnable={false} isDark/>
+            </div>
+
+
+
+
+
+
+
+
+
+            <h2>options2 (value is number)</h2>
 
             <div className="d-flex flex-row my-2">
                 <InputGroup className="mr-3">
-                    <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
+                    <input type="text" value={value2 ?? ''} onChange={(event) => setValue2(Number(event.target.value))}/>
 
                     <InputDropdown>
-                        <Dropdown value={value} onChange={setValue} options={options2}/>
+                        <Dropdown value={value2} onChange={setValue2} options={options2}/>
                     </InputDropdown>
                 </InputGroup>
 
                 <InputGroup>
-                    <input type="text" value={value} onChange={(event) => setValue(event.target.value)}/>
+                    <input type="text" value={value2 ?? ''} onChange={(event) => setValue2(Number(event.target.value))}/>
 
                     <InputDropdown>
-                        <Dropdown isCheckedEnable={false} onChange={setValue} options={options2} isDark/>
+                        <Dropdown isCheckedEnable={false} onChange={setValue2} options={options2} isDark/>
                     </InputDropdown>
                 </InputGroup>
 

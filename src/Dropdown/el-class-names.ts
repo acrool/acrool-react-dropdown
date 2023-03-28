@@ -16,4 +16,7 @@ export default {
     listItemTextPlaceholder: `${elClassNames.elCLassPrefix}__list-item-text-placeholder`,
     listItemAvatar: `${elClassNames.elCLassPrefix}__list-item-avatar`,
     listItemChecked: `${elClassNames.elCLassPrefix}__list-item-checked`,
+
+    listGroupName: `${elClassNames.elCLassPrefix}__list-group-name`,
+    listGroupChildren: `${elClassNames.elCLassPrefix}__list-group-children`,
 };

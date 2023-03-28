@@ -7,25 +7,22 @@ import {removeByIndex} from 'bear-jsutils/array';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
+import {IDropdownOption, TOption, TOfNull} from './typings';
+import {filterOptions, isGroupOptions} from './utils';
 
 
-interface IDropdownOption  {
-    value: string;
-    text: string;
-    avatarUrl?: string,
-}
 
-type TValue = number|string
 
-interface IProps {
+interface IProps<T> {
     className?: string;
     style?: CSS.Properties;
 
-    onChange?: (value: TValue[]) => void;
+    onChange?: (value: TOfNull<TOfNull<T>[]>) => void;
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
-    value?: TValue[];
-    options?: IDropdownOption[];
+    isAvatarEnable?: boolean,
+    value?: TOfNull<TOfNull<T>[]>; // Array<number,string> 或 null
+    options?: TOption<TOfNull<T>>[]; // Array<number,string, null> 或 undefined
     searchTextPlaceholder?: string
 
     isDark?: boolean,
@@ -49,17 +46,18 @@ const halfHeight = (30 * maxItem) / 2;
  * @param isVisibleSearchText
  * @param isDark 暗黑模式
  */
-const DropdownMulti = ({
+function DropdownMulti<T extends string|number>({
     className,
     style,
-    options = [],
-    value = [],
+    options,
+    value,
     onChange,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
     isCheckedEnable = true,
+    isAvatarEnable = false,
     isDark = false,
-}: IProps) => {
+}: IProps<T>) {
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
@@ -73,7 +71,15 @@ const DropdownMulti = ({
         }
 
         if(listRef.current && isNotEmpty(value)){
-            const activeIndex = options?.findIndex(row => value?.includes(row.value));
+            const activeIndex = options?.findIndex(row => {
+                if(isGroupOptions(row)){
+                    return row.children.findIndex(child => {
+                        return String(child.value) === String(value);
+                    });
+                }else{
+                    return String(row.value) === String(value);
+                }
+            }) ?? -1;
 
             if(activeIndex >= 0){
                 listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
@@ -93,52 +99,81 @@ const DropdownMulti = ({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = (newValue: TValue) => {
+    const handleOnClick = (newValue: TOfNull<T>) => {
         if (onChange) {
-            const index = value.findIndex(rowVal => rowVal === newValue);
-            let formatValues = [];
+            const index = value?.findIndex(rowVal => rowVal === newValue) ?? -1;
+            let formatValues: TOfNull<T>[]|null = null;
+            const convertValue = value ?? [];
             if(index >= 0){
-                formatValues = removeByIndex(value, index);
+                formatValues = removeByIndex(convertValue, index);
             }else{
-                formatValues = [...value, newValue];
+                formatValues = [...convertValue, newValue];
             }
+            if(formatValues?.length === 0){
+                formatValues = null;
+            }
+
             onChange(formatValues);
         }
+    };
 
-    }
+
+    /**
+     * 渲染子層 (兩種顯示方式子層顯示方式相同)
+     * @param row
+     */
+    const renderOptionsButton = (row: IDropdownOption<TOfNull<T>>) => {
+
+        const isActive = value?.includes(row.value) ?? false;
+
+        return <button
+            type="button"
+            className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
+            key={`option-${row.value}`}
+            onClick={() => handleOnClick(row.value)}
+        >
+            {isCheckedEnable && <div className={elClassNames.listItemChecked}>
+                {isActive && <CheckIcon/>}
+            </div>}
+
+            {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={row.avatarUrl ? {backgroundImage: `url(${row.avatarUrl})`}: {}}/>}
+            <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
+        </button>;
+    };
+
 
 
     /**
      * 產生選單
      */
-    const renderOptions = useCallback((keyword: string, value: TValue[]) => {
+    const renderOptions = useCallback((keyword: string) => {
         const formatOption = options
-            .filter(row => {
-                if(keyword?.length > 0){
-                    return row.text.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+            ?.filter(row => {
+                if(isGroupOptions(row)){
+                    return filterOptions(row.children.map(child => child), keyword).length > 0;
                 }
-                return true;
+                return filterOptions([row], keyword).length > 0;
             })
             .map((row) => {
-                const isActive = value.includes(row.value);
-                return (
-                    <button
-                        type="button"
-                        className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
-                        key={`option-${row.value}`}
-                        onClick={() => handleOnClick(row.value)}
-                    >
-                        {isCheckedEnable && <div className={elClassNames.listItemChecked}>
-                            {isActive && <CheckIcon/>}
+
+                if(isGroupOptions(row)){
+
+                    return <div key={`group_${row.groupName}`}>
+                        <div className={elClassNames.listGroupName}>{row.groupName}</div>
+                        <div className={elClassNames.listGroupChildren}>
+                            {
+                                filterOptions(row.children, keyword)
+                                    .map(row => renderOptionsButton(row))
+                            }
                         </div>
-                        }
-                        {row.avatarUrl && <div className={elClassNames.listItemAvatar} style={{backgroundImage: `url(${row.avatarUrl})`}}/>}
-                        <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
-                    </button>);
+                    </div>;
+                }
+
+                return renderOptionsButton(row);
             });
 
 
-        if(formatOption.length > 0){
+        if(formatOption && formatOption.length > 0){
             return formatOption;
         }
 
@@ -167,7 +202,7 @@ const DropdownMulti = ({
             }
 
             <div className={elClassNames.list} ref={listRef}>
-                {renderOptions(keyword, value)}
+                {renderOptions(keyword)}
             </div>
         </div>
 

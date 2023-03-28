@@ -12,6 +12,7 @@
     --primary-color: #00a3e0;
     --bg-color: #fff;
     --text-color: #333333;
+    --group-text-color: #666;
     --bg-active-color: #e6f7ff;
     --bg-hover-color: #f5f5f5;
     --border-color: #f0f0f0;
@@ -20,6 +21,7 @@
 .bear-react-dropdown__root.dark-theme {
     --bg-color: #38393a;
     --text-color: rgba(255, 255, 255, 0.65);
+    --group-text-color: #999;
     --bg-active-color: #727373;
     --bg-hover-color: #5e5e5e;
     --border-color: rgba(255, 255, 255, 0.25);
@@ -176,4 +178,12 @@
 
 .bear-react-dropdown__text-field:focus {
     outline: 0;
+}
+
+.bear-react-dropdown__list-group-name{
+    padding: 5px;
+    color: var(--group-text-color);
+}
+.bear-react-dropdown__list-group-children{
+
 }

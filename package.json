@@ -1,6 +1,6 @@
 {
   "name": "bear-react-dropdown",
-  "version": "2.1.14",
+  "version": "2.2.0-alpha.4",
   "description": "Dropdown library based for Reactjs",
   "keywords": [
     "react",
@@ -55,7 +55,7 @@
     "eslint-config-react-app": "^7.0.1"
   },
   "dependencies": {
-    "bear-jsutils": "1.0.13"
+    "bear-jsutils": "1.1.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
