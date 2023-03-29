@@ -117,7 +117,6 @@ const DropdownMulti = <T extends unknown>({
             if(JSON.stringify(formatValues) !== JSON.stringify(value)){
                 onChange(formatValues);
             }
-
         }
     };
 

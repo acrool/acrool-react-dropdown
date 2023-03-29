@@ -15,6 +15,7 @@ interface IProps<T> {
     style?: CSS.Properties
 
     onChange?: (value: TOfNull<T>) => void;
+    onClick?: (value: TOfNull<T>) => void;
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
@@ -49,6 +50,7 @@ const Dropdown = <T extends unknown>({
     options,
     value,
     onChange,
+    onClick,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
     isCheckedEnable = true,
@@ -100,6 +102,9 @@ const Dropdown = <T extends unknown>({
     const handleOnClick = useCallback((newValue: TOfNull<T>) => {
         if (onChange && value !== newValue) {
             onChange(newValue);
+        }
+        if(onClick && value !== newValue) {
+            onClick(newValue)
         }
 
     }, [onChange, value]);
