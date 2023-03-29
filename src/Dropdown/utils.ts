@@ -1,4 +1,4 @@
-import {IDropdownGroupOption, IDropdownOption, TOption} from './typings';
+import {IDropdownGroupOption, IDropdownOption, TOption} from './types';
 
 /**
  * 檢查傳入類型

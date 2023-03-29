@@ -9,6 +9,7 @@ import {asset} from '../../config/utils';
 const BaseUsed = () => {
     const [value1, setValue1] = useState<string|null>(null);
     const [value2, setValue2] = useState<number|null>(null);
+    const [value3, setValue3] = useState<boolean|null>(null);
     const [multiValue, setMultiValue] = useState<Array<string|null>|null>(null);
     const [isVisible1, setIsVisible1] = useState(true);
 
@@ -57,6 +58,8 @@ const BaseUsed = () => {
         {text: 'Jason Dinwiddie', value: 3, avatarUrl: asset('/images/avatar/female-3.jpg')},
         {text: 'Gloria Lu', value: 4, avatarUrl: asset('/images/avatar/female-4.jpg')},
     ];
+
+
     const groupOptions1: IDropdownGroupOption<string>[] = [
         {
             groupName: 'Yahoo',
@@ -77,8 +80,12 @@ const BaseUsed = () => {
                 {text: 'Gloria Lu', value: '4', avatarUrl: asset('/images/avatar/female-4.jpg')},
             ]
         },
+    ];
 
-
+    const options3 = [
+        {text: 'Select option yes/no...', value: null, avatarUrl: ''},
+        {text: 'Yes', value: true},
+        {text: 'no', value: false},
     ];
 
     return (
@@ -137,6 +144,13 @@ const BaseUsed = () => {
 
 
 
+            <h2>options3 (value is boolean)</h2>
+
+            <div className="d-flex flex-row my-2">
+                <Dropdown value={value3} onChange={setValue3} options={options3} className="mr-3"/>
+                <Dropdown value={value3} onChange={setValue3} options={options3} isDark className="mr-3"/>
+            </div>
+
 
 
 
@@ -160,7 +174,6 @@ const BaseUsed = () => {
                 </InputGroup>
 
             </div>
-
 
 
 

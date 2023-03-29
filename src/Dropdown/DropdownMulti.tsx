@@ -7,7 +7,7 @@ import {removeByIndex} from 'bear-jsutils/array';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOption, TOfNull} from './typings';
+import {IDropdownOption, TOption, TOfNull} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 
 
@@ -46,7 +46,7 @@ const halfHeight = (30 * maxItem) / 2;
  * @param isVisibleSearchText
  * @param isDark 暗黑模式
  */
-const DropdownMulti = <T extends string|number>({
+const DropdownMulti = <T extends unknown>({
     className,
     style,
     options,

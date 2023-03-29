@@ -6,7 +6,7 @@ import {isNotEmpty} from 'bear-jsutils/equal';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOfNull, TOption} from './typings';
+import {IDropdownOption, TOfNull, TOption} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 
 
@@ -43,7 +43,7 @@ const halfHeight = (30 * maxItem) / 2;
  * @param isVisibleSearchText
  * @param isDark 暗黑模式
  */
-const Dropdown = <T extends string|number>({
+const Dropdown = <T extends unknown>({
     className,
     style,
     options,
@@ -102,7 +102,7 @@ const Dropdown = <T extends string|number>({
             onChange(newValue);
         }
 
-    }, [onChange]);
+    }, [onChange, value]);
 
 
     /**
