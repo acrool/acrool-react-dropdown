@@ -103,7 +103,7 @@ const Dropdown = <T extends unknown>({
         if (onChange && value !== newValue) {
             onChange(newValue);
         }
-        if(onClick && value !== newValue) {
+        if(onClick) {
             onClick(newValue)
         }
 
