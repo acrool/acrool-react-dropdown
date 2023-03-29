@@ -6,8 +6,7 @@ import {isNotEmpty} from 'bear-jsutils/equal';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption,
-    TOfNull, TOption} from './typings';
+import {IDropdownOption, TOfNull, TOption} from './typings';
 import {filterOptions, isGroupOptions} from './utils';
 
 
@@ -44,8 +43,7 @@ const halfHeight = (30 * maxItem) / 2;
  * @param isVisibleSearchText
  * @param isDark 暗黑模式
  */
-
-function Dropdown<T extends string|number>({
+const Dropdown = <T extends string|number>({
     className,
     style,
     options,
@@ -56,7 +54,7 @@ function Dropdown<T extends string|number>({
     isCheckedEnable = true,
     isAvatarEnable = false,
     isDark = false,
-}: IProps<T>) {
+}: IProps<T>) => {
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
@@ -100,7 +98,7 @@ function Dropdown<T extends string|number>({
      * 處理點擊項目
      */
     const handleOnClick = useCallback((newValue: TOfNull<T>) => {
-        if (onChange) {
+        if (onChange && value !== newValue) {
             onChange(newValue);
         }
 

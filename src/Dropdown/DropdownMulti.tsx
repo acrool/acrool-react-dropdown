@@ -46,7 +46,7 @@ const halfHeight = (30 * maxItem) / 2;
  * @param isVisibleSearchText
  * @param isDark 暗黑模式
  */
-function DropdownMulti<T extends string|number>({
+const DropdownMulti = <T extends string|number>({
     className,
     style,
     options,
@@ -57,7 +57,7 @@ function DropdownMulti<T extends string|number>({
     isCheckedEnable = true,
     isAvatarEnable = false,
     isDark = false,
-}: IProps<T>) {
+}: IProps<T>) => {
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
@@ -113,7 +113,11 @@ function DropdownMulti<T extends string|number>({
                 formatValues = null;
             }
 
-            onChange(formatValues);
+            // 異動才觸發 onChange
+            if(JSON.stringify(formatValues) !== JSON.stringify(value)){
+                onChange(formatValues);
+            }
+
         }
     };
 
