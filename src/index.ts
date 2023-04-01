@@ -1,6 +1,6 @@
-export {default as Dropdown} from './Dropdown/Dropdown';
-export {default as DropdownMulti} from './Dropdown/DropdownMulti';
-export {default as DropdownElClassNames} from './Dropdown/el-class-names';
-export * from './Dropdown/utils';
+export {default as Dropdown} from './Dropdown';
+export {default as DropdownMulti} from './DropdownMulti';
+export {default as DropdownElClassNames} from './el-class-names';
+export * from './utils';
 
-export * from './Dropdown/typings';
+export * from './types';

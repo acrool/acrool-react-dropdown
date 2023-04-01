@@ -8,14 +8,6 @@
 <img src="./docs/dropdown.jpg" width="700"/>
 
 
-
-## Support Version Map
-
-React | React Scripts | Bear React Dropdown | 
-------|:--------------|--------------------:|
-18    | 5.0.1         |               2.0.0 |
-
-
 ## Install
 
 ```bash
@@ -27,7 +19,6 @@ yarn add bear-react-dropdown
 add in your index.tsx
 ```tst
 import "bear-react-dropdown/dist/index.css";
-
 ```
 
 then in your page
@@ -36,9 +27,9 @@ import {Dropdown, DropdownMulti} from 'bear-react-dropdown';
 
 
 const BaseUsed = () => {
-    const [value, setValue] = useState('');
-    const [multiValue, setMultiValue] = useState<Array<string|number>>([]);
-    
+    const [value, setValue] = useState<string|null>('');
+    const [multiValue, setMultiValue] = useState<Array<string|null>|null>(null);
+
     const options1 = [
         {text: 'Jack Wu', value: '1'},
         {text: 'Imagine Chiu', value: '2'},
