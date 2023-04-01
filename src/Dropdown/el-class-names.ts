@@ -13,5 +13,10 @@ export default {
     listItem: `${elClassNames.elCLassPrefix}__list-item`,
     listItemActive: `${elClassNames.elCLassPrefix}__list-item-active`,
     listItemText: `${elClassNames.elCLassPrefix}__list-item-text`,
+    listItemTextPlaceholder: `${elClassNames.elCLassPrefix}__list-item-text-placeholder`,
     listItemAvatar: `${elClassNames.elCLassPrefix}__list-item-avatar`,
+    listItemChecked: `${elClassNames.elCLassPrefix}__list-item-checked`,
+
+    listGroupName: `${elClassNames.elCLassPrefix}__list-group-name`,
+    listGroupChildren: `${elClassNames.elCLassPrefix}__list-group-children`,
 };
