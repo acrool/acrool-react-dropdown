@@ -1,0 +1,189 @@
+.bear-react-dropdown__root,
+.bear-react-dropdown__root *,
+.bear-react-dropdown__root *::before,
+.bear-react-dropdown__root *::after{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    line-height: normal;
+    user-select: none;
+}
+
+.bear-react-dropdown__root{
+    --primary-color: #00a3e0;
+    --bg-color: #fff;
+    --text-color: #333333;
+    --group-text-color: #666;
+    --bg-active-color: #e6f7ff;
+    --bg-hover-color: #f5f5f5;
+    --border-color: #f0f0f0;
+}
+
+.bear-react-dropdown__root.dark-theme {
+    --bg-color: #38393a;
+    --text-color: rgba(255, 255, 255, 0.65);
+    --group-text-color: #999;
+    --bg-active-color: #727373;
+    --bg-hover-color: #5e5e5e;
+    --border-color: rgba(255, 255, 255, 0.25);
+}
+
+
+
+
+.bear-react-dropdown__root {
+    width: auto;
+    min-height: 30px;
+    max-height: 450px;
+    height: auto;
+
+    z-index: 10;
+
+
+    display: flex;
+    border-radius: 3px;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    margin: 0;
+    box-shadow: 2px 1px 9px 1px #00000040;
+}
+
+
+/* ========= reset start ============*/
+.bear-react-dropdown__root button {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background: none;
+    border: none;
+    overflow: visible;
+    text-transform: none;
+}
+.bear-react-dropdown__root button:focus {
+    outline: none;
+}
+
+.bear-react-dropdown__root button,
+.bear-react-dropdown__root [type="button"]{
+    -webkit-appearance: button;
+}
+.bear-react-dropdown__root button:not(:disabled),
+.bear-react-dropdown__root [type="button"]:not(:disabled){
+    cursor: pointer;
+}
+.bear-react-dropdown__root button::-moz-focus-inner,
+.bear-react-dropdown__root [type="button"]::-moz-focus-inner{
+    padding: 0;
+    border-style: none;
+}
+.bear-react-dropdown__root svg {overflow: hidden;vertical-align: middle;}
+/* ========= reset end ============*/
+
+
+
+.bear-react-dropdown__list{
+    border: 1px #6c757d;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 2px;
+    overflow-y: scroll;
+    width: 100%;
+    height: auto;
+    flex: 1;
+}
+
+.bear-react-dropdown__list-item{
+    padding: 0 5px;
+    cursor: pointer;
+    color: var(--text-color);
+    text-align: left;
+    justify-content: flex-start;
+    align-items: center;
+    white-space:nowrap;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 3px;
+    position: relative;
+}
+
+.bear-react-dropdown__list-item:hover,
+.bear-react-dropdown__list-item:hover .bear-react-dropdown__list-item-checked svg,
+.bear-react-dropdown__list-item:hover .bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-placeholder{
+    background-color: var(--primary-color);
+    color: #fff;
+    opacity: .8;
+}
+
+
+
+.bear-react-dropdown__list-item-avatar {
+    display: flex;
+
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
+    overflow: hidden;
+    flex: 0 0 auto;
+    border: 2px solid #343a40;
+    background: rgb(70, 70, 70) center center;
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2.5px;
+
+}
+
+.bear-react-dropdown__list-item-text {
+    /* ellipsis */
+    overflow : hidden;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+
+
+    padding: 5px 2.5px;
+    flex: 1;
+}
+.bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-placeholder{
+    color: #757575;
+}
+
+.bear-react-dropdown__list-item-checked {
+    width: 15px;
+    flex: 0 0 15px;
+}
+.bear-react-dropdown__list-item-checked svg{
+    color: var(--text-color);
+    fill: currentColor;
+}
+
+
+
+
+.bear-react-dropdown__text-field{
+    background-color: var(--bg-color);
+
+    position: relative;
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 30px;
+    color: var(--text-color);
+    padding: 0 12px;
+    border: none;
+    border-bottom: 1px solid rgb(52, 58, 64);
+}
+
+.bear-react-dropdown__text-field:focus {
+    outline: 0;
+}
+
+.bear-react-dropdown__list-group-name{
+    padding: 5px;
+    color: var(--group-text-color);
+}
+.bear-react-dropdown__list-group-children{
+
+}
