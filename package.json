@@ -1,7 +1,7 @@
 {
   "name": "bear-react-dropdown",
   "private": false,
-  "version": "3.0.1",
+  "version": "3.0.2",
   "type": "module",
   "license": "MIT",
   "module": "./dist/bear-react-dropdown.es.js",
