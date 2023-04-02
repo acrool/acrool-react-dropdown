@@ -1,6 +1,6 @@
 # bear-react-dropdown
 
-> Datepicker library based for Reactjs
+> Dropdown list with React Component
 
 [![NPM](https://img.shields.io/npm/v/bear-react-dropdown.svg)](https://www.npmjs.com/package/@imagine10255/bear-react-dropdown)
 [![npm](https://img.shields.io/npm/dm/bear-react-dropdown.svg)](https://www.npmjs.com/package/@imagine10255/bear-react-dropdown)

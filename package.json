@@ -1,7 +1,13 @@
 {
   "name": "bear-react-dropdown",
-  "private": false,
   "version": "3.0.2",
+  "description": "Dropdown list with React Component",
+  "keywords": [
+    "react",
+    "typescript",
+    "dropdown"
+  ],
+  "private": false,
   "type": "module",
   "license": "MIT",
   "module": "./dist/bear-react-dropdown.es.js",
