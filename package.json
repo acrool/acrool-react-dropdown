@@ -25,6 +25,7 @@
     "build": "run-s build:claer && tsc && vite build",
     "preview": "vite preview",
     "lint:fix": "eslint ./src --fix",
+    "cz": "git-cz",
     "gitlog": "git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cblueby %an %Cgreen(%cr)%Creset'",
     "release": "standard-version --release-as",
     "release:major": "standard-version -r major",
@@ -42,14 +43,20 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "classnames": "^2.3.2",
+    "cz-git": "^1.6.1",
     "eslint": "^8.37.0",
     "eslint-config-react-app": "^7.0.1",
     "npm-run-all": "^4.1.5",
     "rollup-plugin-visualizer": "^5.9.0",
+    "standard-version": "^9.5.0",
     "typescript": "^4.9.3",
     "vite": "^4.2.0",
     "vite-plugin-dts": "^2.1.0",
-    "vite-plugin-eslint": "^1.8.1",
-    "standard-version": "^9.5.0"
+    "vite-plugin-eslint": "^1.8.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
   }
 }
