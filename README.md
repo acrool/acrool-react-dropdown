@@ -2,8 +2,8 @@
 
 > Datepicker library based for Reactjs
 
-[![NPM](https://img.shields.io/npm/v/bear-react-dropdown.svg)](https://www.npmjs.com/package/bear-react-dropdown)
-[![npm](https://img.shields.io/npm/dm/bear-react-dropdown.svg)](https://www.npmjs.com/package/bear-react-dropdown)
+[![NPM](https://img.shields.io/npm/v/bear-react-dropdown.svg)](https://www.npmjs.com/package/@imagine10255/bear-react-dropdown)
+[![npm](https://img.shields.io/npm/dm/bear-react-dropdown.svg)](https://www.npmjs.com/package/@imagine10255/bear-react-dropdown)
 
 <img src="./docs/dropdown.jpg" width="700"/>
 
@@ -11,7 +11,7 @@
 ## Install
 
 ```bash
-yarn add bear-react-dropdown
+yarn add @imagine10255/bear-react-dropdown
 ```
 
 ## Usage

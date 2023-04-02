@@ -1,11 +1,17 @@
 {
   "name": "bear-react-dropdown",
   "private": false,
-  "version": "3.0.0",
+  "version": "3.0.1",
   "type": "module",
   "license": "MIT",
   "module": "./dist/bear-react-dropdown.es.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/bear-react-dropdown.es.js"
+    },
+    "./dist/index.css": "./dist/style.css"
+  },
   "files": [
     "dist"
   ],
