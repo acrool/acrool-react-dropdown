@@ -9,7 +9,7 @@ import eslint from 'vite-plugin-eslint';
 export default defineConfig({
   plugins: [
     react(),
-    visualizer(),
+    visualizer() as Plugin,
     eslint(),
     dts({
       insertTypesEntry: true,
