@@ -19,7 +19,6 @@ export default defineConfig({
     sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'bear-react-dropdown',
       formats: ['es'],
       fileName: (format) => `bear-react-dropdown.${format}.js`,
     },

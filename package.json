@@ -6,12 +6,6 @@
   "license": "MIT",
   "module": "./dist/bear-react-dropdown.es.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/bear-react-dropdown.es.js"
-    },
-    "./dist/index.css": "./dist/style.css"
-  },
   "files": [
     "dist"
   ],
