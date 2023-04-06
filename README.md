@@ -11,7 +11,7 @@
 ## Install
 
 ```bash
-yarn add @imagine10255/bear-react-dropdown
+yarn add bear-react-dropdown
 ```
 
 ## Usage
