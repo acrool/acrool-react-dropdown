@@ -59,9 +59,9 @@ export function removeByIndex<T>(arrayData: T[], index: number): T[] {
  * 產生 Item 相關的 style 參數
  * @param args
  */
-export function getOptionStyle(args?: {avatarUrl?: string, color?: string}){
+export function getOptionStyle(args?: {avatarUrl?: string, color?: string}): React.CSSProperties{
     return {
         backgroundImage: args?.avatarUrl ? `url(${args.avatarUrl})`: 'auto',
-        backgroundColor: args?.color ?? 'transparent'
+        backgroundColor: args?.color
     };
 }
