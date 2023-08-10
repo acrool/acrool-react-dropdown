@@ -6,6 +6,7 @@ export interface IDropdownOption<T>  {
     value: T;
     text: string;
     avatarUrl?: string,
+    color?: string,
 }
 
 

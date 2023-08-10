@@ -53,3 +53,15 @@ export function removeByIndex<T>(arrayData: T[], index: number): T[] {
     if(index === -1 || index > arrayData.length - 1) return arrayData;
     return [...arrayData.slice(0, index), ...arrayData.slice(index + 1)];
 }
+
+
+/**
+ * 產生 Item 相關的 style 參數
+ * @param args
+ */
+export function getOptionStyle(args?: {avatarUrl?: string, color?: string}){
+    return {
+        backgroundImage: args?.avatarUrl ? `url(${args.avatarUrl})`: 'auto',
+        backgroundColor: args?.color ?? 'transparent'
+    };
+}

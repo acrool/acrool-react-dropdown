@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect, useCallback, RefObject, startTransit
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
-import {isEmpty, removeByIndex} from './utils';
+import {isEmpty, removeByIndex, getOptionStyle} from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
@@ -138,7 +138,7 @@ const DropdownMulti = <T extends unknown>({
                 {isActive && <CheckIcon/>}
             </div>}
 
-            {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={row.avatarUrl ? {backgroundImage: `url(${row.avatarUrl})`}: {}}/>}
+            {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
             <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
         </button>;
     };

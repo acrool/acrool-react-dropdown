@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect, useCallback, startTransition} from '
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
-import {isEmpty} from './utils';
+import {isEmpty, getOptionStyle} from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
@@ -128,7 +128,7 @@ const Dropdown = <T extends unknown>({
                 {isActive && <CheckIcon/>}
             </div>
             }
-            {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={row.avatarUrl ? {backgroundImage: `url(${row.avatarUrl})`}: {}}/>}
+            {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
             <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
         </button>;
     };
