@@ -39,7 +39,7 @@ function App() {
             <h1>Vite + React</h1>
             <div className="card">
                 <Dropdown value={value} onChange={setValue} options={options1} isDark className="mr-3"/>
-                <DropdownMulti value={multiValue} onChange={setMultiValue} options={options2} isDark/>
+                {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options2} isDark/>*/}
 
                 <p>
           Edit <code>src/App.tsx</code> and save to test HMR

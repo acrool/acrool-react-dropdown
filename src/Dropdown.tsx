@@ -22,7 +22,7 @@ interface IProps<T> {
     value?: TOfNull<T>;
     options?: TOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
-
+    activeValue: TOfNull<T>;
     isDark?: boolean,
 }
 
@@ -59,7 +59,7 @@ const Dropdown = <T extends unknown>({
 }: IProps<T>) => {
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
-    const listRef = useRef<HTMLDivElement>(null);
+    const listRef = useRef<HTMLUListElement>(null);
 
     /**
      * 開啟自動 focus 再輸入框
@@ -118,8 +118,8 @@ const Dropdown = <T extends unknown>({
 
         const isActive = value === row.value;
 
-        return <button
-            type="button"
+        return <li
+            role="option"
             className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
             key={`option-${row.value}`}
             onClick={() => handleOnClick(row.value)}
@@ -130,7 +130,7 @@ const Dropdown = <T extends unknown>({
             }
             {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
             <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
-        </button>;
+        </li>;
     };
 
     /**
@@ -148,15 +148,15 @@ const Dropdown = <T extends unknown>({
             .map((row) => {
                 if(isGroupOptions(row)){
 
-                    return <div key={`group_${row.groupName}`}>
-                        <div className={elClassNames.listGroupName}>{row.groupName}</div>
-                        <div className={elClassNames.listGroupChildren}>
+                    return <li key={`group_${row.groupName}`} role="group">
+                        <strong className={elClassNames.listGroupName}>{row.groupName}</strong>
+                        <ul className={elClassNames.listGroupChildren} role="none">
                             {
                                 filterOptions(row.children, keyword)
                                     .map(row => renderOptionsButton(row)
                                     )}
-                        </div>
-                    </div>;
+                        </ul>
+                    </li>;
                 }
 
                 return renderOptionsButton(row);
@@ -192,9 +192,9 @@ const Dropdown = <T extends unknown>({
             }
 
             {/* Options */}
-            <div className={elClassNames.list} ref={listRef}>
+            <ul className={elClassNames.list} ref={listRef} role="listbox">
                 {renderOptions(keyword)}
-            </div>
+            </ul>
         </div>
 
     );
