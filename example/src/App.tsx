@@ -9,7 +9,7 @@ import {data} from './config/data';
 
 
 function App() {
-    const [value, setValue] = useState<string|null>('2');
+    const [value, setValue] = useState<string|null>('34');
     const [multiValue, setMultiValue] = useState<Array<string|null>|null>(null);
 
     const options1 = data.map(row => {
@@ -35,14 +35,14 @@ function App() {
                 </a>
             </div>
             <h1>Vite + React</h1>
-            <div className="card">
-                <Dropdown value={value} onChange={setValue} options={options1} isDark className="mr-3"/>
-                {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options2} isDark/>*/}
+            <div className="card" style={{display: 'flex', gap: '10px'}}>
+                <Dropdown value={value} onChange={setValue} options={options1} isDark />
+                <DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isDark/>
 
-                <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
             </div>
+            <p>
+                Edit <code>src/App.tsx</code> and save to test HMR
+            </p>
             <p className="read-the-docs">
         Click on the Vite and React logos to learn more
             </p>

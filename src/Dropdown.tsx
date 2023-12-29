@@ -97,6 +97,26 @@ const Dropdown = <T extends unknown>({
     }, [value]);
 
 
+    useEffect(() => {
+        startTransition(() => {
+            if (focusValue && listRef.current) {
+                const i = options.findIndex(row => {
+                    if ('value' in row) {
+                        return row.value === focusValue;
+                    }
+                    return false;
+                });
+
+                const selectedElement = listRef.current.childNodes[i] as HTMLElement;
+                if (selectedElement) {
+                    selectedElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
+                }
+            }
+        });
+        
+    }, [focusValue]);
+
+
     const handleSetKeyword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         startTransition(() => {
             setKeyword(e.target.value);
