@@ -1,13 +1,20 @@
-import React, {useState, useRef, useEffect, useCallback, RefObject, startTransition, useMemo} from 'react';
+import React, {useState, useRef, useEffect, useCallback, startTransition} from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
-import {isEmpty, removeByIndex, getOptionStyle} from './utils';
+import {
+    removeByIndex,
+    getOptionStyle,
+    isGroup,
+    getIndex,
+    scrollIntoViewByGroup,
+    scrollIntoView, getPrevIndexValueByGroup, getNextIndexValueByGroup, getPrevIndexValue, getNextIndexValue
+} from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOption, TOfNull} from './types';
-import {filterOptions, isGroupOptions} from './utils';
+import {IDropdownOption, TOfNull, IDropdownGroupOption} from './types';
+import {filterOptions} from './utils';
 import HotKey from './HotKey';
 
 
@@ -22,7 +29,7 @@ interface IProps<T> {
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
     value?: TOfNull<TOfNull<T>[]>; // Array<number,string> 或 null
-    options?: TOption<TOfNull<T>>[]; // Array<number,string, null> 或 undefined
+    options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
 
     isDark?: boolean,
@@ -66,28 +73,28 @@ const DropdownMulti = <T extends unknown>({
     /**
      * 開啟自動 focus 再輸入框
      */
-    useEffect(() => {
-        if(isSearchEnable && textRef?.current !== null){
-            textRef.current.focus();
-        }
-
-        if(listRef.current && !isEmpty(value)){
-            const activeIndex = options?.findIndex(row => {
-                if(isGroupOptions(row)){
-                    return row.children.findIndex(child => {
-                        return child.value === value;
-                    });
-                }else{
-                    return row.value === value;
-                }
-            }) ?? -1;
-
-            if(activeIndex >= 0){
-                listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
-            }
-        }
-
-    }, []);
+    // useEffect(() => {
+    //     if(isSearchEnable && textRef?.current !== null){
+    //         textRef.current.focus();
+    //     }
+    //
+    //     if(listRef.current && !isEmpty(value)){
+    //         const activeIndex = options?.findIndex(row => {
+    //             if(isGroupOptions(row)){
+    //                 return row.children.findIndex(child => {
+    //                     return child.value === value;
+    //                 });
+    //             }else{
+    //                 return row.value === value;
+    //             }
+    //         }) ?? -1;
+    //
+    //         if(activeIndex >= 0){
+    //             listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
+    //         }
+    //     }
+    //
+    // }, []);
 
 
 
@@ -103,22 +110,17 @@ const DropdownMulti = <T extends unknown>({
         // 移動到Focus位置
         startTransition(() => {
             if (focusValue && listRef.current) {
-                const i = options.findIndex(row => {
-                    if ('value' in row) {
-                        return row.value === focusValue;
-                    }
-                    return false;
-                });
-
-                const selectedElement = listRef.current.childNodes[i] as HTMLElement;
-                if (selectedElement) {
-                    selectedElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
+                const {groupIndex, itemIndex} = getIndex(options, focusValue);
+                if(groupIndex >= 0){
+                    scrollIntoViewByGroup(listRef.current, groupIndex, itemIndex);
+                }else{
+                    scrollIntoView(listRef.current, itemIndex);
                 }
+
             }
         });
 
     }, [focusValue]);
-
 
 
     /**
@@ -141,24 +143,32 @@ const DropdownMulti = <T extends unknown>({
     }, [focusValue]);
 
 
+
+
     /**
      * 處理上下移動
      */
     const handleMove = useCallback((direction: 'up'|'down') => {
         return () => {
             startTransition(() => {
-                const i = options.findIndex(row => {
-                    if('value' in row) {
-                        return row.value === focusValue;
-                    }
-                    return false;
-                });
-
+                // 設定新的位置
                 setFocusValue(curr => {
-                    const option = options[direction === 'up' ? i-1 : i+1];
-                    console.log('option', option);
-                    if(option && 'value' in option){
-                        return option.value;
+                    const {groupIndex, itemIndex} = getIndex(options, curr);
+
+                    if(isGroup(options)){
+                        // const lastIndex = options[groupIndex].children.length - 1;
+                        if(direction === 'up'){
+                            return getPrevIndexValueByGroup(options, groupIndex, itemIndex);
+                        }else if(direction === 'down'){
+                            return getNextIndexValueByGroup(options, groupIndex, itemIndex);
+                        }
+                        return curr;
+                    }
+
+                    if(direction === 'up'){
+                        return getPrevIndexValue(options, itemIndex);
+                    } else if(direction === 'down'){
+                        return getNextIndexValue(options, itemIndex);
                     }
                     return curr;
                 });
@@ -214,57 +224,61 @@ const DropdownMulti = <T extends unknown>({
         >
             {isCheckedEnable && <div className={elClassNames.listItemChecked}>
                 {isActive && <CheckIcon/>}
-            </div>}
-
+            </div>
+            }
             {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
             <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
         </li>;
     };
 
-
-
     /**
-     * 產生選單
+     * 產生選單列表
      */
     const renderOptions = useCallback((keyword: string) => {
-        const formatOption = options
-            ?.filter(row => {
-                if(isGroupOptions(row)){
+        let formatOption: JSX.Element[] = [];
+
+        // 群組模式
+        if(isGroup(options)){
+            formatOption = options
+                ?.filter(row => {
                     return filterOptions(row.children.map(child => child), keyword).length > 0;
-                }
-                return filterOptions([row], keyword).length > 0;
-            })
-            .map((row) => {
-                if(isGroupOptions(row)){
-                    return <li key={`group_${row.groupName}`}>
+                })
+                .map((row) => {
+                    return <li key={`group_${row.groupName}`} role="group">
                         <strong className={elClassNames.listGroupName}>{row.groupName}</strong>
-                        <ul className={elClassNames.listGroupChildren}>
+                        <ul className={elClassNames.listGroupChildren} role="none">
                             {
                                 filterOptions(row.children, keyword)
-                                    .map(row => renderOptionsButton(row))
-                            }
+                                    .map(row => renderOptionsButton(row)
+                                    )}
                         </ul>
                     </li>;
-                }
-
-                return renderOptionsButton(row);
-            });
-
-
-        if(formatOption && formatOption.length > 0){
-            return formatOption;
+                });
+        }else{
+            formatOption = options
+                ?.filter(row => {
+                    return filterOptions([row], keyword).length > 0;
+                })
+                .map((row) => {
+                    return renderOptionsButton(row);
+                });
         }
 
-        return (<div
-            key="no-data"
-            className={elClassNames.listItem}
-            onClick={() => {}}
-        >
-            <div className={elClassNames.listItemText}>No data</div>
-        </div>);
+        if(formatOption.length === 0){
+            // 無資料回傳
+            return (<div
+                key="no-data"
+                className={elClassNames.listItem}
+                onClick={() => handleOnClick(null)}
+            >
+                <div className={elClassNames.listItemText}>No data</div>
+            </div>);
 
+        }
 
-    }, [focusValue, options]);
+        return formatOption;
+
+    }, [options, value, focusValue]);
 
 
 
@@ -280,10 +294,9 @@ const DropdownMulti = <T extends unknown>({
             }
 
             {/* Options */}
-            <ul className={elClassNames.list} ref={listRef}>
+            <ul className={elClassNames.list} ref={listRef} role="listbox">
                 {renderOptions(keyword)}
             </ul>
-
 
             <HotKey hotKey="enter" fn={handleSetValue}/>
             <HotKey hotKey="up" fn={handleMove('up')}/>
