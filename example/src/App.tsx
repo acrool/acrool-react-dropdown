@@ -5,18 +5,16 @@ import {Dropdown, DropdownMulti} from 'bear-react-dropdown';
 
 import './App.css';
 import 'bear-react-dropdown/dist/index.css';
+import {data} from './config/data';
 
 
 function App() {
-    const [value, setValue] = useState<string|null>('0');
+    const [value, setValue] = useState<string|null>('2');
     const [multiValue, setMultiValue] = useState<Array<string|null>|null>(null);
 
-    const options1 = [
-        {text: 'Jack Wu', value: '1'},
-        {text: 'Imagine Chiu', value: '2'},
-        {text: 'Jason Dinwiddie', value: '3'},
-        {text: 'Gloria Lu', value: '4'},
-    ];
+    const options1 = data.map(row => {
+        return {text: row.name, value: String(row.id)};
+    });
 
     const options2 = [
         {text: 'Select option item...', value: ''},

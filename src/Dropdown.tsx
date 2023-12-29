@@ -8,6 +8,7 @@ import './styles.css';
 import {CheckIcon} from './Icon';
 import {IDropdownOption, TOfNull, TOption} from './types';
 import {filterOptions, isGroupOptions} from './utils';
+import HotKey from './HotKey';
 
 
 interface IProps<T> {
@@ -22,7 +23,6 @@ interface IProps<T> {
     value?: TOfNull<T>;
     options?: TOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
-    activeValue: TOfNull<T>;
     isDark?: boolean,
 }
 
@@ -60,6 +60,7 @@ const Dropdown = <T extends unknown>({
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
+    const [focusValue, setFocusValue] = useState<TOfNull<T>>();
 
     /**
      * 開啟自動 focus 再輸入框
@@ -87,6 +88,13 @@ const Dropdown = <T extends unknown>({
         }
 
     }, []);
+    
+    
+    useEffect(() => {
+        if(value){
+            setFocusValue(value); 
+        }
+    }, [value]);
 
 
     const handleSetKeyword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,6 +102,36 @@ const Dropdown = <T extends unknown>({
             setKeyword(e.target.value);
         });
     }, []);
+
+
+    const handleSetValue = useCallback(() => {
+        startTransition(() => {
+            onChange(focusValue);
+        });
+    }, [focusValue]);
+
+
+    const handleMove = useCallback((direction: 'up'|'down') => {
+        return () => {
+            startTransition(() => {
+                const i = options.findIndex(row => {
+                    if('value' in row) {
+                        return row.value === focusValue;
+                    }
+                    return false;
+                });
+
+                setFocusValue(curr => {
+                    const option = options[direction === 'up' ? i-1 : i+1];
+                    if(option && 'value' in option){
+                        return option.value;
+                    }
+                    return curr;
+                });
+
+            });
+        };
+    }, [focusValue, options]);
 
 
     /**
@@ -110,6 +148,9 @@ const Dropdown = <T extends unknown>({
     }, [onChange, onClick, value]);
 
 
+
+
+
     /**
      * 渲染子層 (兩種顯示方式子層顯示方式相同)
      * @param row
@@ -117,12 +158,15 @@ const Dropdown = <T extends unknown>({
     const renderOptionsButton = (row: IDropdownOption<TOfNull<T>>) => {
 
         const isActive = value === row.value;
+        const isFocus = focusValue === row.value;
 
         return <li
             role="option"
             className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
             key={`option-${row.value}`}
             onClick={() => handleOnClick(row.value)}
+            aria-selected={isFocus ? true: undefined}
+            onMouseOver={() => setFocusValue(row.value)}
         >
             {isCheckedEnable && <div className={elClassNames.listItemChecked}>
                 {isActive && <CheckIcon/>}
@@ -176,7 +220,7 @@ const Dropdown = <T extends unknown>({
         </div>);
 
 
-    }, [options, value]);
+    }, [options, value, focusValue]);
 
 
 
@@ -195,6 +239,10 @@ const Dropdown = <T extends unknown>({
             <ul className={elClassNames.list} ref={listRef} role="listbox">
                 {renderOptions(keyword)}
             </ul>
+
+            <HotKey hotKey="enter" fn={handleSetValue}/>
+            <HotKey hotKey="up" fn={handleMove('up')}/>
+            <HotKey hotKey="down" fn={handleMove('down')}/>
         </div>
 
     );
