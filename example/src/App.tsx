@@ -33,8 +33,9 @@ function App() {
                 groupName: groupKey,
                 children: curr.map(row => {
                     return {
-                        text: `${row.id}-   ${row.name}`,
-                        value: row.id
+                        text: row.name,
+                        value: row.id,
+                        avatarUrl: row.avatar
                     };
                 }),
             };
@@ -53,9 +54,11 @@ function App() {
             </div>
             <h1>Vite + React</h1>
             <div className="card" style={{display: 'flex', gap: '10px'}}>
-                {/*<Dropdown value={value} onChange={setValue} options={options1} isDark />*/}
+                <Dropdown value={value} onChange={setValue} options={options1} isDark />
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isDark/>*/}
                 <Dropdown value={value} onChange={setValue} options={options3} isDark />
+                <Dropdown value={value} onChange={setValue} options={options3} isDark isAvatarEnable />
+                <Dropdown value={value} onChange={setValue} options={options3} isDark isSearchEnable />
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options3} isDark/>*/}
 
             </div>

@@ -2,7 +2,15 @@ import React, {useState, useRef, useEffect, useCallback, startTransition} from '
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
-import {isEmpty, getOptionStyle, isGroup} from './utils';
+import {
+    isEmpty,
+    getOptionStyle,
+    isGroup,
+    getIndex,
+    scrollIntoViewByGroup,
+    scrollIntoView,
+    getNextIndexValueByGroup, getPrevIndexValueByGroup, getPrevIndexValue, getNextIndexValue
+} from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
@@ -105,50 +113,11 @@ const Dropdown = <T extends unknown>({
         // 移動到Focus位置
         startTransition(() => {
             if (focusValue && listRef.current) {
-                let i: number = null;
-                let isGroup = false;
-                const groupIndex = options.findIndex((row, gIndex) => {
-                    if(isGroupOptions(row)){
-                        isGroup = true;
-                        const optionIndex = row.children.findIndex((childRow, childIndex) => {
-                            const isActive = childRow.value === focusValue;
-                            // console.log('childRow.value === value', childRow.value, focusValue, childRow.value === focusValue);
-                            if(isActive){
-                                i = childIndex;
-                                return true;
-                            }
-                            return false;
-                        });
-                        return optionIndex >= 0;
-                    }
-                    return false;
-                });
-
-                // const i = options.findIndex(row => {
-                //     if(isGroupOptions(row)){
-                //         return row.children.findIndex(child => {
-                //             return child.value === value;
-                //         });
-                //     }else{
-                //         return row.value === value;
-                //     }
-
-                // });
-
-                if(isGroup){
-                    const selectedElement = listRef.current.childNodes[groupIndex] as HTMLElement;
-                    if (selectedElement) {
-                        const selectedChildElement = selectedElement.getElementsByTagName('ul')[0]
-                            .childNodes[i] as HTMLElement;
-                        if(selectedChildElement){
-                            selectedChildElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
-                        }
-                    }
+                const {groupIndex, itemIndex} = getIndex(options, focusValue);
+                if(groupIndex >= 0){
+                    scrollIntoViewByGroup(listRef.current, groupIndex, itemIndex);
                 }else{
-                    const selectedElement = listRef.current.childNodes[i] as HTMLElement;
-                    if (selectedElement) {
-                        selectedElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
-                    }
+                    scrollIntoView(listRef.current, itemIndex);
                 }
 
             }
@@ -177,81 +146,33 @@ const Dropdown = <T extends unknown>({
     }, [focusValue]);
 
 
+
+
     /**
      * 處理上下移動
      */
     const handleMove = useCallback((direction: 'up'|'down') => {
         return () => {
             startTransition(() => {
-                // 先找到目前的項目位置
-                let i: number = null;
-                const groupIndex = options.findIndex((row, gIndex) => {
-                    if(isGroupOptions(row)){
-                        const optionIndex = row.children.findIndex((childRow, childIndex) => {
-                            const isActive = childRow.value === focusValue;
-                            // console.log('childRow.value === value', childRow.value, focusValue, childRow.value === focusValue);
-                            if(isActive){
-                                i = childIndex;
-                                return true;
-                            }
-                            return false;
-                        });
-                        return optionIndex >= 0;
-                    }
-                    return false;
-                });
-
-
                 // 設定新的位置
                 setFocusValue(curr => {
-                    if(groupIndex >= 0){
-                        const option = options[groupIndex];
-                        if(isGroupOptions(option)){
-                            // console.log('option.children', groupIndex, option.children);
-                            const lastIndex = option.children.length - 1;
-                            if(direction === 'up' && i === 0 ){
-                                const upOptions = options[groupIndex -1];
-                                if(upOptions && isGroupOptions(upOptions)){
-                                    const newLastIndex = upOptions.children.length - 1;
-                                    const x = upOptions.children[newLastIndex];
-                                    return x.value;
-                                }
-                                return curr;
+                    const {groupIndex, itemIndex} = getIndex(options, curr);
 
-                            }else if(direction === 'down' && i === lastIndex){
-                                const downOptions = options[groupIndex +1];
-                                if(downOptions && isGroupOptions(downOptions)){
-                                    const newLastIndex = 0;
-                                    console.log('newLastIndex', newLastIndex);
-                                    const x = downOptions.children[newLastIndex];
-                                    return x.value;
-                                }
-                                return curr;
-                            }
-                            const childOption = option.children[direction === 'up' ? i-1 : i+1];
-                            return childOption?.value;
+                    if(isGroup(options)){
+                        // const lastIndex = options[groupIndex].children.length - 1;
+                        if(direction === 'up'){
+                            return getPrevIndexValueByGroup(options, groupIndex, itemIndex);
+                        }else if(direction === 'down'){
+                            return getNextIndexValueByGroup(options, groupIndex, itemIndex);
                         }
+                        return curr;
                     }
-                    //
-                    // console.log('groupIndex', groupIndex);
-                    // if(groupIndex !== null){
-                    //     const option = options[direction === 'up' ? groupIndex-1 : groupIndex+1];
-                    //     if(isGroupOptions(option)){
-                    //         const childOption = option.children[direction === 'up' ? i-1 : i+1];
-                    //         return childOption.value;
-                    //     }else{
-                    //         return option.value;
-                    //     }
-                    // }
-                    // console.log('option', option);
-                    // if(option){
-                    //     if(isGroupOptions(option)){
-                    //         return option.children[groupIndex].value;
-                    //     }else{
-                    //         return option.value;
-                    //     }
-                    // }
 
+                    if(direction === 'up'){
+                        return getPrevIndexValue(options, itemIndex);
+                    } else if(direction === 'down'){
+                        return getNextIndexValue(options, itemIndex);
+                    }
                     return curr;
                 });
 

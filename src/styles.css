@@ -10,6 +10,7 @@
 
 .bear-react-dropdown__root ul{
     text-align: left;
+    padding-inline-start: 0;
 }
 .bear-react-dropdown__root strong{
     display: block;
