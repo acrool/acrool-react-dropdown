@@ -19,22 +19,22 @@ import {
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOfNull, TOption, IDropdownGroupOption, TNullOfNullOrArray} from './types';
+import {IDropdownOption, TOfNull, TOption, IDropdownGroupOption, TNullOfNullOrArray, TOfNullArray} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 import HotKey from './HotKey';
 
 
-interface IProps<T> {
+interface IProps<T, M extends boolean> {
     className?: string;
     style?: CSS.Properties
 
-    onChange?: (value: TNullOfNullOrArray<T>) => void;
+    onChange?: (value: M extends true ? TOfNullArray<T> : TOfNull<T>) => void;
     onClick?: (value: TOfNull<T>) => void;
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
-    isMulti?: boolean
-    value?: TNullOfNullOrArray<T>;
+    isMulti?: M
+    value?: M extends true ? TOfNullArray<T> : TOfNull<T>;
     // options?: TOption<TOfNull<T>>[];
     options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
@@ -59,7 +59,7 @@ const halfHeight = (30 * maxItem) / 2;
  * @param isVisibleSearchText
  * @param isDark 暗黑模式
  */
-const Dropdown = <T extends unknown>({
+const Dropdown = <T extends unknown, M extends boolean>({
     className,
     style,
     options,
@@ -72,12 +72,12 @@ const Dropdown = <T extends unknown>({
     isAvatarEnable = false,
     isMulti = false,
     isDark = false,
-}: IProps<T>) => {
+}: IProps<T, boolean>) => {
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
     const [focusValue, setFocusValue] = useState<TOfNull<T>>();
-    
+
     // console.log('focusValue', focusValue);
 
     /**
@@ -110,7 +110,7 @@ const Dropdown = <T extends unknown>({
     
     useEffect(() => {
         // 預設Focus為選中項目
-        if(value && !isMulti && !isMultiValue(value)){
+        if(value && !isMultiValue(value, isMulti)){
             setFocusValue(value);
         }
     }, [value]);
@@ -194,13 +194,11 @@ const Dropdown = <T extends unknown>({
     const handleOnClick = useCallback((newValue: TOfNull<T>) => {
         if (onChange && value !== newValue) {
 
-            if(isMulti){
-                if(isMultiValue(value)){
-                    const formatValues = modifyChecked(value, newValue);
-                    // 異動才觸發 onChange
-                    if(JSON.stringify(formatValues) !== JSON.stringify(value)){
-                        onChange(formatValues);
-                    }
+            if(isMultiValue(value, isMulti)){
+                const formatValues = modifyChecked<T>(value, newValue);
+                // 異動才觸發 onChange
+                if(JSON.stringify(formatValues) !== JSON.stringify(value)){
+                    onChange(formatValues);
                 }
                 return;
 
@@ -233,7 +231,7 @@ const Dropdown = <T extends unknown>({
     const renderOptionsButton = (row: IDropdownOption<TOfNull<T>>) => {
 
         let isActive = false;
-        if(isMultiValue(value)){
+        if(isMultiValue(value, isMulti)){
             isActive = value?.includes(row.value) ?? false;
         }else {
             isActive = value === row.value;

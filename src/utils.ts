@@ -19,9 +19,10 @@ export const isGroup = <T>(options: TOption<T>[]): options is IDropdownGroupOpti
 /**
  * 檢查Value類型
  * @param value
+ * @param isMulti
  */
-export const isMultiValue = <T>(value: TNullOfNullOrArray<T>): value is TOfNullArray<T>=> {
-    return typeof value === 'object' || null;
+export const isMultiValue = <T, M extends boolean>(value: TNullOfNullOrArray<T>, isMulti: M): value is TOfNullArray<T> => {
+    return isMulti === true;
 };
 
 
@@ -236,7 +237,7 @@ export function scrollIntoViewByGroup<T>(ul: HTMLUListElement, groupIndex: numbe
  * @param values
  * @param newValue
  */
-export function modifyChecked<T>(values: TOfNullArray<T>, newValue: T): TOfNullArray<T>{
+export function modifyChecked<T>(values: TOfNullArray<T>, newValue: TOfNull<T>): TOfNullArray<T>{
     const index = values?.findIndex(rowVal => rowVal === newValue) ?? -1;
     let formatValues: TOfNull<T>[]|null = null;
     const convertValue = values ?? [];
