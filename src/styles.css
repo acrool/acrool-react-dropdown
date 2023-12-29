@@ -8,6 +8,13 @@
     user-select: none;
 }
 
+.bear-react-dropdown__root ul{
+    text-align: left;
+}
+.bear-react-dropdown__root strong{
+    display: block;
+}
+
 .bear-react-dropdown__root{
     --primary-color: #00a3e0;
     --bg-color: #fff;

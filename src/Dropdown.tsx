@@ -6,7 +6,7 @@ import {isEmpty, getOptionStyle} from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOfNull, TOption} from './types';
+import {IDropdownOption, TOfNull, TOption, IDropdownGroupOption} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 import HotKey from './HotKey';
 
@@ -22,6 +22,7 @@ interface IProps<T> {
     isAvatarEnable?: boolean,
     value?: TOfNull<T>;
     options?: TOption<TOfNull<T>>[];
+    // options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
     isDark?: boolean,
 }
@@ -61,62 +62,104 @@ const Dropdown = <T extends unknown>({
     const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
     const [focusValue, setFocusValue] = useState<TOfNull<T>>();
+    
+    // console.log('focusValue', focusValue);
 
     /**
-     * 開啟自動 focus 再輸入框
+     * 開啟自動 focus 再輸入框(好像重複了)
      */
-    useEffect(() => {
-        if(isSearchEnable && textRef?.current !== null){
-            textRef.current.focus();
-        }
-
-        if(listRef.current && !isEmpty(value)){
-
-            const activeIndex = options?.findIndex(row => {
-                if(isGroupOptions(row)){
-                    return row.children.findIndex(child => {
-                        return child.value === value;
-                    });
-                }else{
-                    return row.value === value;
-                }
-            }) ?? -1;
-
-            if(activeIndex >= 0){
-                listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
-            }
-        }
-
-    }, []);
+    // useEffect(() => {
+    //     if(isSearchEnable && textRef?.current !== null){
+    //         textRef.current.focus();
+    //     }
+    //
+    //     if(listRef.current && !isEmpty(value)){
+    //
+    //         const activeIndex = options?.findIndex(row => {
+    //             if(isGroupOptions(row)){
+    //                 return row.children.findIndex(child => {
+    //                     return child.value === value;
+    //                 });
+    //             }else{
+    //                 return row.value === value;
+    //             }
+    //         }) ?? -1;
+    //
+    //         if(activeIndex >= 0){
+    //             listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
+    //         }
+    //     }
+    //
+    // }, []);
     
     
     useEffect(() => {
         if(value){
-            setFocusValue(value); 
+            // 預設Focus為選中項目
+            setFocusValue(value);
         }
     }, [value]);
 
 
     useEffect(() => {
+        // 移動到Focus位置
         startTransition(() => {
             if (focusValue && listRef.current) {
-                const i = options.findIndex(row => {
-                    if ('value' in row) {
-                        return row.value === focusValue;
+                let i: number = null;
+                let isGroup = false;
+                const groupIndex = options.findIndex((row, gIndex) => {
+                    if(isGroupOptions(row)){
+                        isGroup = true;
+                        const optionIndex = row.children.findIndex((childRow, childIndex) => {
+                            const isActive = childRow.value === focusValue;
+                            // console.log('childRow.value === value', childRow.value, focusValue, childRow.value === focusValue);
+                            if(isActive){
+                                i = childIndex;
+                                return true;
+                            }
+                            return false;
+                        });
+                        return optionIndex >= 0;
                     }
                     return false;
                 });
 
-                const selectedElement = listRef.current.childNodes[i] as HTMLElement;
-                if (selectedElement) {
-                    selectedElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
+                // const i = options.findIndex(row => {
+                //     if(isGroupOptions(row)){
+                //         return row.children.findIndex(child => {
+                //             return child.value === value;
+                //         });
+                //     }else{
+                //         return row.value === value;
+                //     }
+
+                // });
+
+                if(isGroup){
+                    const selectedElement = listRef.current.childNodes[groupIndex] as HTMLElement;
+                    if (selectedElement) {
+                        const selectedChildElement = selectedElement.getElementsByTagName('ul')[0]
+                            .childNodes[i] as HTMLElement;
+                        if(selectedChildElement){
+                            selectedChildElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
+                        }
+                    }
+                }else{
+                    const selectedElement = listRef.current.childNodes[i] as HTMLElement;
+                    if (selectedElement) {
+                        selectedElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
+                    }
                 }
+
             }
         });
         
     }, [focusValue]);
 
 
+    /**
+     * 設定搜尋關鍵字
+     */
     const handleSetKeyword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         startTransition(() => {
             setKeyword(e.target.value);
@@ -124,28 +167,91 @@ const Dropdown = <T extends unknown>({
     }, []);
 
 
+    /**
+     * 設定選中資料
+     */
     const handleSetValue = useCallback(() => {
         startTransition(() => {
-            onChange(focusValue);
+            handleOnClick(focusValue);
         });
     }, [focusValue]);
 
 
+    /**
+     * 處理上下移動
+     */
     const handleMove = useCallback((direction: 'up'|'down') => {
         return () => {
             startTransition(() => {
-                const i = options.findIndex(row => {
-                    if('value' in row) {
-                        return row.value === focusValue;
+                // 先找到目前的項目位置
+                let i: number = null;
+                const groupIndex = options.findIndex((row, gIndex) => {
+                    if(isGroupOptions(row)){
+                        const optionIndex = row.children.findIndex((childRow, childIndex) => {
+                            const isActive = childRow.value === focusValue;
+                            // console.log('childRow.value === value', childRow.value, focusValue, childRow.value === focusValue);
+                            if(isActive){
+                                i = childIndex;
+                                return true;
+                            }
+                            return false;
+                        });
+                        return optionIndex >= 0;
                     }
                     return false;
                 });
 
+
+                // 設定新的位置
                 setFocusValue(curr => {
-                    const option = options[direction === 'up' ? i-1 : i+1];
-                    if(option && 'value' in option){
-                        return option.value;
+                    if(groupIndex >= 0){
+                        const option = options[groupIndex];
+                        if(isGroupOptions(option)){
+                            // console.log('option.children', groupIndex, option.children);
+                            const lastIndex = option.children.length - 1;
+                            if(direction === 'up' && i === 0 ){
+                                const upOptions = options[groupIndex -1];
+                                if(upOptions && isGroupOptions(upOptions)){
+                                    const newLastIndex = upOptions.children.length - 1;
+                                    const x = upOptions.children[newLastIndex];
+                                    return x.value;
+                                }
+                                return curr;
+
+                            }else if(direction === 'down' && i === lastIndex){
+                                const downOptions = options[groupIndex +1];
+                                if(downOptions && isGroupOptions(downOptions)){
+                                    const newLastIndex = 0;
+                                    console.log('newLastIndex', newLastIndex);
+                                    const x = downOptions.children[newLastIndex];
+                                    return x.value;
+                                }
+                                return curr;
+                            }
+                            const childOption = option.children[direction === 'up' ? i-1 : i+1];
+                            return childOption?.value;
+                        }
                     }
+                    //
+                    // console.log('groupIndex', groupIndex);
+                    // if(groupIndex !== null){
+                    //     const option = options[direction === 'up' ? groupIndex-1 : groupIndex+1];
+                    //     if(isGroupOptions(option)){
+                    //         const childOption = option.children[direction === 'up' ? i-1 : i+1];
+                    //         return childOption.value;
+                    //     }else{
+                    //         return option.value;
+                    //     }
+                    // }
+                    // console.log('option', option);
+                    // if(option){
+                    //     if(isGroupOptions(option)){
+                    //         return option.children[groupIndex].value;
+                    //     }else{
+                    //         return option.value;
+                    //     }
+                    // }
+
                     return curr;
                 });
 
@@ -201,7 +307,6 @@ const Dropdown = <T extends unknown>({
      * 產生選單
      */
     const renderOptions = useCallback((keyword: string) => {
-
         const formatOption = options
             ?.filter(row => {
                 if(isGroupOptions(row)){
@@ -211,7 +316,6 @@ const Dropdown = <T extends unknown>({
             })
             .map((row) => {
                 if(isGroupOptions(row)){
-
                     return <li key={`group_${row.groupName}`} role="group">
                         <strong className={elClassNames.listGroupName}>{row.groupName}</strong>
                         <ul className={elClassNames.listGroupChildren} role="none">

@@ -8,6 +8,7 @@ import './styles.css';
 import {CheckIcon} from './Icon';
 import {IDropdownOption, TOption, TOfNull} from './types';
 import {filterOptions, isGroupOptions} from './utils';
+import HotKey from './HotKey';
 
 
 
@@ -59,7 +60,8 @@ const DropdownMulti = <T extends unknown>({
 }: IProps<T>) => {
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
-    const listRef = useRef<HTMLDivElement>(null);
+    const listRef = useRef<HTMLUListElement>(null);
+    const [focusValue, setFocusValue] = useState<TOfNull<T>>();
 
     /**
      * 開啟自動 focus 再輸入框
@@ -88,11 +90,84 @@ const DropdownMulti = <T extends unknown>({
     }, []);
 
 
+
+    // useEffect(() => {
+    //     if(options){
+    //         // 預設Focus為選中項目
+    //         setFocusValue(options);
+    //     }
+    // }, [options]);
+
+
+    useEffect(() => {
+        // 移動到Focus位置
+        startTransition(() => {
+            if (focusValue && listRef.current) {
+                const i = options.findIndex(row => {
+                    if ('value' in row) {
+                        return row.value === focusValue;
+                    }
+                    return false;
+                });
+
+                const selectedElement = listRef.current.childNodes[i] as HTMLElement;
+                if (selectedElement) {
+                    selectedElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
+                }
+            }
+        });
+
+    }, [focusValue]);
+
+
+
+    /**
+     * 設定搜尋關鍵字
+     */
     const handleSetKeyword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         startTransition(() => {
             setKeyword(e.target.value);
         });
     }, []);
+
+
+    /**
+     * 設定選中資料
+     */
+    const handleSetValue = useCallback(() => {
+        startTransition(() => {
+            handleOnClick(focusValue);
+        });
+    }, [focusValue]);
+
+
+    /**
+     * 處理上下移動
+     */
+    const handleMove = useCallback((direction: 'up'|'down') => {
+        return () => {
+            startTransition(() => {
+                const i = options.findIndex(row => {
+                    if('value' in row) {
+                        return row.value === focusValue;
+                    }
+                    return false;
+                });
+
+                setFocusValue(curr => {
+                    const option = options[direction === 'up' ? i-1 : i+1];
+                    console.log('option', option);
+                    if(option && 'value' in option){
+                        return option.value;
+                    }
+                    return curr;
+                });
+
+            });
+        };
+    }, [focusValue, options]);
+
+
 
 
     /**
@@ -127,12 +202,15 @@ const DropdownMulti = <T extends unknown>({
     const renderOptionsButton = (row: IDropdownOption<TOfNull<T>>) => {
 
         const isActive = value?.includes(row.value) ?? false;
+        const isFocus = focusValue === row.value;
 
-        return <button
-            type="button"
+        return <li
+            role="option"
             className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
             key={`option-${row.value}`}
             onClick={() => handleOnClick(row.value)}
+            aria-selected={isFocus ? true: undefined}
+            onMouseOver={() => setFocusValue(row.value)}
         >
             {isCheckedEnable && <div className={elClassNames.listItemChecked}>
                 {isActive && <CheckIcon/>}
@@ -140,7 +218,7 @@ const DropdownMulti = <T extends unknown>({
 
             {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
             <div className={cx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
-        </button>;
+        </li>;
     };
 
 
@@ -157,18 +235,16 @@ const DropdownMulti = <T extends unknown>({
                 return filterOptions([row], keyword).length > 0;
             })
             .map((row) => {
-
                 if(isGroupOptions(row)){
-
-                    return <div key={`group_${row.groupName}`}>
-                        <div className={elClassNames.listGroupName}>{row.groupName}</div>
-                        <div className={elClassNames.listGroupChildren}>
+                    return <li key={`group_${row.groupName}`}>
+                        <strong className={elClassNames.listGroupName}>{row.groupName}</strong>
+                        <ul className={elClassNames.listGroupChildren}>
                             {
                                 filterOptions(row.children, keyword)
                                     .map(row => renderOptionsButton(row))
                             }
-                        </div>
-                    </div>;
+                        </ul>
+                    </li>;
                 }
 
                 return renderOptionsButton(row);
@@ -188,7 +264,7 @@ const DropdownMulti = <T extends unknown>({
         </div>);
 
 
-    }, [options]);
+    }, [focusValue, options]);
 
 
 
@@ -203,9 +279,15 @@ const DropdownMulti = <T extends unknown>({
                 />
             }
 
-            <div className={elClassNames.list} ref={listRef}>
+            {/* Options */}
+            <ul className={elClassNames.list} ref={listRef}>
                 {renderOptions(keyword)}
-            </div>
+            </ul>
+
+
+            <HotKey hotKey="enter" fn={handleSetValue}/>
+            <HotKey hotKey="up" fn={handleMove('up')}/>
+            <HotKey hotKey="down" fn={handleMove('down')}/>
         </div>
 
     );
