@@ -1,7 +1,7 @@
-import {IDropdownGroupOption, IDropdownOption, TOption, TOfNull} from './types';
+import {IDropdownGroupOption, IDropdownOption, TOption, TOfNull, TOfNullArray, TNullOfNullOrArray} from './types';
 
 /**
- * 檢查傳入類型
+ * 檢查Option類型
  * @param options
  */
 export const isGroupOptions = <T>(options: TOption<T>): options is IDropdownGroupOption<T> => {
@@ -9,11 +9,19 @@ export const isGroupOptions = <T>(options: TOption<T>): options is IDropdownGrou
 };
 
 /**
- * 檢查傳入類型
+ * 檢查Options類型
  * @param options
  */
 export const isGroup = <T>(options: TOption<T>[]): options is IDropdownGroupOption<T>[] => {
     return (options as IDropdownGroupOption<T>[])[0].groupName !== undefined;
+};
+
+/**
+ * 檢查Value類型
+ * @param value
+ */
+export const isMultiValue = <T>(value: TNullOfNullOrArray<T>): value is TOfNullArray<T>=> {
+    return typeof value === 'object' || null;
 };
 
 
@@ -218,6 +226,32 @@ export function scrollIntoViewByGroup<T>(ul: HTMLUListElement, groupIndex: numbe
         }
     }
 }
+
+
+
+
+
+/**
+ * 取得 Index 位置 by Group mode
+ * @param values
+ * @param newValue
+ */
+export function modifyChecked<T>(values: TOfNullArray<T>, newValue: T): TOfNullArray<T>{
+    const index = values?.findIndex(rowVal => rowVal === newValue) ?? -1;
+    let formatValues: TOfNull<T>[]|null = null;
+    const convertValue = values ?? [];
+    if(index >= 0){
+        formatValues = removeByIndex(convertValue, index);
+    }else{
+        formatValues = [...convertValue, newValue];
+    }
+    if(formatValues?.length === 0){
+        formatValues = null;
+    }
+    return formatValues;
+
+}
+
 
 
 

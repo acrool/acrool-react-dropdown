@@ -1,5 +1,7 @@
 
-export type TOfNull<T> = T|null;
+export type TOfNull<T> = T | null;
+export type TOfNullArray<T> = TOfNull<T>[];
+export type TNullOfNullOrArray<T> = TOfNull<T> | TOfNullArray<T>;
 
 
 export interface IDropdownOption<T>  {

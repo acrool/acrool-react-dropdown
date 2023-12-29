@@ -9,12 +9,17 @@ import {
     getIndex,
     scrollIntoViewByGroup,
     scrollIntoView,
-    getNextIndexValueByGroup, getPrevIndexValueByGroup, getPrevIndexValue, getNextIndexValue
+    getNextIndexValueByGroup,
+    getPrevIndexValueByGroup,
+    getPrevIndexValue,
+    getNextIndexValue,
+    isMultiValue,
+    removeByIndex, modifyChecked
 } from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOfNull, TOption, IDropdownGroupOption} from './types';
+import {IDropdownOption, TOfNull, TOption, IDropdownGroupOption, TNullOfNullOrArray} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 import HotKey from './HotKey';
 
@@ -23,12 +28,13 @@ interface IProps<T> {
     className?: string;
     style?: CSS.Properties
 
-    onChange?: (value: TOfNull<T>) => void;
+    onChange?: (value: TNullOfNullOrArray<T>) => void;
     onClick?: (value: TOfNull<T>) => void;
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
-    value?: TOfNull<T>;
+    isMulti?: boolean
+    value?: TNullOfNullOrArray<T>;
     // options?: TOption<TOfNull<T>>[];
     options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
@@ -64,6 +70,7 @@ const Dropdown = <T extends unknown>({
     isSearchEnable = false,
     isCheckedEnable = true,
     isAvatarEnable = false,
+    isMulti = false,
     isDark = false,
 }: IProps<T>) => {
     const [keyword, setKeyword] = useState<string>('');
@@ -102,8 +109,8 @@ const Dropdown = <T extends unknown>({
     
     
     useEffect(() => {
-        if(value){
-            // 預設Focus為選中項目
+        // 預設Focus為選中項目
+        if(value && !isMulti && !isMultiValue(value)){
             setFocusValue(value);
         }
     }, [value]);
@@ -186,11 +193,32 @@ const Dropdown = <T extends unknown>({
      */
     const handleOnClick = useCallback((newValue: TOfNull<T>) => {
         if (onChange && value !== newValue) {
-            onChange(newValue);
+
+            if(isMulti){
+                if(isMultiValue(value)){
+                    const formatValues = modifyChecked(value, newValue);
+                    // 異動才觸發 onChange
+                    if(JSON.stringify(formatValues) !== JSON.stringify(value)){
+                        onChange(formatValues);
+                    }
+                }
+                return;
+
+            }else{
+                onChange(newValue);
+            }
+
+
         }
+
+
         if(onClick) {
             onClick(newValue);
         }
+
+
+
+
 
     }, [onChange, onClick, value]);
 
@@ -204,7 +232,12 @@ const Dropdown = <T extends unknown>({
      */
     const renderOptionsButton = (row: IDropdownOption<TOfNull<T>>) => {
 
-        const isActive = value === row.value;
+        let isActive = false;
+        if(isMultiValue(value)){
+            isActive = value?.includes(row.value) ?? false;
+        }else {
+            isActive = value === row.value;
+        }
         const isFocus = focusValue === row.value;
 
         return <li
