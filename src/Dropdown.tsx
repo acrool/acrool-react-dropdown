@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect, useCallback, startTransition} from '
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
-import {isEmpty, getOptionStyle} from './utils';
+import {isEmpty, getOptionStyle, isGroup} from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
@@ -21,8 +21,8 @@ interface IProps<T> {
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
     value?: TOfNull<T>;
-    options?: TOption<TOfNull<T>>[];
-    // options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
+    // options?: TOption<TOfNull<T>>[];
+    options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
     isDark?: boolean,
 }
@@ -304,18 +304,18 @@ const Dropdown = <T extends unknown>({
     };
 
     /**
-     * 產生選單
+     * 產生選單列表
      */
     const renderOptions = useCallback((keyword: string) => {
-        const formatOption = options
-            ?.filter(row => {
-                if(isGroupOptions(row)){
+        let formatOption: JSX.Element[] = [];
+
+        // 群組模式
+        if(isGroup(options)){
+            formatOption = options
+                ?.filter(row => {
                     return filterOptions(row.children.map(child => child), keyword).length > 0;
-                }
-                return filterOptions([row], keyword).length > 0;
-            })
-            .map((row) => {
-                if(isGroupOptions(row)){
+                })
+                .map((row) => {
                     return <li key={`group_${row.groupName}`} role="group">
                         <strong className={elClassNames.listGroupName}>{row.groupName}</strong>
                         <ul className={elClassNames.listGroupChildren} role="none">
@@ -325,24 +325,30 @@ const Dropdown = <T extends unknown>({
                                     )}
                         </ul>
                     </li>;
-                }
-
-                return renderOptionsButton(row);
-            });
-
-
-        if(formatOption && formatOption.length > 0){
-            return formatOption;
+                });
+        }else{
+            formatOption = options
+                ?.filter(row => {
+                    return filterOptions([row], keyword).length > 0;
+                })
+                .map((row) => {
+                    return renderOptionsButton(row);
+                });
         }
 
-        return (<div
-            key="no-data"
-            className={elClassNames.listItem}
-            onClick={() => handleOnClick(null)}
-        >
-            <div className={elClassNames.listItemText}>No data</div>
-        </div>);
+        if(formatOption.length === 0){
+            // 無資料回傳
+            return (<div
+                key="no-data"
+                className={elClassNames.listItem}
+                onClick={() => handleOnClick(null)}
+            >
+                <div className={elClassNames.listItemText}>No data</div>
+            </div>);
 
+        }
+
+        return formatOption;
 
     }, [options, value, focusValue]);
 

@@ -8,6 +8,14 @@ export const isGroupOptions = <T>(options: TOption<T>): options is IDropdownGrou
     return (options as IDropdownGroupOption<T>).groupName !== undefined;
 };
 
+/**
+ * 檢查傳入類型
+ * @param options
+ */
+export const isGroup = <T>(options: TOption<T>[]): options is IDropdownGroupOption<T>[] => {
+    return (options as IDropdownGroupOption<T>[])[0].groupName !== undefined;
+};
+
 
 /**
  * 過濾項目
