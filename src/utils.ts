@@ -13,7 +13,11 @@ export const isGroupOptions = <T>(options: TOption<T>): options is IDropdownGrou
  * @param options
  */
 export const isGroup = <T>(options: TOption<T>[]): options is IDropdownGroupOption<T>[] => {
-    return (options as IDropdownGroupOption<T>[])[0].groupName !== undefined;
+    const groupOption = options as IDropdownGroupOption<T>[];
+    if(groupOption?.length > 0){
+        return 'groupName' in groupOption[0];
+    }
+    return false;
 };
 
 
