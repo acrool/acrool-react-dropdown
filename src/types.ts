@@ -10,10 +10,24 @@ export interface IDropdownOption<T>  {
 }
 
 
+// export interface IDropdownGroupOption<T>  {
+//     groupName: string,
+//     children: IDropdownOption<T>[],
+// }
 export interface IDropdownGroupOption<T>  {
     groupName: string,
     children: IDropdownOption<T>[],
 }
+// export interface IDropdownGroupOption<T> {
+//     groupName: string,
+//     children: Array<{
+//         text: string,
+//         value: T,
+//         avatarUrl?: string,
+//         color?: string
+//     }>
+// }
 
 export type TOption<T> = IDropdownOption<T>|  IDropdownGroupOption<T>
+// export type TOption<T> = IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[]
 

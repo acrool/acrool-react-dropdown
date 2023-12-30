@@ -85,7 +85,7 @@ interface IGetIndexReturn {itemIndex: number, groupIndex?: number}
  * @param options
  * @param value
  */
-export function getIndex<T>(options: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[], value: T): IGetIndexReturn{
+export function getIndex<T>(options: TOption<T>[], value: T): IGetIndexReturn{
     let itemIndex: number = null;
     if(isGroup(options)){
         const groupIndex = options.findIndex((row, gIndex) => {
@@ -106,7 +106,7 @@ export function getIndex<T>(options: IDropdownOption<TOfNull<T>>[] | IDropdownGr
         };
     }
 
-    itemIndex = options.findIndex((row, gIndex) => row.value === value);
+    itemIndex = (options as IDropdownOption<T>[]).findIndex(row => row === value);
 
     return {
         itemIndex

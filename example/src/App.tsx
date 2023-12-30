@@ -41,7 +41,6 @@ function App() {
             };
         });
 
-    console.log('options3', options3);
     return (
         <div className="App">
             <div>

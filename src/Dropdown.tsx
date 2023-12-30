@@ -29,8 +29,8 @@ interface IProps<T> {
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
     value?: TOfNull<T>;
-    // options?: TOption<TOfNull<T>>[];
-    options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
+    options?: TOption<TOfNull<T>>[];
+    // options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
     isDark?: boolean,
 }
@@ -169,9 +169,9 @@ const Dropdown = <T extends unknown>({
                     }
 
                     if(direction === 'up'){
-                        return getPrevIndexValue(options, itemIndex);
+                        return getPrevIndexValue((options as IDropdownOption<T>[]), itemIndex);
                     } else if(direction === 'down'){
-                        return getNextIndexValue(options, itemIndex);
+                        return getNextIndexValue(options as IDropdownOption<T>[], itemIndex);
                     }
                     return curr;
                 });
@@ -248,9 +248,9 @@ const Dropdown = <T extends unknown>({
                     </li>;
                 });
         }else{
-            formatOption = options
+            formatOption = (options as IDropdownOption<T>[])
                 ?.filter(row => {
-                    return filterOptions([row], keyword).length > 0;
+                    return filterOptions([row ], keyword).length > 0;
                 })
                 .map((row) => {
                     return renderOptionsButton(row);
