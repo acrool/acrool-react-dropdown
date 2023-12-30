@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useCallback, startTransition} from 'react';
+import React, {useState, useRef, useEffect, useCallback, startTransition, ReactEventHandler, MouseEvent} from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
@@ -184,7 +184,10 @@ const Dropdown = <T extends unknown>({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((newValue: TOfNull<T>) => {
+    const handleOnClick = useCallback((newValue: TOfNull<T>, e?: MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
         if (onChange && value !== newValue) {
             onChange(newValue);
         }
@@ -211,7 +214,7 @@ const Dropdown = <T extends unknown>({
             role="option"
             className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
             key={`option-${row.value}`}
-            onClick={() => handleOnClick(row.value)}
+            onClick={(e) => handleOnClick(row.value, e)}
             aria-selected={isFocus ? true: undefined}
             onMouseOver={() => setFocusValue(row.value)}
         >
@@ -262,7 +265,7 @@ const Dropdown = <T extends unknown>({
             return (<div
                 key="no-data"
                 className={elClassNames.listItem}
-                onClick={() => handleOnClick(null)}
+                onClick={e => handleOnClick(null, e)}
             >
                 <div className={elClassNames.listItemText}>No data</div>
             </div>);
