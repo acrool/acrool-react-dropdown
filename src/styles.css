@@ -40,6 +40,7 @@
 
 .bear-react-dropdown__root {
     width: auto;
+    min-width: 150px;
     min-height: 30px;
     max-height: 450px;
     height: auto;
@@ -157,6 +158,10 @@
     padding: 5px 2.5px;
     flex: 1;
 }
+.bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-no-data {
+    text-align: center;
+}
+
 .bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-placeholder{
     color: #757575;
 }

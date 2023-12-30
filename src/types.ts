@@ -28,6 +28,6 @@ export interface IDropdownGroupOption<T>  {
 //     }>
 // }
 
-export type TOption<T> = IDropdownOption<T>|  IDropdownGroupOption<T>
+export type TOption<T> = IDropdownOption<T> | IDropdownGroupOption<T>
 // export type TOption<T> = IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[]
 

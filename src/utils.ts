@@ -5,20 +5,9 @@ import {IDropdownGroupOption, IDropdownOption, TOption, TOfNull} from './types';
  * @param options
  */
 export const isGroupOptions = <T>(options: TOption<T>): options is IDropdownGroupOption<T> => {
-    return (options as IDropdownGroupOption<T>).groupName !== undefined;
+    return 'groupName' in options;
 };
 
-/**
- * 檢查傳入類型
- * @param options
- */
-export const isGroup = <T>(options: TOption<T>[]): options is IDropdownGroupOption<T>[] => {
-    const groupOption = options as IDropdownGroupOption<T>[];
-    if(groupOption && groupOption.length > 0){
-        return 'groupName' in groupOption[0];
-    }
-    return false;
-};
 
 
 /**
@@ -89,10 +78,10 @@ interface IGetIndexReturn {itemIndex: number, groupIndex?: number}
  * @param options
  * @param value
  */
-export function getIndex<T>(options: TOption<T>[], value: T): IGetIndexReturn{
-    let itemIndex: number = null;
-    if(isGroup(options)){
-        const groupIndex = options.findIndex((row, gIndex) => {
+export function getIndex<T>(options?: Array<TOption<T>>, value?: T): IGetIndexReturn{
+    let itemIndex: number = -1;
+    const groupIndex = options?.findIndex((row, layerIndex) => {
+        if(isGroupOptions(row)){
             const optionIndex = row.children.findIndex((childRow, childIndex) => {
                 const isActive = childRow.value === value;
                 if(isActive){
@@ -102,17 +91,19 @@ export function getIndex<T>(options: TOption<T>[], value: T): IGetIndexReturn{
                 return false;
             });
             return optionIndex >= 0;
-        });
+        }
 
-        return {
-            groupIndex,
-            itemIndex
-        };
-    }
-
-    itemIndex = (options as IDropdownOption<T>[])?.findIndex(row => row.value === value);
+        // 一般層級
+        const isActive = row.value === value;
+        if(isActive){
+            itemIndex = layerIndex; // 順便紀錄項目位置
+            return true;
+        }
+        return false;
+    });
 
     return {
+        groupIndex,
         itemIndex
     };
 }

@@ -53,12 +53,12 @@ function App() {
             </div>
             <h1>Vite + React</h1>
             <div className="card" style={{display: 'flex', gap: '10px'}}>
-                <Dropdown value={value} onChange={setValue} options={null} isDark />
+                {/*<Dropdown value={value} onChange={setValue} options={null} isDark />*/}
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isDark/>*/}
-                <Dropdown value={value} onChange={setValue} options={undefined} isDark />
+                <Dropdown value={value} onChange={setValue} options={undefined} isDark/>
                 <Dropdown value={value} onChange={setValue} options={options3} isDark isAvatarEnable />
                 <Dropdown value={value} onChange={setValue} options={options3} isDark isSearchEnable />
-                <DropdownMulti value={multiValue} onChange={setMultiValue} options={options3} isDark/>
+                {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options3} isDark/>*/}
 
             </div>
             <p>

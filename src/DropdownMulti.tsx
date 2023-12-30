@@ -5,7 +5,7 @@ import cx from 'classnames';
 import {
     removeByIndex,
     getOptionStyle,
-    isGroup,
+    isGroupOptions,
     getIndex,
     scrollIntoViewByGroup,
     scrollIntoView, getPrevIndexValueByGroup, getNextIndexValueByGroup, getPrevIndexValue, getNextIndexValue
@@ -156,29 +156,34 @@ const DropdownMulti = <T extends unknown>({
                 setFocusValue(curr => {
                     const {groupIndex, itemIndex} = getIndex(options, curr);
 
-                    if(isGroup(options)){
-                        // const lastIndex = options[groupIndex].children.length - 1;
-                        if(direction === 'up'){
-                            return getPrevIndexValueByGroup(options, groupIndex, itemIndex);
-                        }else if(direction === 'down'){
-                            return getNextIndexValueByGroup(options, groupIndex, itemIndex);
+                    if(itemIndex >= 0){
+                        // 群組Options
+                        if(groupIndex >= 0 && isGroupOptions(options[groupIndex])){
+                            const groupOptions = options as Array<IDropdownGroupOption<T>>;
+
+                            if(direction === 'up'){
+                                return getPrevIndexValueByGroup(groupOptions, groupIndex, itemIndex);
+                            }else if(direction === 'down'){
+                                return getNextIndexValueByGroup(groupOptions, groupIndex, itemIndex);
+                            }
+                            return curr;
                         }
-                        return curr;
+
+                        // 一般Options
+                        const optionsDefault = options as IDropdownOption<T>[];
+                        if(direction === 'up'){
+                            return getPrevIndexValue(optionsDefault, itemIndex);
+                        } else if(direction === 'down'){
+                            return getNextIndexValue(optionsDefault, itemIndex);
+                        }
                     }
 
-                    if(direction === 'up'){
-                        return getPrevIndexValue((options as IDropdownOption<T>[]), itemIndex);
-                    } else if(direction === 'down'){
-                        return getNextIndexValue(options as IDropdownOption<T>[], itemIndex);
-                    }
                     return curr;
                 });
 
             });
         };
     }, [focusValue, options]);
-
-
 
 
     /**
@@ -236,48 +241,46 @@ const DropdownMulti = <T extends unknown>({
      * 產生選單列表
      */
     const renderOptions = useCallback((keyword: string) => {
-        let formatOption: JSX.Element[] = [];
 
-        // 群組模式
-        if(isGroup(options)){
-            formatOption = options
-                ?.filter(row => {
-                    return filterOptions(row.children.map(child => child), keyword).length > 0;
-                })
-                .map((row) => {
-                    return <li key={`group_${row.groupName}`} role="group">
-                        <strong className={elClassNames.listGroupName}>{row.groupName}</strong>
+        const formatOptions = options
+            ?.filter(option => {
+                if(isGroupOptions(option)){
+                    return filterOptions(option.children.map(child => child), keyword).length > 0;
+                }
+                return filterOptions([option], keyword).length > 0;
+            })
+            .map(option => {
+                if(isGroupOptions(option)) {
+                    return <li key={`group_${option.groupName}`} role="group">
+                        <strong className={elClassNames.listGroupName}>{option.groupName}</strong>
                         <ul className={elClassNames.listGroupChildren} role="none">
                             {
-                                filterOptions(row.children, keyword)
-                                    .map(row => renderOptionsButton(row)
-                                    )}
+                                filterOptions(option.children, keyword)
+                                    .map(row => renderOptionsButton(row))
+                            }
                         </ul>
                     </li>;
-                });
-        }else{
-            formatOption = (options as IDropdownOption<T>[])
-                ?.filter(row => {
-                    return filterOptions([row], keyword).length > 0;
-                })
-                .map((row) => {
-                    return renderOptionsButton(row);
-                });
-        }
+                }
 
-        if(!formatOption || formatOption?.length === 0){
+                return renderOptionsButton(option);
+
+            });
+
+
+
+        if(!formatOptions || formatOptions?.length === 0){
             // 無資料回傳
             return (<div
                 key="no-data"
                 className={elClassNames.listItem}
-                onClick={() => handleOnClick(null)}
+                onMouseDown={() => handleOnClick(null)}
             >
                 <div className={elClassNames.listItemText}>No data</div>
             </div>);
 
         }
 
-        return ;
+        return formatOptions;
 
     }, [options, value, focusValue]);
 
