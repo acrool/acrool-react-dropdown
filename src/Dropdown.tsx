@@ -24,7 +24,7 @@ interface IProps<T> {
     style?: CSS.Properties
 
     onChange?: (value: TOfNull<T>) => void;
-    onClick?: (value: TOfNull<T>) => void;
+    onClick?: (value: TOfNull<T>, e: MouseEvent<HTMLElement>) => void;
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
@@ -192,7 +192,7 @@ const Dropdown = <T extends unknown>({
             onChange(newValue);
         }
         if(onClick) {
-            onClick(newValue);
+            onClick(newValue, e);
         }
 
     }, [onChange, onClick, value]);
