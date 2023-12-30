@@ -14,7 +14,7 @@ export const isGroupOptions = <T>(options: TOption<T>): options is IDropdownGrou
  */
 export const isGroup = <T>(options: TOption<T>[]): options is IDropdownGroupOption<T>[] => {
     const groupOption = options as IDropdownGroupOption<T>[];
-    if(groupOption?.length > 0){
+    if(groupOption && groupOption.length > 0){
         return 'groupName' in groupOption[0];
     }
     return false;
