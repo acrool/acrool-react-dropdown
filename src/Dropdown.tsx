@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useCallback, startTransition, ReactEventHandler, MouseEvent} from 'react';
+import React, {useState, useRef, useEffect, useCallback, startTransition} from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'classnames';
@@ -24,7 +24,7 @@ interface IProps<T> {
     style?: CSS.Properties
 
     onChange?: (value: TOfNull<T>) => void;
-    onClick?: (value: TOfNull<T>, e: MouseEvent<HTMLElement>) => void;
+    onClick?: (value: TOfNull<T>) => void;
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
@@ -168,6 +168,7 @@ const Dropdown = <T extends unknown>({
                         return curr;
                     }
 
+
                     if(direction === 'up'){
                         return getPrevIndexValue((options as IDropdownOption<T>[]), itemIndex);
                     } else if(direction === 'down'){
@@ -184,15 +185,12 @@ const Dropdown = <T extends unknown>({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((newValue: TOfNull<T>, e?: MouseEvent<HTMLElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-
+    const handleOnClick = useCallback((newValue: TOfNull<T>) => {
         if (onChange && value !== newValue) {
             onChange(newValue);
         }
         if(onClick) {
-            onClick(newValue, e);
+            onClick(newValue);
         }
 
     }, [onChange, onClick, value]);
@@ -214,7 +212,7 @@ const Dropdown = <T extends unknown>({
             role="option"
             className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
             key={`option-${row.value}`}
-            onClick={(e) => handleOnClick(row.value, e)}
+            onMouseDown={() => handleOnClick(row.value)}
             aria-selected={isFocus ? true: undefined}
             onMouseOver={() => setFocusValue(row.value)}
         >
@@ -245,8 +243,8 @@ const Dropdown = <T extends unknown>({
                         <ul className={elClassNames.listGroupChildren} role="none">
                             {
                                 filterOptions(row.children, keyword)
-                                    .map(row => renderOptionsButton(row)
-                                    )}
+                                    .map(row => renderOptionsButton(row))
+                            }
                         </ul>
                     </li>;
                 });
@@ -265,7 +263,7 @@ const Dropdown = <T extends unknown>({
             return (<div
                 key="no-data"
                 className={elClassNames.listItem}
-                onClick={e => handleOnClick(null, e)}
+                onMouseDown={() => handleOnClick(null)}
             >
                 <div className={elClassNames.listItemText}>No data</div>
             </div>);
