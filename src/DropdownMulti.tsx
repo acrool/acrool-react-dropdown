@@ -265,7 +265,7 @@ const DropdownMulti = <T extends unknown>({
                 });
         }
 
-        if(formatOption.length === 0){
+        if(!formatOption || formatOption?.length === 0){
             // 無資料回傳
             return (<div
                 key="no-data"
@@ -277,7 +277,7 @@ const DropdownMulti = <T extends unknown>({
 
         }
 
-        return formatOption;
+        return ;
 
     }, [options, value, focusValue]);
 
