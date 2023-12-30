@@ -250,7 +250,7 @@ const Dropdown = <T extends unknown>({
         }else{
             formatOption = (options as IDropdownOption<T>[])
                 ?.filter(row => {
-                    return filterOptions([row ], keyword).length > 0;
+                    return filterOptions([row], keyword).length > 0;
                 })
                 .map((row) => {
                     return renderOptionsButton(row);

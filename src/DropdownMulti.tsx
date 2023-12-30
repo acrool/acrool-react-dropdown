@@ -13,7 +13,7 @@ import {
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOfNull, IDropdownGroupOption} from './types';
+import {IDropdownOption, TOfNull, IDropdownGroupOption, TOption} from './types';
 import {filterOptions} from './utils';
 import HotKey from './HotKey';
 
@@ -28,8 +28,9 @@ interface IProps<T> {
     isSearchEnable?: boolean,
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
-    value?: TOfNull<TOfNull<T>[]>; // Array<number,string> 或 null
-    options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
+    value?: TOfNull<T[]>; // Array<number,string> 或 null
+    options?: TOption<TOfNull<T>>[];
+    // options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
 
     isDark?: boolean,
@@ -166,9 +167,9 @@ const DropdownMulti = <T extends unknown>({
                     }
 
                     if(direction === 'up'){
-                        return getPrevIndexValue(options, itemIndex);
+                        return getPrevIndexValue((options as IDropdownOption<T>[]), itemIndex);
                     } else if(direction === 'down'){
-                        return getNextIndexValue(options, itemIndex);
+                        return getNextIndexValue(options as IDropdownOption<T>[], itemIndex);
                     }
                     return curr;
                 });
@@ -255,7 +256,7 @@ const DropdownMulti = <T extends unknown>({
                     </li>;
                 });
         }else{
-            formatOption = options
+            formatOption = (options as IDropdownOption<T>[])
                 ?.filter(row => {
                     return filterOptions([row], keyword).length > 0;
                 })
