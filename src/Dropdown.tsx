@@ -229,7 +229,7 @@ const Dropdown = <T extends unknown>({
      * 產生選單列表
      */
     const renderOptions = useCallback((keyword: string) => {
-        let formatOption: JSX.Element[] = [];
+        let formatOption: JSX.Element[];
 
         // 群組模式
         if(isGroup(options)){
@@ -258,7 +258,7 @@ const Dropdown = <T extends unknown>({
                 });
         }
 
-        if(formatOption.length === 0){
+        if(!formatOption || formatOption?.length === 0){
             // 無資料回傳
             return (<div
                 key="no-data"

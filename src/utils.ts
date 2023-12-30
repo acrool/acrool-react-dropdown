@@ -110,7 +110,7 @@ export function getIndex<T>(options: TOption<T>[], value: T): IGetIndexReturn{
         };
     }
 
-    itemIndex = (options as IDropdownOption<T>[]).findIndex(row => row.value === value);
+    itemIndex = (options as IDropdownOption<T>[])?.findIndex(row => row.value === value);
 
     return {
         itemIndex
