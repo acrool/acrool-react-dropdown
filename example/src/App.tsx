@@ -1,7 +1,7 @@
-import {useState} from 'react';
+import {useState, useMemo} from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
-import {Dropdown, DropdownMulti} from 'bear-react-dropdown';
+import {Dropdown, DropdownMulti, TOption, IDropdownOption} from 'bear-react-dropdown';
 import {groupBy} from 'bear-jsutils/array';
 
 import './App.css';
@@ -10,20 +10,19 @@ import {data} from './config/data';
 
 
 function App() {
-    const [value, setValue] = useState<string|null>('34');
+    const [value, setValue] = useState<string|null>('4');
     const [multiValue, setMultiValue] = useState<Array<string|null>|null>(null);
 
     const options1 = data.map(row => {
         return {text: row.name, value: String(row.id)};
     });
 
-    const options2 = [
-        {text: 'Select option item...', value: ''},
-        {text: 'Jack Wu', value: '1'},
-        {text: 'Imagine Chiu', value: '2'},
-        {text: 'Jason Dinwiddie', value: '3'},
-        {text: 'Gloria Lu', value: '4'},
-    ];
+    const options2 = data.map(row => {
+        return {
+            text: row.name,
+            value: row.id,
+        };
+    });
 
     const groupData = groupBy(data, row => row.role);
     const options3 = Object.keys(groupData)
@@ -41,6 +40,14 @@ function App() {
             };
         });
 
+
+    const placeholderOptions: TOption<any>[] = useMemo(() => {
+        const placeholderOption: IDropdownOption<string|null> = {text: 'placeholder...', value: null};
+        return [placeholderOption].concat(options3 as any);
+
+    }, [value, options3]);
+
+
     return (
         <div className="App">
             <div>
@@ -53,11 +60,12 @@ function App() {
             </div>
             <h1>Vite + React</h1>
             <div className="card" style={{display: 'flex', gap: '10px'}}>
-                {/*<Dropdown value={value} onChange={setValue} options={null} isDark />*/}
+                <Dropdown value={value} onChange={setValue} options={null} isDark />
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isDark/>*/}
                 <Dropdown value={value} onChange={setValue} options={undefined} isDark/>
                 <Dropdown value={value} onChange={setValue} options={options3} isDark isAvatarEnable />
-                <Dropdown value={value} onChange={setValue} options={options3} isDark isSearchEnable />
+                <Dropdown value={value} onChange={setValue} options={options2} isDark isAvatarEnable />
+                <Dropdown value={value} onChange={setValue} options={placeholderOptions} isDark isSearchEnable />
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options3} isDark/>*/}
 
             </div>

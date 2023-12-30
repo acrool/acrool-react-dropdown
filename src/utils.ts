@@ -4,8 +4,8 @@ import {IDropdownGroupOption, IDropdownOption, TOption, TOfNull} from './types';
  * 檢查傳入類型
  * @param options
  */
-export const isGroupOptions = <T>(options: TOption<T>): options is IDropdownGroupOption<T> => {
-    return 'groupName' in options;
+export const isGroupOptions = <T>(options?: TOption<T>): options is IDropdownGroupOption<T> => {
+    return options && 'groupName' in options;
 };
 
 
@@ -115,22 +115,33 @@ export function getIndex<T>(options?: Array<TOption<T>>, value?: T): IGetIndexRe
  * @param groupIndex
  * @param itemIndex
  */
-export function getNextIndexValueByGroup<T>(options: IDropdownGroupOption<TOfNull<T>>[], groupIndex: number, itemIndex: number): T{
-    if(itemIndex === null && options.length > 0 && options[0].children.length > 0){
-        return options[0].children[0]?.value;
+export function getNextIndexValueByGroup<T>(options: Array<TOption<T>>, groupIndex: number, itemIndex: number): T{
+    const typeCurrOpt = options[groupIndex];
+    const typeNextOpt = options[groupIndex + 1];
+
+    const typeLastIndex = options.length - 1;
+
+    // group
+    if(isGroupOptions(typeCurrOpt)){
+        const currLastIndex = typeCurrOpt?.children.length - 1;
+
+        // 如果是最後一個群組項目Index，那則往下一個 group 的第一個 index 尋找
+        if(groupIndex < typeLastIndex && itemIndex === currLastIndex) {
+            const nextOptions = options[groupIndex + 1];
+            if(isGroupOptions(nextOptions)){
+                return nextOptions.children[0]?.value;
+            }
+            return nextOptions[0]?.value;
+        }
+        return (typeCurrOpt.children[itemIndex + 1] ?? typeCurrOpt.children[itemIndex])?.value;
     }
 
-    const lastItemIndex = options[groupIndex].children.length - 1;
-    const lastGroupIndex = options.length - 1;
 
-    // 如果是最後一個群組項目Index，那則往下一個 group 的第一個 index 尋找
-    if(groupIndex < lastGroupIndex && itemIndex === lastItemIndex){
-        const nextGroupOption = options[groupIndex + 1];
-        return nextGroupOption.children[0]?.value;
+    if(isGroupOptions(typeNextOpt)){
+        return typeNextOpt.children[0]?.value;
     }
 
-    const childOption = options[groupIndex]?.children[itemIndex+1];
-    return childOption?.value ?? options[groupIndex].children[itemIndex].value;
+    return (typeNextOpt ?? typeCurrOpt)?.value;
 }
 
 
@@ -140,61 +151,30 @@ export function getNextIndexValueByGroup<T>(options: IDropdownGroupOption<TOfNul
  * @param groupIndex
  * @param itemIndex
  */
-export function getPrevIndexValueByGroup<T>(options: IDropdownGroupOption<TOfNull<T>>[], groupIndex: number, itemIndex: number): T{
-    if(itemIndex === null && options.length > 0 && options[0].children.length > 0){
-        return options[0].children[0]?.value;
+export function getPrevIndexValueByGroup<T>(options: TOption<T>[], groupIndex: number, itemIndex: number): T{
+    const typeCurrOpt = options[groupIndex];
+    const typePrevOpt = options[groupIndex - 1];
+
+    // Group
+    if(isGroupOptions(typeCurrOpt)) {
+        if(groupIndex > 0 && itemIndex === 0){
+            const prevOption = options[groupIndex - 1];
+            if(isGroupOptions(prevOption)) {
+                const lastItemIndex = prevOption.children.length - 1;
+                return prevOption.children[lastItemIndex]?.value;
+            }
+            return prevOption?.value;
+        }
+
+        return (typeCurrOpt.children[itemIndex - 1] ?? typeCurrOpt.children[itemIndex])?.value;
     }
 
-    // 如果是最前面第一個群組項目Index，那則往上一個 group 的第一個 index 尋找
-    if(groupIndex > 0 && itemIndex === 0){
-        const prevGroupOption = options[groupIndex - 1];
-        const lastItemIndex = prevGroupOption.children.length - 1;
-        return prevGroupOption.children[lastItemIndex]?.value;
+    if(isGroupOptions(typePrevOpt)){
+        const prevGroupOptionLastIndex = typePrevOpt.children.length - 1;
+        return typePrevOpt.children[prevGroupOptionLastIndex]?.value;
     }
 
-    const childOption = options[groupIndex]?.children[itemIndex-1];
-    return childOption?.value ?? options[groupIndex].children[itemIndex].value;
-}
-
-/**
- * 取得 上一個 Index 位置by group
- * @param options
- * @param itemIndex
- */
-export function getPrevIndexValue<T>(options: IDropdownOption<TOfNull<T>>[], itemIndex: number): T{
-    // 如果是最前面第一個群組項目Index，那則往上一個 group 的第一個 index 尋找
-    console.log('itemIndex', itemIndex);
-    if(itemIndex > 0){
-        return options[itemIndex - 1]?.value;
-    }
-    return options[itemIndex]?.value;
-}
-
-/**
- * 取得 下一個 Index 位置by group
- * @param options
- * @param itemIndex
- */
-export function getNextIndexValue<T>(options: IDropdownOption<TOfNull<T>>[], itemIndex: number): T{
-    // 如果是最前面第一個群組項目Index，那則往上一個 group 的第一個 index 尋找
-    const lastItemIndex = options.length - 1;
-    if(itemIndex < lastItemIndex){
-        return options[itemIndex + 1]?.value;
-    }
-    return options[itemIndex]?.value;
-}
-
-
-/**
- * 取得 Index 位置
- * @param ul
- * @param itemIndex
- */
-export function scrollIntoView<T>(ul: HTMLUListElement, itemIndex: number): void{
-    const selectedElement = ul.childNodes[itemIndex] as HTMLElement;
-    if (selectedElement) {
-        selectedElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
-    }
+    return (typePrevOpt ?? typeCurrOpt)?.value;
 }
 
 
@@ -207,11 +187,17 @@ export function scrollIntoView<T>(ul: HTMLUListElement, itemIndex: number): void
 export function scrollIntoViewByGroup<T>(ul: HTMLUListElement, groupIndex: number, itemIndex: number): void{
     const selectedElement = ul.childNodes[groupIndex] as HTMLElement;
     if (selectedElement) {
-        const selectedChildElement = selectedElement.getElementsByTagName('ul')[0]
-            .childNodes[itemIndex] as HTMLElement;
-        if(selectedChildElement){
-            selectedChildElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
+        if(selectedElement.role === 'group'){
+            const selectedChildElement = selectedElement.getElementsByTagName('ul')[0]
+                .childNodes[itemIndex] as HTMLElement;
+
+            if(selectedChildElement){
+                selectedChildElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
+            }
+        }else{
+            selectedElement.scrollIntoView({behavior: 'auto', block: 'nearest'});
         }
+
     }
 }
 

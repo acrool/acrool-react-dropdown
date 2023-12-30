@@ -3,34 +3,31 @@ import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'clsx';
 import {
-    removeByIndex,
     getOptionStyle,
-    isGroupOptions,
     getIndex,
     scrollIntoViewByGroup,
-    scrollIntoView, getPrevIndexValueByGroup, getNextIndexValueByGroup, getPrevIndexValue, getNextIndexValue
+    getNextIndexValueByGroup, getPrevIndexValueByGroup, removeByIndex
 } from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOfNull, IDropdownGroupOption, TOption} from './types';
-import {filterOptions} from './utils';
+import {IDropdownOption, TOfNull, TOption} from './types';
+import {filterOptions, isGroupOptions} from './utils';
 import HotKey from './HotKey';
 
 
 
 
 interface IProps<T> {
-    className?: string;
-    style?: CSS.Properties;
+    className?: string
+    style?: CSS.Properties
 
-    onChange?: (value: TOfNull<TOfNull<T>[]>) => void;
-    isSearchEnable?: boolean,
-    isCheckedEnable?: boolean,
-    isAvatarEnable?: boolean,
-    value?: TOfNull<T[]>; // Array<number,string> 或 null
-    options?: TOption<TOfNull<T>>[];
-    // options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
+    onChange?: (value: TOfNull<TOfNull<T>[]>) => void
+    isSearchEnable?: boolean
+    isCheckedEnable?: boolean
+    isAvatarEnable?: boolean
+    value?: TOfNull<T[]> // Array<number,string> 或 null
+    options?: Array<TOption<TOfNull<T>>>
     searchTextPlaceholder?: string
 
     isDark?: boolean,
@@ -106,7 +103,6 @@ const DropdownMulti = <T extends unknown>({
     //     }
     // }, [options]);
 
-
     useEffect(() => {
         // 移動到Focus位置
         startTransition(() => {
@@ -114,8 +110,6 @@ const DropdownMulti = <T extends unknown>({
                 const {groupIndex, itemIndex} = getIndex(options, focusValue);
                 if(groupIndex >= 0){
                     scrollIntoViewByGroup(listRef.current, groupIndex, itemIndex);
-                }else{
-                    scrollIntoView(listRef.current, itemIndex);
                 }
 
             }
@@ -158,23 +152,10 @@ const DropdownMulti = <T extends unknown>({
 
                     if(itemIndex >= 0){
                         // 群組Options
-                        if(groupIndex >= 0 && isGroupOptions(options[groupIndex])){
-                            const groupOptions = options as Array<IDropdownGroupOption<T>>;
-
-                            if(direction === 'up'){
-                                return getPrevIndexValueByGroup(groupOptions, groupIndex, itemIndex);
-                            }else if(direction === 'down'){
-                                return getNextIndexValueByGroup(groupOptions, groupIndex, itemIndex);
-                            }
-                            return curr;
-                        }
-
-                        // 一般Options
-                        const optionsDefault = options as IDropdownOption<T>[];
                         if(direction === 'up'){
-                            return getPrevIndexValue(optionsDefault, itemIndex);
-                        } else if(direction === 'down'){
-                            return getNextIndexValue(optionsDefault, itemIndex);
+                            return getPrevIndexValueByGroup(options, groupIndex, itemIndex);
+                        }else if(direction === 'down'){
+                            return getNextIndexValueByGroup(options, groupIndex, itemIndex);
                         }
                     }
 
@@ -224,7 +205,7 @@ const DropdownMulti = <T extends unknown>({
             role="option"
             className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
             key={`option-${row.value}`}
-            onClick={() => handleOnClick(row.value)}
+            onMouseDown={() => handleOnClick(row.value)}
             aria-selected={isFocus ? true: undefined}
             onMouseOver={() => setFocusValue(row.value)}
         >
@@ -275,7 +256,7 @@ const DropdownMulti = <T extends unknown>({
                 className={elClassNames.listItem}
                 onMouseDown={() => handleOnClick(null)}
             >
-                <div className={elClassNames.listItemText}>No data</div>
+                <div className={cx(elClassNames.listItemText, elClassNames.listItemTextNoData)}>No data</div>
             </div>);
 
         }

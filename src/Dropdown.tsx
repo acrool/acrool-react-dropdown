@@ -6,13 +6,12 @@ import {
     getOptionStyle,
     getIndex,
     scrollIntoViewByGroup,
-    scrollIntoView,
-    getNextIndexValueByGroup, getPrevIndexValueByGroup, getPrevIndexValue, getNextIndexValue
+    getNextIndexValueByGroup, getPrevIndexValueByGroup
 } from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOfNull, TOption, IDropdownGroupOption} from './types';
+import {IDropdownOption, TOfNull, TOption} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 import HotKey from './HotKey';
 
@@ -27,7 +26,7 @@ interface IProps<T> {
     isCheckedEnable?: boolean,
     isAvatarEnable?: boolean,
     value?: TOfNull<T>;
-    options?: TOption<TOfNull<T>>[];
+    options?: Array<TOption<TOfNull<T>>>;
     // options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
     isDark?: boolean,
@@ -114,8 +113,6 @@ const Dropdown = <T extends unknown>({
                 const {groupIndex, itemIndex} = getIndex(options, focusValue);
                 if(groupIndex >= 0){
                     scrollIntoViewByGroup(listRef.current, groupIndex, itemIndex);
-                }else{
-                    scrollIntoView(listRef.current, itemIndex);
                 }
 
             }
@@ -158,23 +155,10 @@ const Dropdown = <T extends unknown>({
 
                     if(itemIndex >= 0){
                         // 群組Options
-                        if(groupIndex >= 0 && isGroupOptions(options[groupIndex])){
-                            const groupOptions = options as Array<IDropdownGroupOption<T>>;
-
-                            if(direction === 'up'){
-                                return getPrevIndexValueByGroup(groupOptions, groupIndex, itemIndex);
-                            }else if(direction === 'down'){
-                                return getNextIndexValueByGroup(groupOptions, groupIndex, itemIndex);
-                            }
-                            return curr;
-                        }
-
-                        // 一般Options
-                        const optionsDefault = options as IDropdownOption<T>[];
                         if(direction === 'up'){
-                            return getPrevIndexValue(optionsDefault, itemIndex);
-                        } else if(direction === 'down'){
-                            return getNextIndexValue(optionsDefault, itemIndex);
+                            return getPrevIndexValueByGroup(options, groupIndex, itemIndex);
+                        }else if(direction === 'down'){
+                            return getNextIndexValueByGroup(options, groupIndex, itemIndex);
                         }
                     }
 
