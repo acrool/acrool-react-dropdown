@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect, useCallback, startTransition} from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
-import cx from 'classnames';
+import cx from 'clsx';
 import {
     removeByIndex,
     getOptionStyle,
