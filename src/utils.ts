@@ -106,7 +106,7 @@ export function getIndex<T>(options: TOption<T>[], value: T): IGetIndexReturn{
         };
     }
 
-    itemIndex = (options as IDropdownOption<T>[]).findIndex(row => row === value);
+    itemIndex = (options as IDropdownOption<T>[]).findIndex(row => row.value === value);
 
     return {
         itemIndex
@@ -168,6 +168,7 @@ export function getPrevIndexValueByGroup<T>(options: IDropdownGroupOption<TOfNul
  */
 export function getPrevIndexValue<T>(options: IDropdownOption<TOfNull<T>>[], itemIndex: number): T{
     // 如果是最前面第一個群組項目Index，那則往上一個 group 的第一個 index 尋找
+    console.log('itemIndex', itemIndex);
     if(itemIndex > 0){
         return options[itemIndex - 1]?.value;
     }
