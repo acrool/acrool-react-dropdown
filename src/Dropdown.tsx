@@ -166,7 +166,10 @@ const Dropdown = <T extends unknown>({
     const handleTyping = useCallback((e: KeyboardEvent) => {
         if(matchAZ09(e.key) &&
             !e.metaKey &&
-            searchFieldRef && searchFieldRef.current){
+            e.key !== 'tab' &&
+            searchFieldRef && searchFieldRef.current
+        ){
+            e.preventDefault();
             setKeyword(e.key);
             searchFieldRef.current.focus();
         }
