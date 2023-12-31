@@ -6,7 +6,7 @@ import {
     getOptionStyle,
     getIndex,
     scrollIntoViewByGroup,
-    getNextIndexValueByGroup, getPrevIndexValueByGroup, removeByIndex
+    getNextIndexValue, getPrevIndexValue, getFirstIndexValue, removeByIndex
 } from './utils';
 
 import './styles.css';
@@ -153,13 +153,13 @@ const DropdownMulti = <T extends unknown>({
                     if(itemIndex >= 0){
                         // 群組Options
                         if(direction === 'up'){
-                            return getPrevIndexValueByGroup(options, groupIndex, itemIndex);
+                            return getPrevIndexValue(options, groupIndex, itemIndex);
                         }else if(direction === 'down'){
-                            return getNextIndexValueByGroup(options, groupIndex, itemIndex);
+                            return getNextIndexValue(options, groupIndex, itemIndex);
                         }
                     }
 
-                    return curr;
+                    return getFirstIndexValue(options);
                 });
 
             });

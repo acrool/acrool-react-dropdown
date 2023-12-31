@@ -3,7 +3,7 @@ export type TOfNull<T> = T|null;
 
 
 export interface IDropdownOption<T>  {
-    value: T;
+    value: TOfNull<T>;
     text: string;
     avatarUrl?: string,
     color?: string,

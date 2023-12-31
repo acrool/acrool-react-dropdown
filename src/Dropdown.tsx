@@ -6,7 +6,7 @@ import {
     getOptionStyle,
     getIndex,
     scrollIntoViewByGroup,
-    getNextIndexValueByGroup, getPrevIndexValueByGroup
+    getNextIndexValue, getPrevIndexValue, getFirstIndexValue
 } from './utils';
 
 import './styles.css';
@@ -66,7 +66,7 @@ const Dropdown = <T extends unknown>({
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
-    const [focusValue, setFocusValue] = useState<TOfNull<T>>(null);
+    const [focusValue, setFocusValue] = useState<TOfNull<T>>();
     
     // console.log('focusValue', focusValue);
 
@@ -99,7 +99,7 @@ const Dropdown = <T extends unknown>({
     
     
     useEffect(() => {
-        if(value){
+        if(typeof value !== 'undefined'){
             // 預設Focus為選中項目
             setFocusValue(value);
         }
@@ -159,13 +159,13 @@ const Dropdown = <T extends unknown>({
                     if(itemIndex >= 0){
                         // 群組Options
                         if(direction === 'up'){
-                            return getPrevIndexValueByGroup(options, groupIndex, itemIndex);
+                            return getPrevIndexValue(options, groupIndex, itemIndex);
                         }else if(direction === 'down'){
-                            return getNextIndexValueByGroup(options, groupIndex, itemIndex);
+                            return getNextIndexValue(options, groupIndex, itemIndex);
                         }
                     }
 
-                    return curr;
+                    return getFirstIndexValue(options);
                 });
 
             });

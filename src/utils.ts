@@ -115,7 +115,7 @@ export function getIndex<T>(options?: Array<TOption<T>>, value?: T): IGetIndexRe
  * @param groupIndex
  * @param itemIndex
  */
-export function getNextIndexValueByGroup<T>(options: Array<TOption<T>>, groupIndex: number, itemIndex: number): T{
+export function getNextIndexValue<T>(options: Array<TOption<T>>, groupIndex: number, itemIndex: number): T{
     const typeCurrOpt = options[groupIndex];
     const typeNextOpt = options[groupIndex + 1];
 
@@ -146,12 +146,12 @@ export function getNextIndexValueByGroup<T>(options: Array<TOption<T>>, groupInd
 
 
 /**
- * 取得 上一個 Index 位置 by group
+ * 取得 上一個 Index 位置
  * @param options
  * @param groupIndex
  * @param itemIndex
  */
-export function getPrevIndexValueByGroup<T>(options: TOption<T>[], groupIndex: number, itemIndex: number): T{
+export function getPrevIndexValue<T>(options: TOption<T>[], groupIndex: number, itemIndex: number): T{
     const typeCurrOpt = options[groupIndex];
     const typePrevOpt = options[groupIndex - 1];
 
@@ -175,6 +175,25 @@ export function getPrevIndexValueByGroup<T>(options: TOption<T>[], groupIndex: n
     }
 
     return (typePrevOpt ?? typeCurrOpt)?.value;
+}
+
+/**
+ * 取得 第一個 Index 位置
+ * @param options
+ * @param groupIndex
+ * @param itemIndex
+ */
+export function getFirstIndexValue<T>(options: TOption<T>[]): T{
+    const typeCurrOpt = options[0];
+
+    // Group
+    if(isGroupOptions(typeCurrOpt)) {
+        if(typeCurrOpt.children.length > 0){
+            return typeCurrOpt.children[0].value;
+        }
+        return null;
+    }
+    return typeCurrOpt?.value ?? null;
 }
 
 
