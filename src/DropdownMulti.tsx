@@ -5,7 +5,7 @@ import React, {
     useCallback,
     startTransition,
     useMemo,
-    ForwardedRef
+    ForwardedRef, ChangeEvent
 } from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
@@ -136,10 +136,8 @@ const DropdownMulti = <T extends unknown>({
     /**
      * 設定搜尋關鍵字
      */
-    const handleSetKeyword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        startTransition(() => {
-            setKeyword(e.target.value);
-        });
+    const handleSetKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setKeyword(e.target.value);
     }, []);
 
 
@@ -152,18 +150,24 @@ const DropdownMulti = <T extends unknown>({
         });
     }, [focusValue]);
 
+
     /**
-     * 設定選中資料
+     * 清空搜尋關鍵字
+     */
+    const handleClearValue = useCallback(() => {
+        setKeyword('');
+    }, []);
+
+    /**
+     * 設定搜尋關鍵字
      */
     const handleTyping = useCallback((e: KeyboardEvent) => {
-        startTransition(() => {
-            if(matchAZ09(e.key) &&
-                !e.metaKey &&
-                searchFieldRef && searchFieldRef.current){
-                setKeyword(e.key);
-                searchFieldRef.current.focus();
-            }
-        });
+        if(matchAZ09(e.key) &&
+            !e.metaKey &&
+            searchFieldRef && searchFieldRef.current){
+            setKeyword(e.key);
+            searchFieldRef.current.focus();
+        }
     }, [focusValue]);
 
 
@@ -310,9 +314,10 @@ const DropdownMulti = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
-            {isSearchEnable &&
+            {isSearchEnable && <>
                 <HotKey hotKey="*" fn={handleTyping} isPreventDefault={false}/>
-            }
+                <HotKey hotKey="esc" fn={handleClearValue} enableOnTags={['INPUT']}/>
+            </>}
             <HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>
             <HotKey hotKey="space" fn={handleSetValue}/>
             <HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>

@@ -18,7 +18,7 @@ const HotKey = ({
     isPreventDefault = true,
 }: IHotKey) => {
     useHotkeys<HTMLElement>(hotKey, (e) => {
-        // e.stopPropagation();
+        e.stopPropagation();
 
         if(isPreventDefault){
             e.preventDefault();

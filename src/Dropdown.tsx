@@ -139,9 +139,7 @@ const Dropdown = <T extends unknown>({
      * 設定搜尋關鍵字
      */
     const handleSetKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        startTransition(() => {
-            setKeyword(e.target.value);
-        });
+        setKeyword(e.target.value);
     }, []);
 
 
@@ -154,18 +152,24 @@ const Dropdown = <T extends unknown>({
         });
     }, [focusValue]);
 
+
     /**
-     * 設定選中資料
+     * 清空搜尋關鍵字
+     */
+    const handleClearValue = useCallback(() => {
+        setKeyword('');
+    }, []);
+
+    /**
+     * 設定搜尋關鍵字
      */
     const handleTyping = useCallback((e: KeyboardEvent) => {
-        startTransition(() => {
-            if(matchAZ09(e.key) &&
-                !e.metaKey &&
-                searchFieldRef && searchFieldRef.current){
-                setKeyword(e.key);
-                searchFieldRef.current.focus();
-            }
-        });
+        if(matchAZ09(e.key) &&
+            !e.metaKey &&
+            searchFieldRef && searchFieldRef.current){
+            setKeyword(e.key);
+            searchFieldRef.current.focus();
+        }
     }, [focusValue]);
 
 
@@ -304,9 +308,10 @@ const Dropdown = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
-            {isSearchEnable &&
+            {isSearchEnable && <>
                 <HotKey hotKey="*" fn={handleTyping} isPreventDefault={false}/>
-            }
+                <HotKey hotKey="esc" fn={handleClearValue} enableOnTags={['INPUT']}/>
+            </>}
             <HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>
             <HotKey hotKey="space" fn={handleSetValue}/>
             <HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>
