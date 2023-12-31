@@ -315,7 +315,7 @@ const DropdownMulti = <T extends unknown>({
             </ul>
 
             {isSearchEnable && <>
-                <HotKey hotKey="*" fn={handleTyping} isPreventDefault={false}/>
+                <HotKey hotKey="*" fn={handleTyping}/>
                 <HotKey hotKey="esc" fn={handleClearValue} enableOnTags={['INPUT']}/>
             </>}
             <HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>
