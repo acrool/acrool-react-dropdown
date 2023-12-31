@@ -307,7 +307,7 @@ const Dropdown = <T extends unknown>({
             {isSearchEnable &&
                 <HotKey hotKey="*" fn={handleTyping} isPreventDefault={false}/>
             }
-            <HotKey hotKey="enter" fn={handleSetValue}/>
+            <HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>
             <HotKey hotKey="space" fn={handleSetValue}/>
             <HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>
             <HotKey hotKey="down" fn={handleMove('down')} enableOnTags={['INPUT']}/>
