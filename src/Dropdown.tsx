@@ -282,6 +282,7 @@ const Dropdown = <T extends unknown>({
             </ul>
 
             <HotKey hotKey="enter" fn={handleSetValue}/>
+            <HotKey hotKey="space" fn={handleSetValue}/>
             <HotKey hotKey="up" fn={handleMove('up')}/>
             <HotKey hotKey="down" fn={handleMove('down')}/>
         </div>
