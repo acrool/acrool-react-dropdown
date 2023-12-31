@@ -158,6 +158,9 @@ const Dropdown = <T extends unknown>({
      */
     const handleClearValue = useCallback(() => {
         setKeyword('');
+        if(searchFieldRef && searchFieldRef.current){
+            searchFieldRef.current.blur();
+        }
     }, []);
 
     /**
@@ -312,7 +315,7 @@ const Dropdown = <T extends unknown>({
 
             {isSearchEnable && <>
                 <HotKey hotKey="*" fn={handleTyping} isPreventDefault={false}/>
-                <HotKey hotKey="esc" fn={handleClearValue} isPreventDefault={false} enableOnTags={['INPUT']}/>
+                <HotKey hotKey="esc" fn={handleClearValue} enableOnTags={['INPUT']}/>
             </>}
             <HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>
             <HotKey hotKey="space" fn={handleSetValue}/>
