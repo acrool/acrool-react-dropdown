@@ -6,7 +6,7 @@ import React, {
     startTransition,
     useMemo,
     ForwardedRef,
-    forwardRef
+    forwardRef, ChangeEvent
 } from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
@@ -138,7 +138,7 @@ const Dropdown = <T extends unknown>({
     /**
      * 設定搜尋關鍵字
      */
-    const handleSetKeyword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSetKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         startTransition(() => {
             setKeyword(e.target.value);
         });
