@@ -22,7 +22,8 @@ type ForwardRefFunction<T, P = {}> = (
     props: P & React.RefAttributes<T>
 ) => React.ReactElement | null;
 
-export function forwardRef<T, P = {}>(
+
+export function forwardRefOfGenerics<T, P = {}>(
     render: (props: P, ref: React.Ref<T>) => React.ReactElement | null
 ): ForwardRefFunction<T, P> {
     return (props: P & React.RefAttributes<T>) => render(props, props.ref);

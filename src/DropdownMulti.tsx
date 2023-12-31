@@ -5,7 +5,6 @@ import React, {
     useCallback,
     startTransition,
     useMemo,
-    forwardRef,
     ForwardedRef
 } from 'react';
 import CSS from 'csstype';
@@ -23,7 +22,7 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOfNull, TOption} from './types';
 import {isGroupOptions} from './utils';
 import HotKey from './HotKey';
-import {setForwardedRef} from './copyRef';
+import {setForwardedRef, forwardRefOfGenerics} from './copyRef';
 
 
 
@@ -323,6 +322,6 @@ const DropdownMulti = <T extends unknown>({
     );
 };
 
-export default forwardRef(DropdownMulti);
+export default forwardRefOfGenerics(DropdownMulti);
 
 

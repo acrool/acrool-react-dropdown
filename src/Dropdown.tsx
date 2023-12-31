@@ -23,7 +23,7 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOfNull, TOption} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 import HotKey from './HotKey';
-import {setForwardedRef, forwardRef} from './copyRef';
+import {setForwardedRef, forwardRefOfGenerics} from './copyRef';
 
 
 interface IProps<T> {
@@ -316,6 +316,6 @@ const Dropdown = <T extends unknown>({
     );
 };
 
-export default forwardRef(Dropdown);
+export default forwardRefOfGenerics(Dropdown);
 
 
