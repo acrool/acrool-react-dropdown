@@ -10,6 +10,46 @@ export const isGroupOptions = <T>(options?: TOption<T>): options is IDropdownGro
 
 
 
+const filterString = (text: string, filterKeyword: string) => {
+    return String(text).toLowerCase().indexOf(filterKeyword.toLowerCase()) !== -1;
+};
+
+/**
+ * 過濾項目
+ * @param options
+ * @param filterKeyword
+ */
+export const filterOptions2 = <T>(options: Array<TOption<TOfNull<T>>>, filterKeyword: string): Array<TOption<TOfNull<T>>> => {
+    if(filterKeyword?.length === 0) {
+        return options;
+    }
+
+    return options.reduce((curr: Array<TOption<TOfNull<T>>>, option) => {
+        if(isGroupOptions(option)){
+            const filteredChildren = filterOptions2(option.children, filterKeyword);
+
+            if(filteredChildren.length > 0){
+                return [
+                    ...curr,
+                    {
+                        groupName: option.groupName,
+                        children: (filteredChildren as Array<IDropdownOption<T>>),
+                    }
+                ];
+            }
+            return curr;
+        }
+
+        if(filterString(option.text, filterKeyword)){
+            return [...curr, option];
+        }
+        return curr;
+
+        // return curr;
+    }, []);
+};
+
+
 /**
  * 過濾項目
  * @param options

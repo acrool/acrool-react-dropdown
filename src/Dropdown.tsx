@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useCallback, startTransition} from 'react';
+import React, {useState, useRef, useEffect, useCallback, startTransition, useMemo} from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'clsx';
@@ -6,7 +6,7 @@ import {
     getOptionStyle,
     getIndex,
     scrollIntoViewByGroup,
-    getNextIndexValue, getPrevIndexValue, getFirstIndexValue
+    getNextIndexValue, getPrevIndexValue, getFirstIndexValue, filterOptions2
 } from './utils';
 
 import './styles.css';
@@ -17,19 +17,19 @@ import HotKey from './HotKey';
 
 
 interface IProps<T> {
-    className?: string;
+    className?: string
     style?: CSS.Properties
 
-    onChange?: (value: TOfNull<T>) => void;
-    onClick?: (value: TOfNull<T>) => void;
-    isSearchEnable?: boolean,
-    isCheckedEnable?: boolean,
-    isAvatarEnable?: boolean,
-    value?: TOfNull<T>;
-    options?: Array<TOption<TOfNull<T>>>;
+    onChange?: (value: TOfNull<T>) => void
+    onClick?: (value: TOfNull<T>) => void
+    isSearchEnable?: boolean
+    isCheckedEnable?: boolean
+    isAvatarEnable?: boolean
+    value?: TOfNull<T>
+    options?: Array<TOption<TOfNull<T>>>
     // options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
-    isDark?: boolean,
+    isDark?: boolean
 }
 
 
@@ -64,10 +64,13 @@ const Dropdown = <T extends unknown>({
     isDark = false,
 }: IProps<T>) => {
     const [keyword, setKeyword] = useState<string>('');
-    const textRef = useRef<HTMLInputElement>(null);
+    // const searchFieldRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
     const [focusValue, setFocusValue] = useState<TOfNull<T>>();
-    
+
+
+    const filteredOptions = useMemo(() => filterOptions2(options, keyword), [JSON.stringify(options), keyword]);
+
     // console.log('focusValue', focusValue);
 
     /**
@@ -159,13 +162,13 @@ const Dropdown = <T extends unknown>({
                     if(itemIndex >= 0){
                         // 群組Options
                         if(direction === 'up'){
-                            return getPrevIndexValue(options, groupIndex, itemIndex);
+                            return getPrevIndexValue(filteredOptions, groupIndex, itemIndex);
                         }else if(direction === 'down'){
-                            return getNextIndexValue(options, groupIndex, itemIndex);
+                            return getNextIndexValue(filteredOptions, groupIndex, itemIndex);
                         }
                     }
 
-                    return getFirstIndexValue(options);
+                    return getFirstIndexValue(filteredOptions);
                 });
 
             });
@@ -219,22 +222,16 @@ const Dropdown = <T extends unknown>({
     /**
      * 產生選單列表
      */
-    const renderOptions = useCallback((keyword: string) => {
+    const renderOptions = useCallback(() => {
 
-        const formatOptions = options
-            ?.filter(option => {
-                if(isGroupOptions(option)){
-                    return filterOptions(option.children.map(child => child), keyword).length > 0;
-                }
-                return filterOptions([option], keyword).length > 0;
-            })
-            .map(option => {
+        const elOptions = filteredOptions
+            ?.map(option => {
                 if(isGroupOptions(option)) {
                     return <li key={`group_${option.groupName}`} role="group">
                         <strong className={elClassNames.listGroupName}>{option.groupName}</strong>
                         <ul className={elClassNames.listGroupChildren} role="none">
                             {
-                                filterOptions(option.children, keyword)
+                                option.children
                                     .map(row => renderOptionsButton(row))
                             }
                         </ul>
@@ -247,7 +244,7 @@ const Dropdown = <T extends unknown>({
 
 
 
-        if(!formatOptions || formatOptions?.length === 0){
+        if(!elOptions || elOptions?.length === 0){
             // 無資料回傳
             return (<div
                 key="no-data"
@@ -259,9 +256,9 @@ const Dropdown = <T extends unknown>({
 
         }
 
-        return formatOptions;
+        return elOptions;
 
-    }, [options, value, focusValue]);
+    }, [filteredOptions, value, focusValue]);
 
 
 
@@ -270,6 +267,7 @@ const Dropdown = <T extends unknown>({
             {isSearchEnable &&
                 <input className={elClassNames.textField}
                     type="text"
+                    // ref={searchFieldRef}
                     value={keyword}
                     onChange={handleSetKeyword}
                     placeholder={searchTextPlaceholder}
@@ -278,13 +276,13 @@ const Dropdown = <T extends unknown>({
 
             {/* Options */}
             <ul className={elClassNames.list} ref={listRef} role="listbox">
-                {renderOptions(keyword)}
+                {renderOptions()}
             </ul>
 
             <HotKey hotKey="enter" fn={handleSetValue}/>
             <HotKey hotKey="space" fn={handleSetValue}/>
-            <HotKey hotKey="up" fn={handleMove('up')}/>
-            <HotKey hotKey="down" fn={handleMove('down')}/>
+            <HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>
+            <HotKey hotKey="down" fn={handleMove('down')} enableOnTags={['INPUT']}/>
         </div>
 
     );
