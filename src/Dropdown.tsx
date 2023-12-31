@@ -124,7 +124,7 @@ const Dropdown = <T extends unknown>({
         // 移動到Focus位置
         startTransition(() => {
             if (typeof focusValue !== 'undefined' && listRef.current) {
-                const {groupIndex, itemIndex} = getIndex(options, focusValue);
+                const {groupIndex, itemIndex} = getIndex(filteredOptions, focusValue);
 
                 if(groupIndex >= 0){
                     scrollIntoViewByGroup(listRef.current, groupIndex, itemIndex);
@@ -133,7 +133,7 @@ const Dropdown = <T extends unknown>({
             }
         });
         
-    }, [focusValue]);
+    }, [focusValue, filteredOptions]);
 
 
     /**
@@ -180,7 +180,7 @@ const Dropdown = <T extends unknown>({
             startTransition(() => {
                 // 設定新的位置
                 setFocusValue(curr => {
-                    const {groupIndex, itemIndex} = getIndex(options, curr);
+                    const {groupIndex, itemIndex} = getIndex(filteredOptions, curr);
 
                     // console.log('groupIndex, itemIndex', groupIndex, itemIndex);
 
@@ -198,7 +198,7 @@ const Dropdown = <T extends unknown>({
 
             });
         };
-    }, [focusValue, options]);
+    }, [focusValue, filteredOptions]);
 
 
     /**
