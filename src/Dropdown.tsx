@@ -1,4 +1,13 @@
-import React, {useState, useRef, useEffect, useCallback, startTransition, useMemo} from 'react';
+import React, {
+    useState,
+    useRef,
+    useEffect,
+    useCallback,
+    startTransition,
+    useMemo,
+    ForwardedRef,
+    forwardRef
+} from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'clsx';
@@ -6,7 +15,7 @@ import {
     getOptionStyle,
     getIndex,
     scrollIntoViewByGroup,
-    getNextIndexValue, getPrevIndexValue, getFirstIndexValue, filterOptions2
+    getNextIndexValue, getPrevIndexValue, getFirstIndexValue, filterOptions2, matchAZ09
 } from './utils';
 
 import './styles.css';
@@ -14,6 +23,7 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOfNull, TOption} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 import HotKey from './HotKey';
+import {setForwardedRef} from './copyRef';
 
 
 interface IProps<T> {
@@ -49,6 +59,7 @@ const halfHeight = (30 * maxItem) / 2;
  * @param searchTextPlaceholder
  * @param isVisibleSearchText
  * @param isDark 暗黑模式
+ * @param ref
  */
 const Dropdown = <T extends unknown>({
     className,
@@ -62,9 +73,9 @@ const Dropdown = <T extends unknown>({
     isCheckedEnable = true,
     isAvatarEnable = false,
     isDark = false,
-}: IProps<T>) => {
+}: IProps<T>, ref?: ForwardedRef<HTMLInputElement>) => {
     const [keyword, setKeyword] = useState<string>('');
-    // const searchFieldRef = useRef<HTMLInputElement>(null);
+    const searchFieldRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
     const [focusValue, setFocusValue] = useState<TOfNull<T>>();
 
@@ -141,6 +152,20 @@ const Dropdown = <T extends unknown>({
     const handleSetValue = useCallback(() => {
         startTransition(() => {
             handleOnClick(focusValue);
+        });
+    }, [focusValue]);
+
+    /**
+     * 設定選中資料
+     */
+    const handleTyping = useCallback((e: KeyboardEvent) => {
+        startTransition(() => {
+            if(matchAZ09(e.key) &&
+                !e.metaKey &&
+                searchFieldRef && searchFieldRef.current){
+                setKeyword(e.key);
+                searchFieldRef.current.focus();
+            }
         });
     }, [focusValue]);
 
@@ -265,12 +290,14 @@ const Dropdown = <T extends unknown>({
     return (
         <div className={cx(elClassNames.root, className, {'dark-theme': isDark})} style={style}>
             {isSearchEnable &&
+                // 搜尋框
                 <input className={elClassNames.textField}
                     type="text"
-                    // ref={searchFieldRef}
+                    ref={setForwardedRef(ref, searchFieldRef)}
                     value={keyword}
                     onChange={handleSetKeyword}
                     placeholder={searchTextPlaceholder}
+                    tabIndex={-1}
                 />
             }
 
@@ -279,6 +306,9 @@ const Dropdown = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
+            {isSearchEnable &&
+                <HotKey hotKey="*" fn={handleTyping} isPreventDefault={false}/>
+            }
             <HotKey hotKey="enter" fn={handleSetValue}/>
             <HotKey hotKey="space" fn={handleSetValue}/>
             <HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>
@@ -288,6 +318,6 @@ const Dropdown = <T extends unknown>({
     );
 };
 
-export default Dropdown;
+export default forwardRef(Dropdown);
 
 

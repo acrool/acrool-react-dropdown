@@ -9,10 +9,22 @@ export const isGroupOptions = <T>(options?: TOption<T>): options is IDropdownGro
 };
 
 
-
+/**
+ * 過濾文字
+ * @param text
+ * @param filterKeyword
+ */
 const filterString = (text: string, filterKeyword: string) => {
     return String(text).toLowerCase().indexOf(filterKeyword.toLowerCase()) !== -1;
 };
+
+
+export function matchAZ09(str: string): boolean {
+    const regex = /^[a-z0-9]+$/;
+    return regex.test(str);
+}
+
+
 
 /**
  * 過濾項目

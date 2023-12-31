@@ -4,8 +4,9 @@ type TAvailableTags = 'INPUT' | 'TEXTAREA' | 'SELECT';
 
 export interface IHotKey {
     hotKey: string
-    fn: () => void
+    fn: (e: KeyboardEvent) => void
     enableOnTags?: TAvailableTags[]
+    isPreventDefault?: boolean
 }
 
 
@@ -13,13 +14,17 @@ export interface IHotKey {
 const HotKey = ({
     hotKey,
     fn,
-    enableOnTags
+    enableOnTags,
+    isPreventDefault = true,
 }: IHotKey) => {
     useHotkeys<HTMLElement>(hotKey, (e) => {
-        e.stopPropagation();
-        e.preventDefault();
+        // e.stopPropagation();
 
-        fn();
+        if(isPreventDefault){
+            e.preventDefault();
+        }
+
+        fn(e);
     }, {enableOnTags: enableOnTags}, [fn]);
 
 
