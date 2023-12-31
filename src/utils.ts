@@ -184,7 +184,7 @@ export function getPrevIndexValue<T>(options: TOption<T>[], groupIndex: number, 
  * @param itemIndex
  */
 export function getFirstIndexValue<T>(options: TOption<T>[]): T{
-    const typeCurrOpt = options[0];
+    const typeCurrOpt = options && options.length > 0 && options[0];
 
     // Group
     if(isGroupOptions(typeCurrOpt)) {
