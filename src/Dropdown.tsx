@@ -166,11 +166,10 @@ const Dropdown = <T extends unknown>({
     const handleTyping = useCallback((e: KeyboardEvent) => {
         if(matchAZ09(e.key) &&
             !e.metaKey &&
+            !e.ctrlKey &&
             e.key !== 'tab' &&
             searchFieldRef && searchFieldRef.current
         ){
-            e.preventDefault();
-            setKeyword(e.key);
             searchFieldRef.current.focus();
         }
     }, [focusValue]);
@@ -312,7 +311,7 @@ const Dropdown = <T extends unknown>({
             </ul>
 
             {isSearchEnable && <>
-                <HotKey hotKey="*" fn={handleTyping}/>
+                <HotKey hotKey="*" fn={handleTyping} isPreventDefault={false}/>
                 <HotKey hotKey="esc" fn={handleClearValue} enableOnTags={['INPUT']}/>
             </>}
             <HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>

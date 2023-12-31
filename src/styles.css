@@ -159,7 +159,7 @@
     flex: 1;
 }
 .bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-no-data {
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .bear-react-dropdown__list-item-text.bear-react-dropdown__list-item-text-placeholder{
