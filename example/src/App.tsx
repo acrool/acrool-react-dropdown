@@ -10,7 +10,7 @@ import {data} from './config/data';
 
 
 function App() {
-    const [value, setValue] = useState<string|null>('4');
+    const [value, setValue] = useState<string|null>(null);
     const [multiValue, setMultiValue] = useState<Array<string|null>|null>(null);
 
     const options1 = data.map(row => {
@@ -60,11 +60,11 @@ function App() {
             </div>
             <h1>Vite + React</h1>
             <div className="card" style={{display: 'flex', gap: '10px'}}>
-                <Dropdown value={value} onChange={setValue} options={null} isDark />
+                {/*<Dropdown value={value} onChange={setValue} options={null} isDark />*/}
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isDark/>*/}
-                <Dropdown value={value} onChange={setValue} options={undefined} isDark/>
-                <Dropdown value={value} onChange={setValue} options={options3} isDark isAvatarEnable />
-                <Dropdown value={value} onChange={setValue} options={options2} isDark isAvatarEnable />
+                {/*<Dropdown value={value} onChange={setValue} options={undefined} isDark/>*/}
+                {/*<Dropdown value={value} onChange={setValue} options={options3} isDark isAvatarEnable />*/}
+                {/*<Dropdown value={value} onChange={setValue} options={options2} isDark isAvatarEnable />*/}
                 <Dropdown value={value} onChange={setValue} options={placeholderOptions} isDark isSearchEnable />
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options3} isDark/>*/}
 

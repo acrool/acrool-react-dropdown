@@ -66,7 +66,7 @@ const Dropdown = <T extends unknown>({
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
-    const [focusValue, setFocusValue] = useState<TOfNull<T>>();
+    const [focusValue, setFocusValue] = useState<TOfNull<T>>(null);
     
     // console.log('focusValue', focusValue);
 
@@ -109,8 +109,9 @@ const Dropdown = <T extends unknown>({
     useEffect(() => {
         // 移動到Focus位置
         startTransition(() => {
-            if (focusValue && listRef.current) {
+            if (typeof focusValue !== 'undefined' && listRef.current) {
                 const {groupIndex, itemIndex} = getIndex(options, focusValue);
+
                 if(groupIndex >= 0){
                     scrollIntoViewByGroup(listRef.current, groupIndex, itemIndex);
                 }
@@ -152,6 +153,8 @@ const Dropdown = <T extends unknown>({
                 // 設定新的位置
                 setFocusValue(curr => {
                     const {groupIndex, itemIndex} = getIndex(options, curr);
+
+                    // console.log('groupIndex, itemIndex', groupIndex, itemIndex);
 
                     if(itemIndex >= 0){
                         // 群組Options

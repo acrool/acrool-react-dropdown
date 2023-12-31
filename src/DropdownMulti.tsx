@@ -66,7 +66,7 @@ const DropdownMulti = <T extends unknown>({
     const [keyword, setKeyword] = useState<string>('');
     const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
-    const [focusValue, setFocusValue] = useState<TOfNull<T>>();
+    const [focusValue, setFocusValue] = useState<TOfNull<T>>(null);
 
     /**
      * 開啟自動 focus 再輸入框
@@ -106,7 +106,7 @@ const DropdownMulti = <T extends unknown>({
     useEffect(() => {
         // 移動到Focus位置
         startTransition(() => {
-            if (focusValue && listRef.current) {
+            if (typeof focusValue !== 'undefined' && listRef.current) {
                 const {groupIndex, itemIndex} = getIndex(options, focusValue);
                 if(groupIndex >= 0){
                     scrollIntoViewByGroup(listRef.current, groupIndex, itemIndex);
