@@ -1,4 +1,13 @@
-import React, {useState, useRef, useEffect, useCallback, startTransition} from 'react';
+import React, {
+    useState,
+    useRef,
+    useEffect,
+    useCallback,
+    startTransition,
+    useMemo,
+    forwardRef,
+    ForwardedRef
+} from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
 import cx from 'clsx';
@@ -6,14 +15,15 @@ import {
     getOptionStyle,
     getIndex,
     scrollIntoViewByGroup,
-    getNextIndexValue, getPrevIndexValue, getFirstIndexValue, removeByIndex
+    getNextIndexValue, getPrevIndexValue, getFirstIndexValue, removeByIndex, filterOptions2, matchAZ09
 } from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
 import {IDropdownOption, TOfNull, TOption} from './types';
-import {filterOptions, isGroupOptions} from './utils';
+import {isGroupOptions} from './utils';
 import HotKey from './HotKey';
+import {setForwardedRef} from './copyRef';
 
 
 
@@ -62,11 +72,16 @@ const DropdownMulti = <T extends unknown>({
     isCheckedEnable = true,
     isAvatarEnable = false,
     isDark = false,
-}: IProps<T>) => {
+}: IProps<T>, ref?: ForwardedRef<HTMLInputElement>) => {
     const [keyword, setKeyword] = useState<string>('');
-    const textRef = useRef<HTMLInputElement>(null);
+    const searchFieldRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
     const [focusValue, setFocusValue] = useState<TOfNull<T>>(null);
+
+
+    const filteredOptions = useMemo(() => filterOptions2(options, keyword), [JSON.stringify(options), keyword]);
+
+    // console.log('focusValue', focusValue);
 
     /**
      * 開啟自動 focus 再輸入框
@@ -107,15 +122,16 @@ const DropdownMulti = <T extends unknown>({
         // 移動到Focus位置
         startTransition(() => {
             if (typeof focusValue !== 'undefined' && listRef.current) {
-                const {groupIndex, itemIndex} = getIndex(options, focusValue);
+                const {groupIndex, itemIndex} = getIndex(filteredOptions, focusValue);
+
                 if(groupIndex >= 0){
                     scrollIntoViewByGroup(listRef.current, groupIndex, itemIndex);
                 }
 
             }
         });
-
-    }, [focusValue]);
+        
+    }, [focusValue, filteredOptions]);
 
 
     /**
@@ -137,6 +153,20 @@ const DropdownMulti = <T extends unknown>({
         });
     }, [focusValue]);
 
+    /**
+     * 設定選中資料
+     */
+    const handleTyping = useCallback((e: KeyboardEvent) => {
+        startTransition(() => {
+            if(matchAZ09(e.key) &&
+                !e.metaKey &&
+                searchFieldRef && searchFieldRef.current){
+                setKeyword(e.key);
+                searchFieldRef.current.focus();
+            }
+        });
+    }, [focusValue]);
+
 
 
 
@@ -148,23 +178,24 @@ const DropdownMulti = <T extends unknown>({
             startTransition(() => {
                 // 設定新的位置
                 setFocusValue(curr => {
-                    const {groupIndex, itemIndex} = getIndex(options, curr);
+                    const {groupIndex, itemIndex} = getIndex(filteredOptions, curr);
+
 
                     if(itemIndex >= 0){
                         // 群組Options
                         if(direction === 'up'){
-                            return getPrevIndexValue(options, groupIndex, itemIndex);
+                            return getPrevIndexValue(filteredOptions, groupIndex, itemIndex);
                         }else if(direction === 'down'){
-                            return getNextIndexValue(options, groupIndex, itemIndex);
+                            return getNextIndexValue(filteredOptions, groupIndex, itemIndex);
                         }
                     }
 
-                    return getFirstIndexValue(options);
+                    return getFirstIndexValue(filteredOptions);
                 });
 
             });
         };
-    }, [focusValue, options]);
+    }, [focusValue, filteredOptions]);
 
 
     /**
@@ -221,22 +252,16 @@ const DropdownMulti = <T extends unknown>({
     /**
      * 產生選單列表
      */
-    const renderOptions = useCallback((keyword: string) => {
+    const renderOptions = useCallback(() => {
 
-        const formatOptions = options
-            ?.filter(option => {
-                if(isGroupOptions(option)){
-                    return filterOptions(option.children.map(child => child), keyword).length > 0;
-                }
-                return filterOptions([option], keyword).length > 0;
-            })
-            .map(option => {
+        const elOptions = filteredOptions
+            ?.map(option => {
                 if(isGroupOptions(option)) {
                     return <li key={`group_${option.groupName}`} role="group">
                         <strong className={elClassNames.listGroupName}>{option.groupName}</strong>
                         <ul className={elClassNames.listGroupChildren} role="none">
                             {
-                                filterOptions(option.children, keyword)
+                                option.children
                                     .map(row => renderOptionsButton(row))
                             }
                         </ul>
@@ -249,7 +274,7 @@ const DropdownMulti = <T extends unknown>({
 
 
 
-        if(!formatOptions || formatOptions?.length === 0){
+        if(!elOptions || elOptions?.length === 0){
             // 無資料回傳
             return (<div
                 key="no-data"
@@ -261,36 +286,43 @@ const DropdownMulti = <T extends unknown>({
 
         }
 
-        return formatOptions;
+        return elOptions;
 
-    }, [options, value, focusValue]);
+    }, [filteredOptions, value, focusValue]);
 
 
 
     return (
         <div className={cx(elClassNames.root, className, {'dark-theme': isDark})} style={style}>
             {isSearchEnable &&
+                // 搜尋框
                 <input className={elClassNames.textField}
                     type="text"
+                    ref={setForwardedRef(ref, searchFieldRef)}
                     value={keyword}
                     onChange={handleSetKeyword}
                     placeholder={searchTextPlaceholder}
+                    tabIndex={-1}
                 />
             }
 
             {/* Options */}
             <ul className={elClassNames.list} ref={listRef} role="listbox">
-                {renderOptions(keyword)}
+                {renderOptions()}
             </ul>
 
+            {isSearchEnable &&
+                <HotKey hotKey="*" fn={handleTyping} isPreventDefault={false}/>
+            }
             <HotKey hotKey="enter" fn={handleSetValue}/>
             <HotKey hotKey="space" fn={handleSetValue}/>
-            <HotKey hotKey="up" fn={handleMove('up')}/>
-            <HotKey hotKey="down" fn={handleMove('down')}/>
+            <HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>
+            <HotKey hotKey="down" fn={handleMove('down')} enableOnTags={['INPUT']}/>
         </div>
 
     );
 };
 
-export default DropdownMulti;
+export default forwardRef(DropdownMulti);
+
 

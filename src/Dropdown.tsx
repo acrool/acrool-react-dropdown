@@ -77,12 +77,11 @@ const Dropdown = <T extends unknown>({
     const [keyword, setKeyword] = useState<string>('');
     const searchFieldRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
-    const [focusValue, setFocusValue] = useState<TOfNull<T>>();
+    const [focusValue, setFocusValue] = useState<TOfNull<T>>(null);
 
 
     const filteredOptions = useMemo(() => filterOptions2(options, keyword), [JSON.stringify(options), keyword]);
 
-    // console.log('focusValue', focusValue);
 
     /**
      * 開啟自動 focus 再輸入框(好像重複了)
@@ -182,7 +181,6 @@ const Dropdown = <T extends unknown>({
                 setFocusValue(curr => {
                     const {groupIndex, itemIndex} = getIndex(filteredOptions, curr);
 
-                    // console.log('groupIndex, itemIndex', groupIndex, itemIndex);
 
                     if(itemIndex >= 0){
                         // 群組Options
