@@ -1,4 +1,4 @@
-import {Ref} from 'react';
+import React, {Ref} from 'react';
 
 export const setForwardedRef = <T>(
     forwardedRef: Ref<T>,
@@ -15,3 +15,15 @@ export const setForwardedRef = <T>(
         }
     };
 };
+
+
+
+type ForwardRefFunction<T, P = {}> = (
+    props: P & React.RefAttributes<T>
+) => React.ReactElement | null;
+
+export function forwardRef<T, P = {}>(
+    render: (props: P, ref: React.Ref<T>) => React.ReactElement | null
+): ForwardRefFunction<T, P> {
+    return (props: P & React.RefAttributes<T>) => render(props, props.ref);
+}

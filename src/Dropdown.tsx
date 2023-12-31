@@ -6,7 +6,7 @@ import React, {
     startTransition,
     useMemo,
     ForwardedRef,
-    forwardRef, ChangeEvent
+    ChangeEvent
 } from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
@@ -23,7 +23,7 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOfNull, TOption} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 import HotKey from './HotKey';
-import {setForwardedRef} from './copyRef';
+import {setForwardedRef, forwardRef} from './copyRef';
 
 
 interface IProps<T> {

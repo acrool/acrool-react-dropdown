@@ -32,8 +32,6 @@
     "node_modules",
     "**/*.spec.ts"
   ],
-  "files": [
-    "typings/module.d.ts"
-  ],
+  "files": [],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
