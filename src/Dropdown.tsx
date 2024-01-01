@@ -6,7 +6,7 @@ import React, {
     startTransition,
     useMemo,
     ForwardedRef,
-    ChangeEvent
+    ChangeEvent, FocusEvent
 } from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
@@ -32,6 +32,8 @@ interface IProps<T> {
 
     onChange?: (value: TOfNull<T>) => void
     onClick?: (value: TOfNull<T>) => void
+    onSearchFieldBlur?: (e: FocusEvent) => void
+    onSearchFieldFocus?: (e: FocusEvent) => void
     isSearchEnable?: boolean
     isCheckedEnable?: boolean
     isAvatarEnable?: boolean
@@ -68,6 +70,8 @@ const Dropdown = <T extends unknown>({
     value,
     onChange,
     onClick,
+    onSearchFieldBlur,
+    onSearchFieldFocus,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
     isCheckedEnable = true,
@@ -305,6 +309,8 @@ const Dropdown = <T extends unknown>({
                     onChange={handleSetKeyword}
                     placeholder={searchTextPlaceholder}
                     tabIndex={-1}
+                    onBlur={onSearchFieldBlur}
+                    onFocus={onSearchFieldFocus}
                 />
             }
 
