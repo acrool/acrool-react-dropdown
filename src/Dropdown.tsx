@@ -15,7 +15,11 @@ import {
     getOptionStyle,
     getIndex,
     scrollIntoViewByGroup,
-    getNextIndexValue, getPrevIndexValue, getFirstIndexValue, filterOptions2, matchAZ09
+    getNextIndexValue,
+    getPrevIndexValue,
+    getFirstIndexValue,
+    filterOptions2,
+    preventEnterSubmission
 } from './utils';
 
 import './styles.css';
@@ -167,19 +171,6 @@ const Dropdown = <T extends unknown>({
         }
     }, []);
 
-    /**
-     * 設定搜尋關鍵字
-     */
-    const handleTyping = useCallback((e: KeyboardEvent) => {
-        if(matchAZ09(e.key) &&
-            !e.metaKey &&
-            !e.ctrlKey &&
-            e.key !== 'tab' &&
-            searchFieldRef && searchFieldRef.current
-        ){
-            searchFieldRef.current.focus();
-        }
-    }, [focusValue]);
 
 
 
@@ -311,6 +302,8 @@ const Dropdown = <T extends unknown>({
                     tabIndex={-1}
                     onBlur={onSearchFieldBlur}
                     onFocus={onSearchFieldFocus}
+                    onKeyDown={preventEnterSubmission}
+                    autoFocus
                 />
             }
 
@@ -320,7 +313,6 @@ const Dropdown = <T extends unknown>({
             </ul>
 
             {isSearchEnable && <>
-                <HotKey hotKey="*" fn={handleTyping} isPreventDefault={false}/>
                 <HotKey hotKey="esc" fn={handleClearValue} enableOnTags={['INPUT']}/>
             </>}
             <HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>

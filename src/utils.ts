@@ -275,3 +275,9 @@ export function scrollIntoViewByGroup<T>(ul: HTMLUListElement, groupIndex: numbe
 
 
 
+
+export function preventEnterSubmission(event: React.KeyboardEvent) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+}
