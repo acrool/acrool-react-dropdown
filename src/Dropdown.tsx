@@ -303,7 +303,6 @@ const Dropdown = <T extends unknown>({
                     onBlur={onSearchFieldBlur}
                     onFocus={onSearchFieldFocus}
                     onKeyDown={preventEnterSubmission}
-                    autoFocus
                 />
             }
 
