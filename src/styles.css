@@ -194,8 +194,8 @@
 }
 .bear-react-dropdown__text-field-hidden{
     /*visibility: hidden;*/
-    overflow: hidden;
-    height: 0;
+    /*overflow: hidden;*/
+    /*height: 0;*/
 }
 
 .bear-react-dropdown__text-field:focus {
