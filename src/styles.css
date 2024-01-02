@@ -192,6 +192,11 @@
     border: none;
     border-bottom: 1px solid rgb(52, 58, 64);
 }
+.bear-react-dropdown__text-field-hidden{
+    /*visibility: hidden;*/
+    overflow: hidden;
+    height: 0;
+}
 
 .bear-react-dropdown__text-field:focus {
     outline: 0;

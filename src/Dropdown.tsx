@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
-import cx from 'clsx';
+import cx, {clsx} from 'clsx';
 import {
     getOptionStyle,
     getIndex,
@@ -182,6 +182,18 @@ const Dropdown = <T extends unknown>({
             onEnter && onEnter(focusValue);
             return;
         }
+        if(e.key === 'ArrowUp'){
+            e.preventDefault();
+            e.stopPropagation();
+            handleMove('up')();
+            return;
+        }
+        if(e.key === 'ArrowDown'){
+            e.preventDefault();
+            e.stopPropagation();
+            handleMove('down')();
+            return;
+        }
         if (e.key === 'Escape') {
             e.preventDefault();
             e.stopPropagation();
@@ -321,21 +333,20 @@ const Dropdown = <T extends unknown>({
 
     return (
         <div className={cx(elClassNames.root, className, {'dark-theme': isDark})} style={style}>
-            {isSearchEnable &&
-                // 搜尋框
-                <input className={elClassNames.textField}
-                    type="text"
-                    ref={setForwardedRef(ref, searchFieldRef)}
-                    value={keyword}
-                    onChange={handleSetKeyword}
-                    placeholder={searchTextPlaceholder}
-                    tabIndex={-1}
-                    onBlur={onSearchFieldBlur}
-                    onFocus={onSearchFieldFocus}
-                    onKeyDown={handleOnSearchInputKeyDown}
-                    autoFocus={isAutoFocusSearchField}
-                />
-            }
+            {/*搜尋框*/}
+            <input className={clsx(elClassNames.textField, {[elClassNames.textFieldHidden]: !isSearchEnable})}
+                type="text"
+                ref={setForwardedRef(ref, searchFieldRef)}
+                value={keyword}
+                onChange={handleSetKeyword}
+                placeholder={searchTextPlaceholder}
+                tabIndex={-1}
+                onBlur={onSearchFieldBlur}
+                onFocus={onSearchFieldFocus}
+                onKeyDown={handleOnSearchInputKeyDown}
+                autoFocus={isAutoFocusSearchField}
+                readOnly={!isSearchEnable}
+            />
 
             {/* Options */}
             <ul className={elClassNames.list} ref={listRef} role="listbox">
@@ -344,8 +355,8 @@ const Dropdown = <T extends unknown>({
 
             {/*<HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>*/}
             {/*<HotKey hotKey="space" fn={handleSetValue}/>*/}
-            <HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>
-            <HotKey hotKey="down" fn={handleMove('down')} enableOnTags={['INPUT']}/>
+            {/*<HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>*/}
+            {/*<HotKey hotKey="down" fn={handleMove('down')} enableOnTags={['INPUT']}/>*/}
         </div>
 
     );
