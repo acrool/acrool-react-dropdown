@@ -6,7 +6,7 @@ import React, {
     startTransition,
     useMemo,
     ForwardedRef,
-    ChangeEvent, FocusEvent
+    ChangeEvent, FocusEvent, forwardRef
 } from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
@@ -48,6 +48,7 @@ interface IProps<T> {
     // options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
     isDark?: boolean
+    searchForwardedRef?: ForwardedRef<HTMLInputElement>
 }
 
 
@@ -74,7 +75,7 @@ const Dropdown = <T extends unknown>({
     style,
     options,
     value,
-    onChange,
+    // onChange,
     onClick,
     onEnter,
     onSearchFieldBlur,
@@ -86,11 +87,12 @@ const Dropdown = <T extends unknown>({
     isCheckedEnable = true,
     isAvatarEnable = false,
     isDark = false,
+    searchForwardedRef,
 }: IProps<T>, ref?: ForwardedRef<HTMLInputElement>) => {
     const [keyword, setKeyword] = useState<string>('');
-    const searchFieldRef = useRef<HTMLInputElement>(null);
+    // const searchFieldRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
-    const [focusValue, setFocusValue] = useState<TOfNull<T>>(null);
+    const [focusValue, setFocusValue] = useState<TOfNull<T>>(value);
 
 
     const filteredOptions = useMemo(() => filterOptions2(options, keyword), [JSON.stringify(options), keyword]);
@@ -124,12 +126,12 @@ const Dropdown = <T extends unknown>({
     // }, []);
     
     
-    useEffect(() => {
-        if(typeof value !== 'undefined'){
-            // 預設Focus為選中項目
-            setFocusValue(value);
-        }
-    }, [value]);
+    // useEffect(() => {
+    //     if(typeof value !== 'undefined'){
+    //         // 預設Focus為選中項目
+    //         setFocusValue(value);
+    //     }
+    // }, [value]);
 
 
     useEffect(() => {
@@ -162,9 +164,9 @@ const Dropdown = <T extends unknown>({
     const handleSetValue = useCallback(() => {
         startTransition(() => {
 
-            if (onChange && value !== focusValue) {
-                onChange(focusValue);
-            }
+            // if (onChange && value !== focusValue) {
+            //     onChange(focusValue);
+            // }
             if(onClick) {
                 onClick(focusValue);
             }
@@ -183,12 +185,15 @@ const Dropdown = <T extends unknown>({
             return;
         }
         if(e.key === 'ArrowUp'){
+            console.log('[handleOnSearchInputKeyDown] ArrowUp');
             e.preventDefault();
             e.stopPropagation();
             handleMove('up')();
             return;
         }
         if(e.key === 'ArrowDown'){
+            console.log('[handleOnSearchInputKeyDown] ArrowDown');
+
             e.preventDefault();
             e.stopPropagation();
             handleMove('down')();
@@ -207,11 +212,11 @@ const Dropdown = <T extends unknown>({
             }
         }
 
-        // if(!isSearchEnable){
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        //     return;
-        // }
+        if(!isSearchEnable && !e.metaKey && e.key !== 'Tab'){
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
 
     }, [keyword, focusValue, isSearchEnable]);
 
@@ -255,14 +260,10 @@ const Dropdown = <T extends unknown>({
         e.stopPropagation();
         e.preventDefault();
 
-        if (onChange && value !== newValue) {
-            onChange(newValue);
-        }
-        if(onClick) {
+        if (onClick && value !== newValue) {
             onClick(newValue);
         }
-
-    }, [onChange, onClick, value]);
+    }, [onClick, value]);
 
 
 
@@ -340,9 +341,10 @@ const Dropdown = <T extends unknown>({
     return (
         <div className={cx(elClassNames.root, className, {'dark-theme': isDark})} style={style}>
             {/*搜尋框*/}
-            <input className={clsx(elClassNames.textField)}
+            <input className={clsx(elClassNames.textField, {[elClassNames.textFieldHidden]: !isSearchEnable})}
                 type="text"
-                ref={setForwardedRef(ref, searchFieldRef)}
+                // ref={setForwardedRef(ref, searchFieldRef)}
+                ref={searchForwardedRef}
                 value={keyword}
                 onChange={handleSetKeyword}
                 placeholder={searchTextPlaceholder}
@@ -367,6 +369,6 @@ const Dropdown = <T extends unknown>({
     );
 };
 
-export default forwardRefOfGenerics(Dropdown);
+export default Dropdown;
 
 

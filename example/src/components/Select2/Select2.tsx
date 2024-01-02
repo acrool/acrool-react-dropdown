@@ -7,7 +7,7 @@ import Avatar from './_components/Avatar';
 import ModalWrapper from './_components/ModalBgMask/ModalWrapper';
 import Icon from '@/library/bear-react-icon';
 import useClickOutSite from '@/utils/hooks/useClickOutSite';
-import {setRef, setForwardedRef} from '@/utils/copyRef';
+import {setRef, setForwardedRef, forwardRefOfGenerics} from '@/utils/copyRef';
 import {EKeyboardKey} from '@/config/keyboard';
 import {Flex} from 'bear-react-grid';
 
@@ -64,7 +64,8 @@ const Select2 = <T extends unknown>({
     const [isVisible, setIsVisible] = useState(false);
 
 
-    console.log('isSearchFocus', isSearchFocus, 'isButtonFocus', isButtonFocus, 'isVisible', isVisible);
+
+    console.log('isSearchFocus', isSearchFocus, 'isButtonFocus', isButtonFocus, 'isVisible', isVisible, searchFieldRef);
 
 
 
@@ -88,19 +89,34 @@ const Select2 = <T extends unknown>({
     }, [onChange]);
 
 
-    const handleOnClickItem = (currentValue: T) => {
-        if(onChange){
-            onChange(currentValue);
-        }
-    }
+    /**
+     * 處理當Dropdown項目點擊
+     * @param currentValue
+     */
+    const handleOnDropdownLiClick = (currentValue: T) => {
+        console.log('---[Dropdown] onClick');
 
-    const handleOnEnter = (currentValue: T) => {
-        console.log('onEnter');
+        mainElRef.current.focus();
+        setIsVisible(false);
+
         if(onChange){
             onChange(currentValue);
-            mainElRef.current.focus();
         }
-    }
+    };
+
+
+    /**
+     * 處理當Dropdown按下鍵盤的Enter
+     * @param currentValue
+     */
+    const handleOnDropdownLiEnter = (currentValue: T) => {
+        console.log('---[Dropdown] onEnter');
+        mainElRef.current.focus();
+
+        if(onChange){
+            onChange(currentValue);
+        }
+    };
 
 
     const getText = useMemo(() => {
@@ -140,15 +156,18 @@ const Select2 = <T extends unknown>({
      * 處理開啟 Dropdown
      */
     const handleButtonFocus = useCallback(() => {
+        console.log('---[button] focus');
+
         setIsButtonFocus(true);
 
-        // console.log('button focus');
     }, []);
 
     /**
      * 處理開啟 Dropdown
      */
     const handleSearchFocus = useCallback(() => {
+        console.log('---[search] focus');
+
         // console.log('search focus');
         setIsSearchFocus(true);
 
@@ -161,12 +180,13 @@ const Select2 = <T extends unknown>({
      * 處理開啟 Dropdown
      */
     const handleSearchBlur = useCallback(() => {
+        console.log('---[search] blur', isButtonFocus);
+
         // console.log('[search blur]');
         setIsSearchFocus(false);
 
-        console.log('isButtonFocus', isButtonFocus);
         if(isButtonFocus === false){
-            mainElRef.current.focus()
+            mainElRef.current.focus();
             setIsButtonFocus(true);
             setIsVisible(false);
         }
@@ -178,8 +198,8 @@ const Select2 = <T extends unknown>({
      */
     const handleSearchEsc = useCallback(() => {
         // console.log('[search esc]');
-        mainElRef.current.focus()
-            setIsVisible(false);
+        mainElRef.current.focus();
+        setIsVisible(false);
 
 
     }, [isButtonFocus]);
@@ -188,14 +208,15 @@ const Select2 = <T extends unknown>({
      * 處理開啟 Dropdown
      */
     const handleButtonBlur = useCallback(() => {
+        console.log('---[button] blur');
         // handleCloseDropdown(true)();
         //     if(document.activeElement.className === elClassNames.textField){
 
         // setIsButtonFocus(false);
 
         setTimeout(() => {
-            // console.log('button blur', document.activeElement.className);
-            if(document.activeElement.className === elClassNames.textField){
+            console.log('---[button] blur', document.activeElement.className);
+            if(document.activeElement === searchFieldRef.current){
                 setIsSearchFocus(true);
             }else{
                 setIsVisible(false);
@@ -212,15 +233,15 @@ const Select2 = <T extends unknown>({
     const handleCloseDropdown = useCallback((ignoreInSearch?: boolean) => {
         return () => {
             // if(ignoreInSearch){
-                // setTimeout(() => {
-                //     console.log('document.activeElement.className', document.activeElement, document.activeElement.className !== elClassNames.textField);
-                    if(isButtonFocus){
-                        setIsVisible(false);
-                        setIsButtonFocus(false);
-                    }
-                // }, 0);
+            // setTimeout(() => {
+            //     console.log('document.activeElement.className', document.activeElement, document.activeElement.className !== elClassNames.textField);
+            if(isButtonFocus){
+                setIsVisible(false);
+                setIsButtonFocus(false);
+            }
+            // }, 0);
             // }
-        }
+        };
 
     }, [isButtonFocus]);
 
@@ -244,13 +265,13 @@ const Select2 = <T extends unknown>({
         e.stopPropagation();
 
         // if(isButtonFocus){
-            setIsVisible(curr => {
-                if(curr){
-                    mainElRef.current.focus();
-                }
+        setIsVisible(curr => {
+            if(curr){
+                mainElRef.current.focus();
+            }
 
-                return !curr;
-            });
+            return !curr;
+        });
 
         // }
         // setIsVisible(curr => {
@@ -290,7 +311,7 @@ const Select2 = <T extends unknown>({
         disabled={disabled}
         isLink={isLink}
         className={className} style={style}
-        isFocus={isButtonFocus || isSearchFocus}
+        isFocus={isButtonFocus || isVisible}
     >
 
         {/* Select */}
@@ -305,7 +326,7 @@ const Select2 = <T extends unknown>({
             onKeyDown={e => {
                 // console.log('e.key', e.code, e.key);
                 // 除了 Tab 以外都要阻止原本的行為跟冒泡
-                if(![EKeyboardKey.Tab, EKeyboardKey.Escape].includes(e.key as EKeyboardKey)) {
+                if(![EKeyboardKey.Tab, EKeyboardKey.Escape].includes(e.key as EKeyboardKey) && e.meta) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
@@ -334,15 +355,15 @@ const Select2 = <T extends unknown>({
             >
                 <Dropdown
                     isDark
-                    // ref={searchFieldRef}
+                    searchForwardedRef={searchFieldRef}
                     options={placeholderOptions}
                     value={value}
                     isAvatarEnable={isAvatarEnable}
                     isSearchEnable={isSearchEnable}
                     isCheckedEnable
                     searchTextPlaceholder="type keyword..."
-                    onEnter={handleOnEnter}
-                    onClick={handleOnClickItem}
+                    onEnter={handleOnDropdownLiEnter}
+                    onClick={handleOnDropdownLiClick}
                     onSearchFieldEsc={handleSearchEsc}
 
                     onSearchFieldFocus={handleSearchFocus}
@@ -363,7 +384,7 @@ const Select2 = <T extends unknown>({
 };
 
 
-export default forwardRef(Select2);
+export default forwardRefOfGenerics(Select2);
 
 
 

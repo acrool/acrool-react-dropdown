@@ -52,25 +52,26 @@ function App() {
 
     return (
         <div className="App">
-            <div>
-                <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <Flex className="card align-items-start justify-content-start" style={{gap: '10px'}}>
+            {/*<div>*/}
+            {/*    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">*/}
+            {/*        <img src={viteLogo} className="logo" alt="Vite logo" />*/}
+            {/*    </a>*/}
+            {/*    <a href="https://reactjs.org" target="_blank" rel="noreferrer">*/}
+            {/*        <img src={reactLogo} className="logo react" alt="React logo" />*/}
+            {/*    </a>*/}
+            {/*</div>*/}
+            {/*<h1>Vite + React</h1>*/}
+            <Flex className="align-items-start justify-content-start mb-5 gap-4">
                 {/*<Dropdown value={value} onChange={setValue} options={null} isDark />*/}
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isDark/>*/}
                 {/*<Dropdown value={value} onChange={setValue} options={undefined} isDark/>*/}
                 {/*<Dropdown value={value} onChange={setValue} options={options3} isDark isAvatarEnable />*/}
                 {/*<Dropdown value={value} onChange={setValue} options={options2} isDark isAvatarEnable />*/}
-                <Dropdown value={value} onChange={setValue} onEnter={setValue} options={placeholderOptions} isDark isSearchEnable={false} />
+                {/*<Dropdown value={value} onChange={setValue} onEnter={setValue} options={placeholderOptions} isDark isSearchEnable={false} />*/}
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options3} isDark/>*/}
 
                 <Select2 options={placeholderOptions} value={value} onChange={setValue}/>
+                <Select2 options={placeholderOptions} value={value} onChange={setValue} isSearchEnable/>
             </Flex>
             <p>
                 Edit <code>src/App.tsx</code> and save to test HMR
