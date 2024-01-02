@@ -19,7 +19,6 @@ import {
     getPrevIndexValue,
     getFirstIndexValue,
     filterOptions2,
-    preventEnterSubmission
 } from './utils';
 
 import './styles.css';
