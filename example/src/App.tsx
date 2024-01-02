@@ -7,6 +7,8 @@ import {groupBy} from 'bear-jsutils/array';
 import './App.css';
 import 'bear-react-dropdown/dist/index.css';
 import {data} from './config/data';
+import Select2 from '@/components/Select2';
+import {Flex} from 'bear-react-grid';
 
 
 function App() {
@@ -59,7 +61,7 @@ function App() {
                 </a>
             </div>
             <h1>Vite + React</h1>
-            <div className="card" style={{display: 'flex', gap: '10px'}}>
+            <Flex className="card align-items-start justify-content-start" style={{gap: '10px'}}>
                 {/*<Dropdown value={value} onChange={setValue} options={null} isDark />*/}
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options1} isDark/>*/}
                 {/*<Dropdown value={value} onChange={setValue} options={undefined} isDark/>*/}
@@ -68,7 +70,8 @@ function App() {
                 <Dropdown value={value} onChange={setValue} onEnter={setValue} options={placeholderOptions} isDark isSearchEnable={false} />
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options3} isDark/>*/}
 
-            </div>
+                <Select2 options={placeholderOptions} value={value} onChange={setValue}/>
+            </Flex>
             <p>
                 Edit <code>src/App.tsx</code> and save to test HMR
             </p>
