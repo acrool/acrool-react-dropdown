@@ -36,9 +36,10 @@ interface IProps<T> {
 
     onChange?: (value: TOfNull<T>) => void
     onClick?: (value: TOfNull<T>) => void
-    onSearchFieldBlur?: (e: FocusEvent) => void
-    onSearchFieldFocus?: (e: FocusEvent) => void
+    onSearchFieldBlur?: (e?: FocusEvent) => void
+    onSearchFieldFocus?: (e?: FocusEvent) => void
     isSearchEnable?: boolean
+    isAutoFocusSearchField?: boolean
     isCheckedEnable?: boolean
     isAvatarEnable?: boolean
     value?: TOfNull<T>
@@ -78,6 +79,7 @@ const Dropdown = <T extends unknown>({
     onSearchFieldFocus,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
+    isAutoFocusSearchField = true,
     isCheckedEnable = true,
     isAvatarEnable = false,
     isDark = false,
@@ -164,14 +166,26 @@ const Dropdown = <T extends unknown>({
     /**
      * 清空搜尋關鍵字
      */
-    const handleClearValue = useCallback(() => {
-        setKeyword('');
-        if(searchFieldRef && searchFieldRef.current){
-            searchFieldRef.current.blur();
+    const handleOnSearchInputKeyDown = useCallback((e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            return;
         }
+        if (e.key === 'Esc') {
+            if(keyword.trim() === ''){
+                onSearchFieldBlur();
+                return;
+            }else{
+                e.preventDefault();
+                setKeyword('');
+                return;
+            }
+        }
+
     }, []);
 
 
+    
 
 
 
@@ -302,7 +316,8 @@ const Dropdown = <T extends unknown>({
                     tabIndex={-1}
                     onBlur={onSearchFieldBlur}
                     onFocus={onSearchFieldFocus}
-                    onKeyDown={preventEnterSubmission}
+                    onKeyDown={handleOnSearchInputKeyDown}
+                    autoFocus={isAutoFocusSearchField}
                 />
             }
 
@@ -311,9 +326,6 @@ const Dropdown = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
-            {isSearchEnable && <>
-                <HotKey hotKey="esc" fn={handleClearValue} enableOnTags={['INPUT']}/>
-            </>}
             <HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>
             <HotKey hotKey="space" fn={handleSetValue}/>
             <HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>
