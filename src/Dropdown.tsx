@@ -170,7 +170,7 @@ const Dropdown = <T extends unknown>({
             e.preventDefault();
             return;
         }
-        if (e.key === 'Esc') {
+        if (e.key === 'Escape') {
             if(keyword.trim() === ''){
                 onSearchFieldBlur();
                 return;
