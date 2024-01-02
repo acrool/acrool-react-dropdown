@@ -207,7 +207,13 @@ const Dropdown = <T extends unknown>({
             }
         }
 
-    }, [keyword, focusValue]);
+        if(!isSearchEnable){
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+
+    }, [keyword, focusValue, isSearchEnable]);
 
 
     
@@ -345,7 +351,6 @@ const Dropdown = <T extends unknown>({
                 onFocus={onSearchFieldFocus}
                 onKeyDown={handleOnSearchInputKeyDown}
                 autoFocus={isAutoFocusSearchField}
-                readOnly={!isSearchEnable}
             />
 
             {/* Options */}
