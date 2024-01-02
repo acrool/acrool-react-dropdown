@@ -181,7 +181,7 @@ const Dropdown = <T extends unknown>({
             }
         }
 
-    }, []);
+    }, [keyword]);
 
 
     
