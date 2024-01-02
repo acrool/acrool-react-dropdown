@@ -18,7 +18,7 @@ import {
     getNextIndexValue,
     getPrevIndexValue,
     getFirstIndexValue,
-    filterOptions2,
+    filterOptions2, isEmpty,
 } from './utils';
 
 import './styles.css';
@@ -37,6 +37,7 @@ interface IProps<T> {
     onClick?: (value: TOfNull<T>) => void
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void
+    onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
     isSearchEnable?: boolean
     isAutoFocusSearchField?: boolean
     isCheckedEnable?: boolean
@@ -76,6 +77,7 @@ const Dropdown = <T extends unknown>({
     onClick,
     onSearchFieldBlur,
     onSearchFieldFocus,
+    onSearchFieldEsc,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
     isAutoFocusSearchField = true,
@@ -171,11 +173,12 @@ const Dropdown = <T extends unknown>({
             return;
         }
         if (e.key === 'Escape') {
-            if(keyword.trim() === ''){
-                onSearchFieldBlur();
+            e.stopPropagation();
+            e.preventDefault();
+            if(isEmpty(keyword)){
+                onSearchFieldEsc();
                 return;
             }else{
-                e.preventDefault();
                 setKeyword('');
                 return;
             }
