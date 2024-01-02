@@ -35,6 +35,7 @@ interface IProps<T> {
 
     onChange?: (value: TOfNull<T>) => void
     onClick?: (value: TOfNull<T>) => void
+    onEnter?: (value: TOfNull<T>) => void
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void
     onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
@@ -75,6 +76,7 @@ const Dropdown = <T extends unknown>({
     value,
     onChange,
     onClick,
+    onEnter,
     onSearchFieldBlur,
     onSearchFieldFocus,
     onSearchFieldEsc,
@@ -159,7 +161,13 @@ const Dropdown = <T extends unknown>({
      */
     const handleSetValue = useCallback(() => {
         startTransition(() => {
-            handleOnClick(focusValue);
+
+            if (onChange && value !== focusValue) {
+                onChange(focusValue);
+            }
+            if(onClick) {
+                onClick(focusValue);
+            }
         });
     }, [focusValue]);
 
@@ -170,13 +178,16 @@ const Dropdown = <T extends unknown>({
     const handleOnSearchInputKeyDown = useCallback((e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             e.preventDefault();
+            e.stopPropagation();
+            onEnter && onEnter(focusValue);
             return;
         }
         if (e.key === 'Escape') {
-            e.stopPropagation();
             e.preventDefault();
+            e.stopPropagation();
+
             if(isEmpty(keyword)){
-                onSearchFieldEsc();
+                onSearchFieldEsc && onSearchFieldEsc();
                 return;
             }else{
                 setKeyword('');
@@ -184,7 +195,7 @@ const Dropdown = <T extends unknown>({
             }
         }
 
-    }, [keyword]);
+    }, [keyword, focusValue]);
 
 
     
@@ -222,7 +233,10 @@ const Dropdown = <T extends unknown>({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((newValue: TOfNull<T>) => {
+    const handleOnClick = useCallback((e: React.MouseEvent, newValue: TOfNull<T>) => {
+        e.stopPropagation();
+        e.preventDefault();
+
         if (onChange && value !== newValue) {
             onChange(newValue);
         }
@@ -249,7 +263,7 @@ const Dropdown = <T extends unknown>({
             role="option"
             className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
             key={`option-${row.value}`}
-            onMouseDown={() => handleOnClick(row.value)}
+            onMouseDown={(e) => handleOnClick(e, row.value)}
             aria-selected={isFocus ? true: undefined}
             onMouseOver={() => setFocusValue(row.value)}
         >
@@ -292,7 +306,7 @@ const Dropdown = <T extends unknown>({
             return (<div
                 key="no-data"
                 className={elClassNames.listItem}
-                onMouseDown={() => handleOnClick(null)}
+                onClick={(e) => handleOnClick(e,null)}
             >
                 <div className={cx(elClassNames.listItemText, elClassNames.listItemTextNoData)}>No data</div>
             </div>);
@@ -328,8 +342,8 @@ const Dropdown = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
-            <HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>
-            <HotKey hotKey="space" fn={handleSetValue}/>
+            {/*<HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>*/}
+            {/*<HotKey hotKey="space" fn={handleSetValue}/>*/}
             <HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>
             <HotKey hotKey="down" fn={handleMove('down')} enableOnTags={['INPUT']}/>
         </div>
