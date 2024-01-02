@@ -71,7 +71,9 @@ function App() {
                 {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options3} isDark/>*/}
 
                 <Select2 options={placeholderOptions} value={value} onChange={setValue}/>
+                <input type="text"/>
                 <Select2 options={placeholderOptions} value={value} onChange={setValue} isSearchEnable/>
+                <Select2 options={placeholderOptions} value={value} onChange={setValue}/>
             </Flex>
             <p>
                 Edit <code>src/App.tsx</code> and save to test HMR

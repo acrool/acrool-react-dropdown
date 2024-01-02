@@ -93,6 +93,7 @@ const Dropdown = <T extends unknown>({
     // const searchFieldRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
     const [focusValue, setFocusValue] = useState<TOfNull<T>>(value);
+    const [isComposing, setIsComposing] = useState(false);
 
 
     const filteredOptions = useMemo(() => filterOptions2(options, keyword), [JSON.stringify(options), keyword]);
@@ -178,20 +179,20 @@ const Dropdown = <T extends unknown>({
      * 清空搜尋關鍵字
      */
     const handleOnSearchInputKeyDown = useCallback((e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !isComposing) {
             e.preventDefault();
             e.stopPropagation();
             onEnter && onEnter(focusValue);
             return;
         }
-        if(e.key === 'ArrowUp'){
+        if(e.key === 'ArrowUp' && !isComposing){
             console.log('[handleOnSearchInputKeyDown] ArrowUp');
             e.preventDefault();
             e.stopPropagation();
             handleMove('up')();
             return;
         }
-        if(e.key === 'ArrowDown'){
+        if(e.key === 'ArrowDown' && !isComposing){
             console.log('[handleOnSearchInputKeyDown] ArrowDown');
 
             e.preventDefault();
@@ -199,7 +200,7 @@ const Dropdown = <T extends unknown>({
             handleMove('down')();
             return;
         }
-        if (e.key === 'Escape') {
+        if (e.key === 'Escape' && !isComposing) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -218,7 +219,7 @@ const Dropdown = <T extends unknown>({
             return;
         }
 
-    }, [keyword, focusValue, isSearchEnable]);
+    }, [isComposing, keyword, focusValue, isSearchEnable]);
 
 
     
@@ -266,7 +267,13 @@ const Dropdown = <T extends unknown>({
     }, [onClick, value]);
 
 
+    const handleCompositionStart = () => {
+        setIsComposing(true);
+    };
 
+    const handleCompositionEnd = () => {
+        setIsComposing(false);
+    };
 
 
     /**
@@ -353,6 +360,8 @@ const Dropdown = <T extends unknown>({
                 onFocus={onSearchFieldFocus}
                 onKeyDown={handleOnSearchInputKeyDown}
                 autoFocus={isAutoFocusSearchField}
+                onCompositionStart={handleCompositionStart}
+                onCompositionEnd={handleCompositionEnd}
             />
 
             {/* Options */}

@@ -112,6 +112,7 @@ const Select2 = <T extends unknown>({
     const handleOnDropdownLiEnter = (currentValue: T) => {
         console.log('---[Dropdown] onEnter');
         mainElRef.current.focus();
+        setIsVisible(false);
 
         if(onChange){
             onChange(currentValue);
@@ -166,10 +167,10 @@ const Select2 = <T extends unknown>({
      * 處理開啟 Dropdown
      */
     const handleSearchFocus = useCallback(() => {
-        console.log('---[search] focus');
+        console.log('---[search] focus', isButtonFocus);
 
         // console.log('search focus');
-        setIsSearchFocus(true);
+        // setIsSearchFocus(true);
 
         // if(isButtonFocus === false){
         //     setIsVisible(false);
@@ -183,13 +184,20 @@ const Select2 = <T extends unknown>({
         console.log('---[search] blur', isButtonFocus);
 
         // console.log('[search blur]');
-        setIsSearchFocus(false);
+        // setIsSearchFocus(false);
 
-        if(isButtonFocus === false){
-            mainElRef.current.focus();
-            setIsButtonFocus(true);
-            setIsVisible(false);
-        }
+        // if(isButtonFocus === false){
+        //     mainElRef.current.focus();
+        //     setIsButtonFocus(true);
+        //     setIsVisible(false);
+        // }
+        setTimeout(() => {
+            if (document.activeElement !== mainElRef.current) {
+                // setIsSearchFocus(true);
+                setIsVisible(false);
+                setIsButtonFocus(false);
+            }
+        }, 0);
 
     }, [isButtonFocus]);
 
@@ -216,12 +224,11 @@ const Select2 = <T extends unknown>({
 
         setTimeout(() => {
             console.log('---[button] blur', document.activeElement.className);
-            if(document.activeElement === searchFieldRef.current){
-                setIsSearchFocus(true);
-            }else{
+            if(document.activeElement !== searchFieldRef.current){
+                // setIsSearchFocus(true);
                 setIsVisible(false);
+                setIsButtonFocus(false);
             }
-            setIsButtonFocus(false);
 
         }, 0);
 
@@ -326,7 +333,7 @@ const Select2 = <T extends unknown>({
             onKeyDown={e => {
                 // console.log('e.key', e.code, e.key);
                 // 除了 Tab 以外都要阻止原本的行為跟冒泡
-                if(![EKeyboardKey.Tab, EKeyboardKey.Escape].includes(e.key as EKeyboardKey) && e.meta) {
+                if(![EKeyboardKey.Tab, EKeyboardKey.Escape].includes(e.key as EKeyboardKey) && e.metaKey) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
