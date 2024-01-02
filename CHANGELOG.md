@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.6-alpha.47](https://github.com/imagine10255/bear-react-dropdown/compare/v3.0.6-alpha.46...v3.0.6-alpha.47) (2024-01-02)
+
 ### [3.0.6-alpha.46](https://github.com/imagine10255/bear-react-dropdown/compare/v3.0.6-alpha.45...v3.0.6-alpha.46) (2024-01-02)
 
 ### [3.0.6-alpha.45](https://github.com/imagine10255/bear-react-dropdown/compare/v3.0.6-alpha.44...v3.0.6-alpha.45) (2024-01-02)
