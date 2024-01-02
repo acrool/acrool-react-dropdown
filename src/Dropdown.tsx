@@ -207,11 +207,11 @@ const Dropdown = <T extends unknown>({
             }
         }
 
-        if(!isSearchEnable){
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-        }
+        // if(!isSearchEnable){
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        //     return;
+        // }
 
     }, [keyword, focusValue, isSearchEnable]);
 
@@ -340,7 +340,7 @@ const Dropdown = <T extends unknown>({
     return (
         <div className={cx(elClassNames.root, className, {'dark-theme': isDark})} style={style}>
             {/*搜尋框*/}
-            <input className={clsx(elClassNames.textField, {[elClassNames.textFieldHidden]: !isSearchEnable})}
+            <input className={clsx(elClassNames.textField)}
                 type="text"
                 ref={setForwardedRef(ref, searchFieldRef)}
                 value={keyword}
