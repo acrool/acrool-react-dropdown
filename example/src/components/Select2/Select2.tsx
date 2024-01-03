@@ -7,7 +7,7 @@ import Avatar from './_components/Avatar';
 import ModalWrapper from './_components/ModalBgMask/ModalWrapper';
 import Icon from '@/library/bear-react-icon';
 import useClickOutSite from '@/utils/hooks/useClickOutSite';
-import {setRef, setForwardedRef, forwardRefOfGenerics} from '@/utils/copyRef';
+import {setForwardedRef} from '@/utils/copyRef';
 import {EKeyboardKey} from '@/config/keyboard';
 import {Flex} from 'bear-react-grid';
 
@@ -60,41 +60,22 @@ const Select2 = <T extends unknown>({
     const {mainElRef, getPosition} = useClickOutSite<HTMLButtonElement>();
 
     const [isButtonFocus, setIsButtonFocus] = useState(false);
-    const [isSearchFocus, setIsSearchFocus] = useState(false);
+    // const [isSearchFocus, setIsSearchFocus] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
 
 
-    console.log('isSearchFocus', isSearchFocus, 'isButtonFocus', isButtonFocus, 'isVisible', isVisible, searchFieldRef);
+    // console.log('isSearchFocus', isSearchFocus, 'isButtonFocus', isButtonFocus, 'isVisible', isVisible, searchFieldRef);
 
 
-
-    /**
-     * 處理值改變
-     */
-    const handleOnChange = useCallback((currentValue: T) => {
-        if(onChange){
-            onChange(currentValue);
-        }
-        setIsVisible(false);
-
-        console.log('xx');
-        setTimeout(() => {
-            mainElRef.current.focus();
-
-        }, 0);
-
-        // setTimeout(() => {
-        // }, 0);
-    }, [onChange]);
 
 
     /**
      * 處理當Dropdown項目點擊
      * @param currentValue
      */
-    const handleOnDropdownLiClick = (currentValue: T) => {
-        console.log('---[Dropdown] onClick');
+    const handleOnDropdownLiClick = useCallback((currentValue: T) => {
+        // console.log('---[Dropdown] onClick');
 
         mainElRef.current.focus();
         setIsVisible(false);
@@ -102,24 +83,12 @@ const Select2 = <T extends unknown>({
         if(onChange){
             onChange(currentValue);
         }
-    };
+    }, [onChange]);
 
 
     /**
-     * 處理當Dropdown按下鍵盤的Enter
-     * @param currentValue
+     * 取得選中的文字
      */
-    const handleOnDropdownLiEnter = (currentValue: T) => {
-        console.log('---[Dropdown] onEnter');
-        mainElRef.current.focus();
-        setIsVisible(false);
-
-        if(onChange){
-            onChange(currentValue);
-        }
-    };
-
-
     const getText = useMemo(() => {
         let current: IDropdownOption<T>|undefined;
         options?.findIndex((row) => {
@@ -145,133 +114,56 @@ const Select2 = <T extends unknown>({
     }, [value, options, placeholder]);
 
 
+
+
     /**
-     * 處理開啟 Dropdown
+     * 處理 Button focus 狀態
      */
-    const handleOpenDropdown = useCallback(() => {
-        setIsVisible(true);
-    }, []);
+    const handleButtonFocus = useCallback(() => setIsButtonFocus(true), []);
 
 
     /**
-     * 處理開啟 Dropdown
-     */
-    const handleButtonFocus = useCallback(() => {
-        console.log('---[button] focus');
-
-        setIsButtonFocus(true);
-
-    }, []);
-
-    /**
-     * 處理開啟 Dropdown
-     */
-    const handleSearchFocus = useCallback(() => {
-        console.log('---[search] focus', isButtonFocus);
-
-        // console.log('search focus');
-        // setIsSearchFocus(true);
-
-        // if(isButtonFocus === false){
-        //     setIsVisible(false);
-        // }
-    }, [isButtonFocus]);
-
-    /**
-     * 處理開啟 Dropdown
+     * 處理當Dropdown search field blur
      */
     const handleSearchBlur = useCallback(() => {
-        console.log('---[search] blur', isButtonFocus);
-
-        // console.log('[search blur]');
-        // setIsSearchFocus(false);
-
-        // if(isButtonFocus === false){
-        //     mainElRef.current.focus();
-        //     setIsButtonFocus(true);
-        //     setIsVisible(false);
-        // }
         setTimeout(() => {
             if (document.activeElement !== mainElRef.current) {
-                // setIsSearchFocus(true);
                 setIsVisible(false);
                 setIsButtonFocus(false);
             }
         }, 0);
+    }, []);
 
-    }, [isButtonFocus]);
 
     /**
-     * 處理開啟 Dropdown
+     * 處理按下ESC關閉Dropdown
      */
     const handleSearchEsc = useCallback(() => {
-        // console.log('[search esc]');
         mainElRef.current.focus();
         setIsVisible(false);
-
-
     }, [isButtonFocus]);
 
     /**
-     * 處理開啟 Dropdown
+     * 處理當Button blur
      */
     const handleButtonBlur = useCallback(() => {
-        console.log('---[button] blur');
-        // handleCloseDropdown(true)();
-        //     if(document.activeElement.className === elClassNames.textField){
-
-        // setIsButtonFocus(false);
-
         setTimeout(() => {
-            console.log('---[button] blur', document.activeElement.className);
             if(document.activeElement !== searchFieldRef.current){
                 // setIsSearchFocus(true);
                 setIsVisible(false);
                 setIsButtonFocus(false);
             }
-
         }, 0);
-
     }, []);
 
-    /**
-     * 處理關閉 Dropdown
-     */
-    const handleCloseDropdown = useCallback((ignoreInSearch?: boolean) => {
-        return () => {
-            // if(ignoreInSearch){
-            // setTimeout(() => {
-            //     console.log('document.activeElement.className', document.activeElement, document.activeElement.className !== elClassNames.textField);
-            if(isButtonFocus){
-                setIsVisible(false);
-                setIsButtonFocus(false);
-            }
-            // }, 0);
-            // }
-        };
-
-    }, [isButtonFocus]);
-
 
     /**
-     * 處理關閉 Dropdown
+     * 處理Button點擊觸發
      */
-    const handleCloseDropdown2 = useCallback((e: KeyboardEvent) => {
-        setIsVisible(false);
-
-        mainElRef.current.focus();
-
-
-    }, []);
-
-    /**
-     * 處理兩次點擊觸發 blur
-     */
-    const handleDoubleClick = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const handleButtonClick = useCallback((e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
-        // if(isButtonFocus){
         setIsVisible(curr => {
             if(curr){
                 mainElRef.current.focus();
@@ -279,18 +171,12 @@ const Select2 = <T extends unknown>({
 
             return !curr;
         });
-
-        // }
-        // setIsVisible(curr => {
-        //     if(curr){
-        //         e.preventDefault();
-        //         return false;
-        //     }
-        //     return true;
-        // })
     }, []);
 
 
+    /**
+     * 取得加上Placeholder的Options
+     */
     const placeholderOptions: TOption<T>[] = useMemo(() => {
         if(placeholder){
             const placeholderOption: IDropdownOption<T> = {text: placeholder, value: null};
@@ -300,17 +186,6 @@ const Select2 = <T extends unknown>({
 
     }, [value, options, placeholder]);
 
-
-
-    // const handleSearchFieldFocus = useCallback(() => {
-    //     openModal('Select2SearchField');
-    //
-    // }, []);
-    //
-    // const handleSearchFieldBlur = useCallback(() => {
-    //     closeModal('Select2SearchField');
-    //
-    // }, []);
 
 
 
@@ -325,20 +200,19 @@ const Select2 = <T extends unknown>({
         <SelectButton
             type="button"
             ref={setForwardedRef(ref, mainElRef)}
-            // onClick={handleDoubleClick}
-            onMouseDown={handleDoubleClick}
+            onMouseDown={handleButtonClick}
             onFocus={handleButtonFocus}
             onBlur={handleButtonBlur}
 
             onKeyDown={e => {
                 // console.log('e.key', e.code, e.key);
                 // 除了 Tab 以外都要阻止原本的行為跟冒泡
-                if(![EKeyboardKey.Tab, EKeyboardKey.Escape].includes(e.key as EKeyboardKey) && e.metaKey) {
+                if(![EKeyboardKey.Tab, EKeyboardKey.Escape].includes(e.key as EKeyboardKey) && !e.metaKey) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
-                if(['ArrowUp','ArrowDown','Enter'].includes(e.key) || e.code === 'Space') {
-                    handleOpenDropdown();
+                if([EKeyboardKey.ArrowUp, EKeyboardKey.ArrowDown, EKeyboardKey.Enter].includes(e.key) || e.code === 'Space') {
+                    setIsVisible(true);
                 }
                 return false;
             }}
@@ -355,35 +229,30 @@ const Select2 = <T extends unknown>({
 
         {/* 下拉選單 */}
         {isVisible &&
-            <ModalWrapper
-                // ref={mainElRef}
-                position={getPosition()}
-                // onClose={handleCloseDropdown2}
-            >
-                <Dropdown
-                    isDark
-                    searchForwardedRef={searchFieldRef}
-                    options={placeholderOptions}
-                    value={value}
-                    isAvatarEnable={isAvatarEnable}
-                    isSearchEnable={isSearchEnable}
-                    isCheckedEnable
-                    searchTextPlaceholder="type keyword..."
-                    onEnter={handleOnDropdownLiEnter}
-                    onClick={handleOnDropdownLiClick}
-                    onSearchFieldEsc={handleSearchEsc}
+                <ModalWrapper
+                    // ref={mainElRef}
+                    position={getPosition()}
+                    // onClose={handleCloseDropdown2}
+                >
+                    <Dropdown
+                        isDark
+                        locale="ja-JP"
+                        searchForwardedRef={searchFieldRef}
+                        options={placeholderOptions}
+                        value={value}
+                        isAvatarEnable={isAvatarEnable}
+                        isSearchEnable={isSearchEnable}
+                        isCheckedEnable
+                        searchTextPlaceholder="type keyword..."
+                        onEnter={handleOnDropdownLiClick}
+                        onClick={handleOnDropdownLiClick}
+                        onSearchFieldEsc={handleSearchEsc}
 
-                    onSearchFieldFocus={handleSearchFocus}
-                    onSearchFieldBlur={handleSearchBlur}
-                />
-            </ModalWrapper>
+                        // onSearchFieldFocus={handleSearchFocus}
+                        onSearchFieldBlur={handleSearchBlur}
+                    />
+                </ModalWrapper>
         }
-
-        {/*{isButtonFocus && !isVisible && <>*/}
-        {/*    <Hotkey hotKey="down" fn={handleOpenDropdown}/>*/}
-        {/*    /!*<Hotkey hotKey="enter" fn={handleOpenDropdown}/>*!/*/}
-        {/*    /!*<Hotkey hotKey="space" fn={handleOpenDropdown}/>*!/*/}
-        {/*</>}*/}
 
     </Select2Root>
 
@@ -391,7 +260,8 @@ const Select2 = <T extends unknown>({
 };
 
 
-export default forwardRefOfGenerics(Select2);
+
+export default forwardRef(Select2);
 
 
 

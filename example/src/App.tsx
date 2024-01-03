@@ -44,7 +44,7 @@ function App() {
 
 
     const placeholderOptions: TOption<any>[] = useMemo(() => {
-        const placeholderOption: IDropdownOption<string|null> = {text: 'placeholder...', value: null};
+        const placeholderOption: IDropdownOption<string|null> = {text: 'Select assigner...', value: null};
         return [placeholderOption].concat(options3 as any);
 
     }, [value, options3]);

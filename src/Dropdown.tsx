@@ -27,12 +27,13 @@ import {IDropdownOption, TOfNull, TOption} from './types';
 import {filterOptions, isGroupOptions} from './utils';
 import HotKey from './HotKey';
 import {setForwardedRef, forwardRefOfGenerics} from './copyRef';
+import useLocale from './locales';
 
 
 interface IProps<T> {
     className?: string
     style?: CSS.Properties
-
+    locale?: string
     onChange?: (value: TOfNull<T>) => void
     onClick?: (value: TOfNull<T>) => void
     onEnter?: (value: TOfNull<T>) => void
@@ -73,6 +74,7 @@ const halfHeight = (30 * maxItem) / 2;
 const Dropdown = <T extends unknown>({
     className,
     style,
+    locale = 'en-US',
     options,
     value,
     // onChange,
@@ -89,6 +91,7 @@ const Dropdown = <T extends unknown>({
     isDark = false,
     searchForwardedRef,
 }: IProps<T>, ref?: ForwardedRef<HTMLInputElement>) => {
+    const {i18n} = useLocale(locale);
     const [keyword, setKeyword] = useState<string>('');
     // const searchFieldRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
@@ -186,14 +189,14 @@ const Dropdown = <T extends unknown>({
             return;
         }
         if(e.key === 'ArrowUp' && !isComposing){
-            console.log('[handleOnSearchInputKeyDown] ArrowUp');
+            // console.log('[handleOnSearchInputKeyDown] ArrowUp');
             e.preventDefault();
             e.stopPropagation();
             handleMove('up')();
             return;
         }
         if(e.key === 'ArrowDown' && !isComposing){
-            console.log('[handleOnSearchInputKeyDown] ArrowDown');
+            // console.log('[handleOnSearchInputKeyDown] ArrowDown');
 
             e.preventDefault();
             e.stopPropagation();
@@ -334,7 +337,7 @@ const Dropdown = <T extends unknown>({
                 className={elClassNames.listItem}
                 onClick={(e) => handleOnClick(e,null)}
             >
-                <div className={cx(elClassNames.listItemText, elClassNames.listItemTextNoData)}>No data</div>
+                <div className={cx(elClassNames.listItemText, elClassNames.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
             </div>);
 
         }

@@ -5,13 +5,12 @@ export let modalList: string[] = [];
 
 
 export const openModal = (key: string) => {
-    // closeModal(key);
-    console.log('opebnKey', key, modalList);
+    // console.log('opebnKey', key, modalList);
     modalList.push(key);
 };
 
 export const closeModal = (key: string)  => {
-    console.log('closeKey', key, modalList);
+    // console.log('closeKey', key, modalList);
     const currIndex = modalList.findIndex(keyRow => keyRow === key);
     modalList = removeByIndex(modalList, currIndex);
 
