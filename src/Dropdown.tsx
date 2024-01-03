@@ -6,7 +6,7 @@ import React, {
     startTransition,
     useMemo,
     ForwardedRef,
-    ChangeEvent, FocusEvent, forwardRef
+    ChangeEvent, FocusEvent
 } from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
@@ -18,23 +18,22 @@ import {
     getNextIndexValue,
     getPrevIndexValue,
     getFirstIndexValue,
-    filterOptions2, isEmpty,
+    filterOptions, isEmpty,
 } from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
 import {IDropdownOption, TOfNull, TOption} from './types';
-import {filterOptions, isGroupOptions} from './utils';
-import HotKey from './HotKey';
-import {setForwardedRef, forwardRefOfGenerics} from './copyRef';
+import {isGroupOptions} from './utils';
 import useLocale from './locales';
+
+
 
 
 interface IProps<T> {
     className?: string
     style?: CSS.Properties
     locale?: string
-    onChange?: (value: TOfNull<T>) => void
     onClick?: (value: TOfNull<T>) => void
     onEnter?: (value: TOfNull<T>) => void
     onSearchFieldBlur?: (e?: FocusEvent) => void
@@ -46,7 +45,6 @@ interface IProps<T> {
     isAvatarEnable?: boolean
     value?: TOfNull<T>
     options?: Array<TOption<TOfNull<T>>>
-    // options?: IDropdownOption<TOfNull<T>>[] | IDropdownGroupOption<TOfNull<T>>[];
     searchTextPlaceholder?: string
     isDark?: boolean
     searchForwardedRef?: ForwardedRef<HTMLInputElement>
@@ -55,9 +53,6 @@ interface IProps<T> {
 
 
 
-const unitHeight = 30;
-const maxItem = 15;
-const halfHeight = (30 * maxItem) / 2;
 
 /**
  * 時間選擇器
@@ -67,9 +62,7 @@ const halfHeight = (30 * maxItem) / 2;
  * @param onChange 選擇視窗當項目異動時
  * @param value Input Value
  * @param searchTextPlaceholder
- * @param isVisibleSearchText
  * @param isDark 暗黑模式
- * @param ref
  */
 const Dropdown = <T extends unknown>({
     className,
@@ -77,7 +70,6 @@ const Dropdown = <T extends unknown>({
     locale = 'en-US',
     options,
     value,
-    // onChange,
     onClick,
     onEnter,
     onSearchFieldBlur,
@@ -90,52 +82,16 @@ const Dropdown = <T extends unknown>({
     isAvatarEnable = false,
     isDark = false,
     searchForwardedRef,
-}: IProps<T>, ref?: ForwardedRef<HTMLInputElement>) => {
+}: IProps<T>) => {
     const {i18n} = useLocale(locale);
     const [keyword, setKeyword] = useState<string>('');
-    // const searchFieldRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
     const [focusValue, setFocusValue] = useState<TOfNull<T>>(value);
     const [isComposing, setIsComposing] = useState(false);
 
 
-    const filteredOptions = useMemo(() => filterOptions2(options, keyword), [JSON.stringify(options), keyword]);
+    const filteredOptions = useMemo(() => filterOptions(options, keyword), [JSON.stringify(options), keyword]);
 
-
-    /**
-     * 開啟自動 focus 再輸入框(好像重複了)
-     */
-    // useEffect(() => {
-    //     if(isSearchEnable && textRef?.current !== null){
-    //         textRef.current.focus();
-    //     }
-    //
-    //     if(listRef.current && !isEmpty(value)){
-    //
-    //         const activeIndex = options?.findIndex(row => {
-    //             if(isGroupOptions(row)){
-    //                 return row.children.findIndex(child => {
-    //                     return child.value === value;
-    //                 });
-    //             }else{
-    //                 return row.value === value;
-    //             }
-    //         }) ?? -1;
-    //
-    //         if(activeIndex >= 0){
-    //             listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
-    //         }
-    //     }
-    //
-    // }, []);
-    
-    
-    // useEffect(() => {
-    //     if(typeof value !== 'undefined'){
-    //         // 預設Focus為選中項目
-    //         setFocusValue(value);
-    //     }
-    // }, [value]);
 
 
     useEffect(() => {
@@ -162,21 +118,6 @@ const Dropdown = <T extends unknown>({
     }, []);
 
 
-    /**
-     * 設定選中資料
-     */
-    const handleSetValue = useCallback(() => {
-        startTransition(() => {
-
-            // if (onChange && value !== focusValue) {
-            //     onChange(focusValue);
-            // }
-            if(onClick) {
-                onClick(focusValue);
-            }
-        });
-    }, [focusValue]);
-
 
     /**
      * 清空搜尋關鍵字
@@ -189,15 +130,12 @@ const Dropdown = <T extends unknown>({
             return;
         }
         if(e.key === 'ArrowUp' && !isComposing){
-            // console.log('[handleOnSearchInputKeyDown] ArrowUp');
             e.preventDefault();
             e.stopPropagation();
             handleMove('up')();
             return;
         }
         if(e.key === 'ArrowDown' && !isComposing){
-            // console.log('[handleOnSearchInputKeyDown] ArrowDown');
-
             e.preventDefault();
             e.stopPropagation();
             handleMove('down')();
@@ -372,10 +310,6 @@ const Dropdown = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
-            {/*<HotKey hotKey="enter" fn={handleSetValue} enableOnTags={['INPUT']}/>*/}
-            {/*<HotKey hotKey="space" fn={handleSetValue}/>*/}
-            {/*<HotKey hotKey="up" fn={handleMove('up')} enableOnTags={['INPUT']}/>*/}
-            {/*<HotKey hotKey="down" fn={handleMove('down')} enableOnTags={['INPUT']}/>*/}
         </div>
 
     );

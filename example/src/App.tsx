@@ -68,7 +68,7 @@ function App() {
                 {/*<Dropdown value={value} onChange={setValue} options={options3} isDark isAvatarEnable />*/}
                 {/*<Dropdown value={value} onChange={setValue} options={options2} isDark isAvatarEnable />*/}
                 {/*<Dropdown value={value} onChange={setValue} onEnter={setValue} options={placeholderOptions} isDark isSearchEnable={false} />*/}
-                {/*<DropdownMulti value={multiValue} onChange={setMultiValue} options={options3} isDark/>*/}
+                <DropdownMulti value={multiValue} onEnter={setMultiValue} onClick={setMultiValue} isSearchEnable options={options3} isDark/>
 
                 <Select2 options={placeholderOptions} value={value} onChange={setValue}/>
                 <input type="text"/>

@@ -31,14 +31,14 @@ export function matchAZ09(str: string): boolean {
  * @param options
  * @param filterKeyword
  */
-export const filterOptions2 = <T>(options: Array<TOption<TOfNull<T>>>, filterKeyword: string): Array<TOption<TOfNull<T>>> => {
+export const filterOptions = <T>(options: Array<TOption<TOfNull<T>>>, filterKeyword: string): Array<TOption<TOfNull<T>>> => {
     if(filterKeyword?.length === 0) {
         return options;
     }
 
     return options.reduce((curr: Array<TOption<TOfNull<T>>>, option) => {
         if(isGroupOptions(option)){
-            const filteredChildren = filterOptions2(option.children, filterKeyword);
+            const filteredChildren = filterOptions(option.children, filterKeyword);
 
             if(filteredChildren.length > 0){
                 return [
@@ -62,19 +62,19 @@ export const filterOptions2 = <T>(options: Array<TOption<TOfNull<T>>>, filterKey
 };
 
 
-/**
- * 過濾項目
- * @param options
- * @param filterKeyword
- */
-export const filterOptions = <T>(options: IDropdownOption<T>[], filterKeyword: string): IDropdownOption<T>[] => {
-    if(filterKeyword?.length > 0){
-        return options.filter(row => {
-            return String(row.text).toLowerCase().indexOf(filterKeyword.toLowerCase()) !== -1;
-        });
-    }
-    return options;
-};
+// /**
+//  * 過濾項目
+//  * @param options
+//  * @param filterKeyword
+//  */
+// export const filterOptions = <T>(options: IDropdownOption<T>[], filterKeyword: string): IDropdownOption<T>[] => {
+//     if(filterKeyword?.length > 0){
+//         return options.filter(row => {
+//             return String(row.text).toLowerCase().indexOf(filterKeyword.toLowerCase()) !== -1;
+//         });
+//     }
+//     return options;
+// };
 
 
 

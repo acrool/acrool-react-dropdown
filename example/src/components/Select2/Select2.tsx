@@ -60,12 +60,9 @@ const Select2 = <T extends unknown>({
     const {mainElRef, getPosition} = useClickOutSite<HTMLButtonElement>();
 
     const [isButtonFocus, setIsButtonFocus] = useState(false);
-    // const [isSearchFocus, setIsSearchFocus] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
 
-
-    // console.log('isSearchFocus', isSearchFocus, 'isButtonFocus', isButtonFocus, 'isVisible', isVisible, searchFieldRef);
 
 
 
