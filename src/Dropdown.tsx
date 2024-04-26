@@ -1,37 +1,58 @@
-import React, {useState, useRef, useEffect, useCallback, startTransition} from 'react';
+import React, {
+    useState,
+    useRef,
+    useEffect,
+    useCallback,
+    startTransition,
+    useMemo,
+    ForwardedRef,
+    ChangeEvent, FocusEvent
+} from 'react';
 import CSS from 'csstype';
 import elClassNames from './el-class-names';
-import cx from 'classnames';
-import {isEmpty, getOptionStyle} from './utils';
+import cx, {clsx} from 'clsx';
+import {
+    getOptionStyle,
+    getIndex,
+    scrollIntoViewByGroup,
+    getNextIndexValue,
+    getPrevIndexValue,
+    getFirstIndexValue,
+    filterOptions, isEmpty,
+} from './utils';
 
 import './styles.css';
 import {CheckIcon} from './Icon';
 import {IDropdownOption, TOfNull, TOption} from './types';
-import {filterOptions, isGroupOptions} from './utils';
+import {isGroupOptions} from './utils';
+import useLocale from './locales';
+
+
 
 
 interface IProps<T> {
-    className?: string;
+    className?: string
     style?: CSS.Properties
-
-    onChange?: (value: TOfNull<T>) => void;
-    onClick?: (value: TOfNull<T>) => void;
-    isSearchEnable?: boolean,
-    isCheckedEnable?: boolean,
-    isAvatarEnable?: boolean,
-    value?: TOfNull<T>;
-    options?: TOption<TOfNull<T>>[];
+    locale?: string
+    onClick?: (value: TOfNull<T>) => void
+    onEnter?: (value: TOfNull<T>) => void
+    onSearchFieldBlur?: (e?: FocusEvent) => void
+    onSearchFieldFocus?: (e?: FocusEvent) => void
+    onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
+    isSearchEnable?: boolean
+    isAutoFocusSearchField?: boolean
+    isCheckedEnable?: boolean
+    isAvatarEnable?: boolean
+    value?: TOfNull<T>
+    options?: Array<TOption<TOfNull<T>>>
     searchTextPlaceholder?: string
-    activeValue: TOfNull<T>;
-    isDark?: boolean,
+    isDark?: boolean
+    searchForwardedRef?: ForwardedRef<HTMLInputElement>
 }
 
 
 
 
-const unitHeight = 30;
-const maxItem = 15;
-const halfHeight = (30 * maxItem) / 2;
 
 /**
  * 時間選擇器
@@ -41,73 +62,159 @@ const halfHeight = (30 * maxItem) / 2;
  * @param onChange 選擇視窗當項目異動時
  * @param value Input Value
  * @param searchTextPlaceholder
- * @param isVisibleSearchText
  * @param isDark 暗黑模式
  */
 const Dropdown = <T extends unknown>({
     className,
     style,
+    locale = 'en-US',
     options,
     value,
-    onChange,
     onClick,
+    onEnter,
+    onSearchFieldBlur,
+    onSearchFieldFocus,
+    onSearchFieldEsc,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
+    isAutoFocusSearchField = true,
     isCheckedEnable = true,
     isAvatarEnable = false,
     isDark = false,
+    searchForwardedRef,
 }: IProps<T>) => {
+    const {i18n} = useLocale(locale);
     const [keyword, setKeyword] = useState<string>('');
-    const textRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
+    const [focusValue, setFocusValue] = useState<TOfNull<T>>(value);
+    const [isComposing, setIsComposing] = useState(false);
+
+
+    const filteredOptions = useMemo(() => filterOptions(options, keyword), [JSON.stringify(options), keyword]);
+
+
+
+    useEffect(() => {
+        // 移動到Focus位置
+        startTransition(() => {
+            if (typeof focusValue !== 'undefined' && listRef.current) {
+                const {groupIndex, itemIndex} = getIndex(filteredOptions, focusValue);
+
+                if(groupIndex >= 0){
+                    scrollIntoViewByGroup(listRef.current, groupIndex, itemIndex);
+                }
+
+            }
+        });
+        
+    }, [focusValue, filteredOptions]);
+
 
     /**
-     * 開啟自動 focus 再輸入框
+     * 設定搜尋關鍵字
      */
-    useEffect(() => {
-        if(isSearchEnable && textRef?.current !== null){
-            textRef.current.focus();
+    const handleSetKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setKeyword(e.target.value);
+    }, []);
+
+
+
+    /**
+     * 清空搜尋關鍵字
+     */
+    const handleOnSearchInputKeyDown = useCallback((e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && !isComposing) {
+            e.preventDefault();
+            e.stopPropagation();
+            onEnter && onEnter(focusValue);
+            return;
         }
+        if(e.key === 'ArrowUp' && !isComposing){
+            e.preventDefault();
+            e.stopPropagation();
+            handleMove('up')();
+            return;
+        }
+        if(e.key === 'ArrowDown' && !isComposing){
+            e.preventDefault();
+            e.stopPropagation();
+            handleMove('down')();
+            return;
+        }
+        if (e.key === 'Escape' && !isComposing) {
+            e.preventDefault();
+            e.stopPropagation();
 
-        if(listRef.current && !isEmpty(value)){
-
-            const activeIndex = options?.findIndex(row => {
-                if(isGroupOptions(row)){
-                    return row.children.findIndex(child => {
-                        return child.value === value;
-                    });
-                }else{
-                    return row.value === value;
-                }
-            }) ?? -1;
-
-            if(activeIndex >= 0){
-                listRef.current?.scrollTo({top: (activeIndex * unitHeight) - (halfHeight)});
+            if(isEmpty(keyword)){
+                onSearchFieldEsc && onSearchFieldEsc();
+                return;
+            }else{
+                setKeyword('');
+                return;
             }
         }
 
-    }, []);
+        if(!isSearchEnable && !e.metaKey && e.key !== 'Tab'){
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+
+    }, [isComposing, keyword, focusValue, isSearchEnable]);
 
 
-    const handleSetKeyword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        startTransition(() => {
-            setKeyword(e.target.value);
-        });
-    }, []);
+    
+
+
+
+    /**
+     * 處理上下移動
+     */
+    const handleMove = useCallback((direction: 'up'|'down') => {
+        return () => {
+            startTransition(() => {
+                // 設定新的位置
+                setFocusValue(curr => {
+                    const {groupIndex, itemIndex} = getIndex(filteredOptions, curr);
+
+
+                    if(itemIndex >= 0){
+                        // 群組Options
+                        if(direction === 'up'){
+                            return getPrevIndexValue(filteredOptions, groupIndex, itemIndex);
+                        }else if(direction === 'down'){
+                            return getNextIndexValue(filteredOptions, groupIndex, itemIndex);
+                        }
+                    }
+
+                    return getFirstIndexValue(filteredOptions);
+                });
+
+            });
+        };
+    }, [focusValue, filteredOptions]);
 
 
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((newValue: TOfNull<T>) => {
-        if (onChange && value !== newValue) {
-            onChange(newValue);
-        }
-        if(onClick) {
+    const handleOnClick = useCallback((e: React.MouseEvent, newValue: TOfNull<T>) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (onClick && value !== newValue) {
             onClick(newValue);
         }
+    }, [onClick, value]);
 
-    }, [onChange, onClick, value]);
+
+    const handleCompositionStart = () => {
+        setIsComposing(true);
+    };
+
+    const handleCompositionEnd = () => {
+        setIsComposing(false);
+    };
 
 
     /**
@@ -117,12 +224,15 @@ const Dropdown = <T extends unknown>({
     const renderOptionsButton = (row: IDropdownOption<TOfNull<T>>) => {
 
         const isActive = value === row.value;
+        const isFocus = focusValue === row.value;
 
         return <li
             role="option"
             className={cx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
             key={`option-${row.value}`}
-            onClick={() => handleOnClick(row.value)}
+            onMouseDown={(e) => handleOnClick(e, row.value)}
+            aria-selected={isFocus ? true: undefined}
+            onMouseOver={() => setFocusValue(row.value)}
         >
             {isCheckedEnable && <div className={elClassNames.listItemChecked}>
                 {isActive && <CheckIcon/>}
@@ -134,67 +244,72 @@ const Dropdown = <T extends unknown>({
     };
 
     /**
-     * 產生選單
+     * 產生選單列表
      */
-    const renderOptions = useCallback((keyword: string) => {
+    const renderOptions = useCallback(() => {
 
-        const formatOption = options
-            ?.filter(row => {
-                if(isGroupOptions(row)){
-                    return filterOptions(row.children.map(child => child), keyword).length > 0;
-                }
-                return filterOptions([row], keyword).length > 0;
-            })
-            .map((row) => {
-                if(isGroupOptions(row)){
-
-                    return <li key={`group_${row.groupName}`} role="group">
-                        <strong className={elClassNames.listGroupName}>{row.groupName}</strong>
+        const elOptions = filteredOptions
+            ?.map(option => {
+                if(isGroupOptions(option)) {
+                    return <li key={`group_${option.groupName}`} role="group">
+                        <strong className={elClassNames.listGroupName}>{option.groupName}</strong>
                         <ul className={elClassNames.listGroupChildren} role="none">
                             {
-                                filterOptions(row.children, keyword)
-                                    .map(row => renderOptionsButton(row)
-                                    )}
+                                option.children
+                                    .map(row => renderOptionsButton(row))
+                            }
                         </ul>
                     </li>;
                 }
 
-                return renderOptionsButton(row);
+                return renderOptionsButton(option);
+
             });
 
 
-        if(formatOption && formatOption.length > 0){
-            return formatOption;
+
+        if(!elOptions || elOptions?.length === 0){
+            // 無資料回傳
+            return (<div
+                key="no-data"
+                className={elClassNames.listItem}
+                onClick={(e) => handleOnClick(e,null)}
+            >
+                <div className={cx(elClassNames.listItemText, elClassNames.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
+            </div>);
+
         }
 
-        return (<div
-            key="no-data"
-            className={elClassNames.listItem}
-            onClick={() => handleOnClick(null)}
-        >
-            <div className={elClassNames.listItemText}>No data</div>
-        </div>);
+        return elOptions;
 
-
-    }, [options, value]);
+    }, [filteredOptions, value, focusValue]);
 
 
 
     return (
         <div className={cx(elClassNames.root, className, {'dark-theme': isDark})} style={style}>
-            {isSearchEnable &&
-                <input className={elClassNames.textField}
-                    type="text"
-                    value={keyword}
-                    onChange={handleSetKeyword}
-                    placeholder={searchTextPlaceholder}
-                />
-            }
+            {/*搜尋框*/}
+            <input className={clsx(elClassNames.textField, {[elClassNames.textFieldHidden]: !isSearchEnable})}
+                type="text"
+                // ref={setForwardedRef(ref, searchFieldRef)}
+                ref={searchForwardedRef}
+                value={keyword}
+                onChange={handleSetKeyword}
+                placeholder={searchTextPlaceholder}
+                tabIndex={-1}
+                onBlur={onSearchFieldBlur}
+                onFocus={onSearchFieldFocus}
+                onKeyDown={handleOnSearchInputKeyDown}
+                autoFocus={isAutoFocusSearchField}
+                onCompositionStart={handleCompositionStart}
+                onCompositionEnd={handleCompositionEnd}
+            />
 
             {/* Options */}
             <ul className={elClassNames.list} ref={listRef} role="listbox">
-                {renderOptions(keyword)}
+                {renderOptions()}
             </ul>
+
         </div>
 
     );
