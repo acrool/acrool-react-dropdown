@@ -273,3 +273,9 @@ export function scrollIntoViewByGroup<T>(ul: HTMLUListElement, groupIndex: numbe
 }
 
 
+/**
+ * 判斷是否為手機裝置
+ */
+export function checkIsMobile(): boolean {
+    try { document.createEvent('TouchEvent'); return true; } catch (e) { return false; }
+}

@@ -18,7 +18,7 @@ import {
     getNextIndexValue,
     getPrevIndexValue,
     getFirstIndexValue,
-    filterOptions, isEmpty, removeByIndex,
+    filterOptions, isEmpty, removeByIndex, checkIsMobile,
 } from './utils';
 
 import './styles.css';
@@ -41,7 +41,6 @@ interface IProps<T> {
     onSearchFieldFocus?: (e?: FocusEvent) => void
     onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
     isSearchEnable?: boolean
-    isAutoFocusSearchField?: boolean
     isCheckedEnable?: boolean
     isAvatarEnable?: boolean
     value?: TOfNull<T[]> // Array<number,string> 或 null
@@ -56,7 +55,7 @@ interface IProps<T> {
 
 
 /**
- * 時間選擇器
+ * 多選下拉選擇器
  * @param className
  * @param style
  * @param options
@@ -78,7 +77,6 @@ const DropdownMulti = <T extends unknown>({
     onSearchFieldEsc,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
-    isAutoFocusSearchField = true,
     isCheckedEnable = true,
     isAvatarEnable = false,
     isDark = false,
@@ -341,7 +339,7 @@ const DropdownMulti = <T extends unknown>({
                 onBlur={onSearchFieldBlur}
                 onFocus={onSearchFieldFocus}
                 onKeyDown={handleOnSearchInputKeyDown}
-                autoFocus={isAutoFocusSearchField}
+                autoFocus={!checkIsMobile()}
                 onCompositionStart={handleCompositionStart}
                 onCompositionEnd={handleCompositionEnd}
             />
