@@ -1,5 +1,5 @@
 import {useEffect, useId} from 'react';
-import {useHotkeys} from 'react-hotkeys-hook';
+// import {useHotkeys} from 'react-hotkeys-hook';
 
 import {closeModal, getCurrent, openModal, modalList} from '@/utils/modal';
 
@@ -23,12 +23,12 @@ const useEscClose = (modalKey: string, onClose?: (e?: KeyboardEvent) => void, en
     }, []);
 
 
-    useHotkeys<HTMLDivElement>('esc', (e) => {
-        console.log('close hook modalKey', modalKey, modalList);
-        if(getCurrent() === modalKey){
-            if(onClose) onClose(e);
-        }
-    }, {enableOnTags: enableOnTags ?? ['INPUT', 'TEXTAREA']}, [onClose]);
+    // useHotkeys<HTMLDivElement>('esc', (e) => {
+    //     console.log('close hook modalKey', modalKey, modalList);
+    //     if(getCurrent() === modalKey){
+    //         if(onClose) onClose(e);
+    //     }
+    // }, {enableOnTags: enableOnTags ?? ['INPUT', 'TEXTAREA']}, [onClose]);
 
 };
 

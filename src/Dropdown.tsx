@@ -33,8 +33,8 @@ interface IProps<T> {
     className?: string
     style?: CSS.Properties
     locale?: string
-    onClick?: (value: TOfNull<T>) => void
-    onEnter?: (value: TOfNull<T>) => void
+    onClick?: (value: TOfNull<T>, isDiff: boolean) => void
+    onEnter?: (value: TOfNull<T>, isDiff: boolean) => void
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void
     onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
@@ -123,7 +123,9 @@ const Dropdown = <T extends unknown>({
         if (e.key === 'Enter' && !isComposing) {
             e.preventDefault();
             e.stopPropagation();
-            onEnter && onEnter(focusValue);
+
+            const isDiff = JSON.stringify(value) !== JSON.stringify(focusValue);
+            onEnter && onEnter(focusValue, isDiff);
             return;
         }
         if(e.key === 'ArrowUp' && !isComposing){
@@ -199,9 +201,9 @@ const Dropdown = <T extends unknown>({
         e.stopPropagation();
         e.preventDefault();
 
-        if (onClick && value !== newValue) {
-            onClick(newValue);
-        }
+        const isDiff = JSON.stringify(value) !== JSON.stringify(newValue);
+        onClick(newValue, isDiff);
+
     }, [onClick, value]);
 
 

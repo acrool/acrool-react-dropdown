@@ -33,8 +33,8 @@ interface IProps<T> {
     className?: string
     style?: CSS.Properties
     locale?: string
-    onClick?: (value: TOfNull<TOfNull<T>[]>) => void
-    onEnter?: (value: TOfNull<TOfNull<T>[]>) => void
+    onClick?: (value: TOfNull<TOfNull<T>[]>, isDiff: boolean) => void
+    onEnter?: (value: TOfNull<TOfNull<T>[]>, isDiff: boolean) => void
 
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void
@@ -211,11 +211,9 @@ const DropdownMulti = <T extends unknown>({
             formatValues = null;
         }
 
-        // 異動才觸發 onChange
-        if(JSON.stringify(formatValues) !== JSON.stringify(value)){
-            onEnter && onEnter(formatValues);
-        }
-        
+        const isDiff = JSON.stringify(formatValues) !== JSON.stringify(value);
+        onEnter && onEnter(formatValues, isDiff);
+
     }, [onEnter, JSON.stringify(value)]);
 
 
@@ -238,10 +236,8 @@ const DropdownMulti = <T extends unknown>({
             formatValues = null;
         }
 
-        // 異動才觸發 onChange
-        if(JSON.stringify(formatValues) !== JSON.stringify(value)){
-            onClick(formatValues);
-        }
+        const isDiff = JSON.stringify(formatValues) !== JSON.stringify(value);
+        onClick(formatValues, isDiff);
 
     }, [onClick, value]);
 
