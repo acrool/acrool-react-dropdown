@@ -1,5 +1,5 @@
 import {isEmpty} from 'bear-jsutils/equal';
-import {Dropdown, IDropdownOption, isGroupOptions, TOption, elClassNames} from 'bear-react-dropdown';
+import {Dropdown, IDropdownOption, isGroupOptions, TOption} from 'bear-react-dropdown';
 import React, {ForwardedRef, forwardRef, useCallback, useMemo, useState, useRef, useEffect} from 'react';
 import styled, {css} from 'styled-components';
 

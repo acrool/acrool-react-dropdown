@@ -19,6 +19,13 @@ export default defineConfig(({mode}) => {
             }),
             visualizer() as Plugin,
         ],
+        css: {
+            modules: {
+                localsConvention: 'camelCase',
+                scopeBehaviour: 'local',
+                generateScopedName: 'acrool-react-dropdown__[name]__[local]',
+            }
+        },
         build: {
             sourcemap: isDev,
             lib: {

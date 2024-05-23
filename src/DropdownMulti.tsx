@@ -9,7 +9,6 @@ import React, {
     ChangeEvent, FocusEvent
 } from 'react';
 import CSS from 'csstype';
-import elClassNames from './el-class-names';
 import {clsx} from 'clsx';
 import {
     getOptionStyle,
@@ -21,7 +20,7 @@ import {
     filterOptions, isEmpty, removeByIndex, checkIsMobile,
 } from './utils';
 
-import './styles.css';
+import styles from './dropdown.module.scss';
 import {CheckIcon} from './Icon';
 import {IDropdownOption, TOfNull, TOption} from './types';
 import {isGroupOptions} from './utils';
@@ -267,18 +266,18 @@ const DropdownMulti = <T extends unknown>({
 
         return <li
             role="option"
-            className={clsx(elClassNames.listItem, {[elClassNames.listItemActive]: isActive})}
+            className={clsx(styles.listItem, {[styles.listItemActive]: isActive})}
             key={`option-${row.value}`}
             onMouseDown={(e) => handleOnClick(e, row.value)}
             aria-selected={isFocus ? true: undefined}
             onMouseOver={() => setFocusValue(row.value)}
         >
-            {isCheckedEnable && <div className={elClassNames.listItemChecked}>
+            {isCheckedEnable && <div className={styles.listItemChecked}>
                 {isActive && <CheckIcon/>}
             </div>
             }
-            {isAvatarEnable && <div className={elClassNames.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
-            <div className={clsx(elClassNames.listItemText, {[elClassNames.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
+            {isAvatarEnable && <div className={styles.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
+            <div className={clsx(styles.listItemText, {[styles.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
         </li>;
     };
 
@@ -291,8 +290,8 @@ const DropdownMulti = <T extends unknown>({
             ?.map(option => {
                 if(isGroupOptions(option)) {
                     return <li key={`group_${option.groupName}`} role="group">
-                        <strong className={elClassNames.listGroupName}>{option.groupName}</strong>
-                        <ul className={elClassNames.listGroupChildren} role="none">
+                        <strong className={styles.listGroupName}>{option.groupName}</strong>
+                        <ul className={styles.listGroupChildren} role="none">
                             {
                                 option.children
                                     .map(row => renderOptionsButton(row))
@@ -311,10 +310,10 @@ const DropdownMulti = <T extends unknown>({
             // 無資料回傳
             return (<div
                 key="no-data"
-                className={elClassNames.listItem}
+                className={styles.listItem}
                 onClick={(e) => handleOnClick(e,null)}
             >
-                <div className={clsx(elClassNames.listItemText, elClassNames.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
+                <div className={clsx(styles.listItemText, styles.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
             </div>);
 
         }
@@ -326,9 +325,9 @@ const DropdownMulti = <T extends unknown>({
 
 
     return (
-        <div className={clsx(elClassNames.root, className, {'dark-theme': isDark})} style={style}>
+        <div className={clsx(styles.root, className, {[styles.darkTheme]: isDark})} style={style}>
             {/*搜尋框*/}
-            <input className={clsx(elClassNames.textField, {[elClassNames.textFieldHidden]: !isSearchEnable})}
+            <input className={clsx(styles.textField, {[styles.textFieldHidden]: !isSearchEnable})}
                 type="text"
                 // ref={setForwardedRef(ref, searchFieldRef)}
                 ref={searchForwardedRef}
@@ -345,7 +344,7 @@ const DropdownMulti = <T extends unknown>({
             />
 
             {/* Options */}
-            <ul className={elClassNames.list} ref={listRef} role="listbox">
+            <ul className={styles.list} ref={listRef} role="listbox">
                 {renderOptions()}
             </ul>
 

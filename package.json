@@ -44,11 +44,11 @@
     "release:patch": "standard-version -r patch",
     "release:alpha": "standard-version --prerelease alpha"
   },
-  "dependencies": {
+  "peerDependencies": {
+    "clsx": "2.x",
     "react": "^18.x",
     "react-dom": "^18.x",
-    "react-hotkeys-hook": "^3.x",
-    "clsx": "^2.x"
+    "react-hotkeys-hook": "^3.x"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
@@ -65,9 +65,14 @@
     "standard-version": "^9.5.0",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.3",
+    "react-hotkeys-hook": "^3.4.7",
+    "react": "^18.x",
+    "react-dom": "^18.x",
+    "clsx": "2.1.1",
     "vite": "^4.3.9",
     "vite-plugin-dts": "^2.1.0",
-    "vite-plugin-eslint": "^1.8.1"
+    "vite-plugin-eslint": "^1.8.1",
+    "sass": "^1.77.1"
   },
   "config": {
     "commitizen": {
