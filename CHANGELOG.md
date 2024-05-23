@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.8](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.8-alpha.1...v3.0.8) (2024-05-23)
+
 ### [3.0.8-alpha.1](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.8-alpha.0...v3.0.8-alpha.1) (2024-05-23)
 
 ### [3.0.8-alpha.0](https://github.com/imagine10255/bear-react-dropdown/compare/v3.0.7...v3.0.8-alpha.0) (2024-04-29)
