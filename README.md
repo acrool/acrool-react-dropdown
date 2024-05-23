@@ -1,9 +1,13 @@
-# bear-react-dropdown
+# Acrool React Dropdown
 
 > Dropdown list with React Component
 
-[![NPM](https://img.shields.io/npm/v/bear-react-dropdown.svg)](https://www.npmjs.com/package/@imagine10255/bear-react-dropdown)
-[![npm](https://img.shields.io/npm/dm/bear-react-dropdown.svg)](https://www.npmjs.com/package/@imagine10255/bear-react-dropdown)
+
+[![NPM](https://img.shields.io/npm/v/@acrool/react-dropdown.svg?style=for-the-badge)](https://www.npmjs.com/package/@acrool/react-dropdown)
+[![npm downloads](https://img.shields.io/npm/dm/@acrool/react-dropdown.svg?style=for-the-badge)](https://www.npmjs.com/package/@acrool/react-dropdown)
+[![npm](https://img.shields.io/npm/dt/@acrool/react-dropdown.svg?style=for-the-badge)](https://www.npmjs.com/package/@acrool/react-dropdown)
+[![npm](https://img.shields.io/npm/l/@acrool/react-dropdown?style=for-the-badge)](https://github.com/imagine10255/@acrool/react-dropdown/blob/main/LICENSE)
+[![npm](https://img.shields.io/bundlejs/size/@acrool/react-dropdown?style=for-the-badge)](https://github.com/imagine10255/@acrool/react-dropdown/blob/main/LICENSE)
 
 <img src="https://raw.githubusercontent.com/imagine10255/bear-react-dropdown/main/docs/dropdown.jpg" width="700"/>
 
@@ -11,19 +15,19 @@
 ## Install
 
 ```bash
-yarn add bear-react-dropdown
+yarn add @acrool/react-dropdown
 ```
 
 ## Usage
 
 add in your index.tsx
 ```tst
-import "bear-react-dropdown/dist/index.css";
+import "@acrool/react-dropdown/dist/index.css";
 ```
 
 then in your page
 ```tsx
-import {Dropdown, DropdownMulti} from 'bear-react-dropdown';
+import {Dropdown, DropdownMulti} from '@acrool/react-dropdown';
 
 
 const BaseUsed = () => {
