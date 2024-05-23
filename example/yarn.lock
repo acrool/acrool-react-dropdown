@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@acrool/react-dropdown@link:..":
+  version "0.0.0"
+  uid ""
+
 "@babel/code-frame@^7.22.13", "@babel/code-frame@^7.23.5":
   version "7.23.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.23.5.tgz#9009b69a8c602293476ad598ff53e4562e15c244"
@@ -518,10 +522,6 @@ bear-jsutils@^3.2.0-alpha.1:
   resolved "https://registry.yarnpkg.com/bear-jsutils/-/bear-jsutils-3.2.0-alpha.1.tgz#76e1af3f935ea56bfd6e8fab0d97e03fc3b483cf"
   integrity sha512-VQL/wnBCz6lI5IT/Cz3B3ETcgXY2eYUzqOOqvqJ8MhU/UPXwCwmrRYCDcwGEDWOpznNgjQqO94fRudZaDUwlwg==
 
-"bear-react-dropdown@link:..":
-  version "0.0.0"
-  uid ""
-
 bear-react-grid@^5.0.13:
   version "5.0.13"
   resolved "https://registry.yarnpkg.com/bear-react-grid/-/bear-react-grid-5.0.13.tgz#f73260c17acd8ded1b02ce671ef0a3788572b450"
@@ -549,11 +549,6 @@ chalk@^2.4.2:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
-
-clsx@^2.x:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.1.0.tgz#e851283bcb5c80ee7608db18487433f7b23f77cb"
-  integrity sha512-m3iNNWpd9rl3jvvcBnu70ylMdrXt8Vlq4HYadnU5fwcOtvkSQWPmj7amUcDT2qYI7risszBjI5AUIUox9D16pg==
 
 color-convert@^1.9.0:
   version "1.9.3"
@@ -648,11 +643,6 @@ hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.0:
   dependencies:
     react-is "^16.7.0"
 
-hotkeys-js@3.9.4:
-  version "3.9.4"
-  resolved "https://registry.yarnpkg.com/hotkeys-js/-/hotkeys-js-3.9.4.tgz#ce1aa4c3a132b6a63a9dd5644fc92b8a9b9cbfb9"
-  integrity sha512-2zuLt85Ta+gIyvs4N88pCYskNrxf1TFv3LR9t5mdAZIX8BcgQQ48F2opUptvHa6m8zsy5v/a0i9mWzTrlNWU0Q==
-
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -716,13 +706,6 @@ react-dom@^18.2.0, react-dom@^18.x:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
-
-react-hotkeys-hook@^3.x:
-  version "3.4.7"
-  resolved "https://registry.yarnpkg.com/react-hotkeys-hook/-/react-hotkeys-hook-3.4.7.tgz#e16a0a85f59feed9f48d12cfaf166d7df4c96b7a"
-  integrity sha512-+bbPmhPAl6ns9VkXkNNyxlmCAIyDAcWbB76O4I0ntr3uWCRuIQf/aRLartUahe9chVMPj+OEzzfk3CQSjclUEQ==
-  dependencies:
-    hotkeys-js "3.9.4"
 
 react-is@^16.7.0:
   version "16.13.1"

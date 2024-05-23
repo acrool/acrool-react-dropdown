@@ -1,5 +1,5 @@
 {
-  "name": "bear-react-dropdown",
+  "name": "@acrool/react-dropdown",
   "version": "3.0.8-alpha.0",
   "description": "Dropdown list with React Component",
   "keywords": [
@@ -12,13 +12,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/imagine10255/bear-react-dropdown.git"
+    "url": "https://github.com/acrool/acrool-react-dropdown.git"
   },
-  "module": "./dist/bear-react-dropdown.es.js",
+  "module": "./dist/acrool-react-dropdown.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/bear-react-dropdown.es.js"
+      "import": "./dist/acrool-react-dropdown.es.js"
     },
     "./dist/index.css": "./dist/style.css"
   },

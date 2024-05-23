@@ -1,11 +1,11 @@
 import {useState, useMemo} from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
-import {Dropdown, DropdownMulti, TOption, IDropdownOption} from 'bear-react-dropdown';
+import {Dropdown, DropdownMulti, TOption, IDropdownOption} from '@acrool/react-dropdown';
 import {groupBy} from 'bear-jsutils/array';
 
 import './App.css';
-import 'bear-react-dropdown/dist/index.css';
+import '@acrool/react-dropdown/dist/index.css';
 import {data} from './config/data';
 import Select2 from '@/components/Select2';
 import {Flex} from 'bear-react-grid';

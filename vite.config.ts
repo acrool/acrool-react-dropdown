@@ -31,7 +31,7 @@ export default defineConfig(({mode}) => {
             lib: {
                 entry: path.resolve(__dirname, 'src/index.ts'),
                 formats: ['es'],
-                fileName: (format) => `bear-react-dropdown.${format}.js`,
+                fileName: (format) => `acrool-react-dropdown.${format}.js`,
             },
             cssTarget: 'chrome61',
             rollupOptions: {
