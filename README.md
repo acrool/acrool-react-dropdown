@@ -1,15 +1,24 @@
 # Acrool React Dropdown
 
-> Dropdown list with React Component
+<a href="https://acrool-react-dropdown.pages.dev/" title="Acrool React Dropdown - Dropdown list with React Component">
+    <img src="https://acrool-react-dropdown.pages.dev/og.webp" alt="Acrool React Dropdown Logo"/>
+</a>
 
+<p align="center">
+    Dropdown list with React Component
+</p>
+
+<div align="center">
 
 [![NPM](https://img.shields.io/npm/v/@acrool/react-dropdown.svg?style=for-the-badge)](https://www.npmjs.com/package/@acrool/react-dropdown)
+[![npm](https://img.shields.io/bundlejs/size/@acrool/react-dropdown?style=for-the-badge)](https://github.com/acrool/@acrool/react-dropdown/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/l/@acrool/react-dropdown?style=for-the-badge)](https://github.com/acrool/react-dropdown/blob/main/LICENSE)
+
 [![npm downloads](https://img.shields.io/npm/dm/@acrool/react-dropdown.svg?style=for-the-badge)](https://www.npmjs.com/package/@acrool/react-dropdown)
 [![npm](https://img.shields.io/npm/dt/@acrool/react-dropdown.svg?style=for-the-badge)](https://www.npmjs.com/package/@acrool/react-dropdown)
-[![npm](https://img.shields.io/npm/l/@acrool/react-dropdown?style=for-the-badge)](https://github.com/imagine10255/@acrool/react-dropdown/blob/main/LICENSE)
-[![npm](https://img.shields.io/bundlejs/size/@acrool/react-dropdown?style=for-the-badge)](https://github.com/imagine10255/@acrool/react-dropdown/blob/main/LICENSE)
 
-<img src="https://raw.githubusercontent.com/imagine10255/bear-react-dropdown/main/docs/dropdown.jpg" width="700"/>
+</div>
+
 
 
 ## Install
@@ -30,33 +39,43 @@ then in your page
 import {Dropdown, DropdownMulti} from '@acrool/react-dropdown';
 
 
-const BaseUsed = () => {
+const Example = () => {
     const [value, setValue] = useState<string|null>('');
     const [multiValue, setMultiValue] = useState<Array<string|null>|null>(null);
 
-    const options1 = [
-        {text: 'Jack Wu', value: '1'},
-        {text: 'Imagine Chiu', value: '2'},
-        {text: 'Jason Dinwiddie', value: '3'},
-        {text: 'Gloria Lu', value: '4'},
-    ];
-    const options2 = [
-        {text: 'Select option item...', value: '', avatarUrl: ''},
-        {text: 'Jack Wu', value: '1', avatarUrl: asset('/images/avatar/female-1.jpg')},
-        {text: 'Imagine Chiu', value: '2', avatarUrl: asset('/images/avatar/female-2.jpg')},
-        {text: 'Jason Dinwiddie', value: '3', avatarUrl: asset('/images/avatar/female-3.jpg')},
-        {text: 'Gloria Lu', value: '4', avatarUrl: asset('/images/avatar/female-4.jpg')},
-    ];
+    const renderDropdown = () => {
+        const options = [
+            {text: 'Jack Wu', value: '1'},
+            {text: 'Imagine Chiu', value: '2'},
+            {text: 'Jason Dinwiddie', value: '3'},
+            {text: 'Gloria Lu', value: '4'},
+        ];
+        return <Dropdown value={value} onChange={setValue} options={options}/>;
+    }
+    
+    const renderDropdownMulti = () => {
+        const options = [
+            {text: 'Select option item...', value: '', avatarUrl: ''},
+            {text: 'Jack Wu', value: '1', avatarUrl: asset('/images/avatar/female-1.jpg')},
+            {text: 'Imagine Chiu', value: '2', avatarUrl: asset('/images/avatar/female-2.jpg')},
+            {text: 'Jason Dinwiddie', value: '3', avatarUrl: asset('/images/avatar/female-3.jpg')},
+            {text: 'Gloria Lu', value: '4', avatarUrl: asset('/images/avatar/female-4.jpg')},
+        ];
+        return <DropdownMulti value={multiValue} onChange={setMultiValue} options={options2} isDark/>;
+    }
     
     return (
-        <div>
-            <Dropdown value={value} onChange={setValue} options={options1} className="mr-3"/>
-            <DropdownMulti value={multiValue} onChange={setMultiValue} options={options2} isDark/>
-        </div>
+        <>
+            {renderDropdown()}
+            {renderDropdownMulti()}
+        </>
     );
 
 };
 ```
+
+<img src="https://raw.githubusercontent.com/imagine10255/bear-react-dropdown/main/docs/dropdown.jpg" width="700"/>
+
 
 
 There is also a codesandbox template that you can fork and play with it:

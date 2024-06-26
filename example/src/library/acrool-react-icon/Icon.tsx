@@ -1,6 +1,6 @@
-import IconSvg, {IIconSvgProps} from 'bear-react-iconsvg';
+import IconSvg, {IIconSvgProps} from '@acrool/react-iconsvg';
 import React from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 import {TIconCode} from './SvgSymbol';
 
@@ -30,6 +30,10 @@ export default Icon;
 
 
 const ThemeIconSvg = styled(IconSvg)`
-  --primary-color: ${props => props.theme.primaryColor};
-  --secondary-color: var(--primary-color2);
+  ${props => props.color === 'primary' && css`
+      --iconsvg-color: var(--primary-color) !important;
+  `}
+  ${props => props.color === 'secondary' && css`
+    --iconsvg-color: var(--secondary-color) !important;
+  `}
 `;

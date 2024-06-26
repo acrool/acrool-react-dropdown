@@ -5,11 +5,29 @@ import styled, {css} from 'styled-components';
 
 import Avatar from './_components/Avatar';
 import ModalWrapper from './_components/ModalBgMask/ModalWrapper';
-import Icon from '@/library/bear-react-icon';
+import Icon from '@/library/acrool-react-icon';
 import useClickOutSite from '@/utils/hooks/useClickOutSite';
 import {setForwardedRef} from '@/utils/copyRef';
 import {EKeyboardKey} from '@/config/keyboard';
-import {Flex} from 'bear-react-grid';
+import {Flex} from '@acrool/react-grid';
+
+
+
+export interface IProps<T> extends FCProps {
+    title?: string
+    name?: string
+    value?: T|null
+    options?: TOption<T>[]
+    disabled?: boolean
+    onChange?: (value: T) => void
+    errorMessage?: string
+    remarkMessage?: string
+    placeholder?: string
+    isSearchEnable?: boolean
+    isAvatarEnable?: boolean
+    isLink?: boolean
+}
+
 
 
 
@@ -45,6 +63,7 @@ export interface IProps<T> extends FCProps {
 const Select2 = <T extends unknown>({
     style,
     className,
+    id,
     options,
     disabled = false,
     value,

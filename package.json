@@ -18,6 +18,7 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "browser": "./dist/acrool-react-dropdown.es.js",
       "import": "./dist/acrool-react-dropdown.es.js"
     },
     "./dist/index.css": "./dist/style.css"

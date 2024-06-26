@@ -12,13 +12,13 @@
     "styled-components": "5.3.9"
   },
   "dependencies": {
+    "@acrool/react-dropdown": "link:..",
+    "@acrool/react-iconsvg": "^4.1.1",
+    "@acrool/react-grid": "^5.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@acrool/react-dropdown": "link:..",
     "bear-jsutils": "^3.2.0-alpha.1",
     "styled-components": "5.3.9",
-    "bear-react-iconsvg": "^4.0.0",
-    "bear-react-grid": "^5.0.13",
     "@swc/core": "^1.3.68",
     "@swc/plugin-styled-components": "^1.5.68",
     "@types/styled-components": "^5.1.26"
@@ -28,6 +28,8 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "typescript": "^5.0.3",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "vite-plugin-svgr": "^4.2.0",
+    "wrangler": "3.26.0"
   }
 }

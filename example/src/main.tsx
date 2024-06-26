@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
-import 'bear-react-grid/dist/index.css';
-import {ThemeProvider} from 'styled-components';
-import {GridThemeProvider} from 'bear-react-grid';
+
+import {GridThemeProvider} from '@acrool/react-grid';
+import '@acrool/react-grid/dist/index.css';
+import '@acrool/react-dropdown/dist/index.css';
+import '@acrool/react-iconsvg/dist/index.css';
 
 
 const AppProvider = () => {
-    return <GridThemeProvider gridTheme={{}}>
+    return <GridThemeProvider>
         <App />
     </GridThemeProvider>;
 };
