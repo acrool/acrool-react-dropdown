@@ -19,7 +19,13 @@
 
 </div>
 
+## Features
 
+- Supports two themes (light/dark)
+- Support multiple selection function
+- Support avatar display
+- Support search search function
+- Support accessibility (keyboard Tab, Arrow Top, Bottom, Enter)
 
 ## Install
 
@@ -90,9 +96,9 @@ if need use `null` value, options type
 }
 ```
 
-There is also a codesandbox template that you can fork and play with it:
+There is also a example that you can play with it:
 
-[![Edit react-editext-template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/bear-react-dropdown-1uvhiw)
+[![Play react-editext-example](https://raw.githubusercontent.com/acrool/acrool-react-dropdown/main/preview.svg)](https://acrool-react-dropdown.pages.dev)
 
 
 ## License
