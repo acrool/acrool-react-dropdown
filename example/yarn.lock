@@ -2,10 +2,9 @@
 # yarn lockfile v1
 
 
-"@acrool/react-dropdown@3.0.9":
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/@acrool/react-dropdown/-/react-dropdown-3.0.9.tgz#9ea8df585be7f7ea49fe9ba3d2af3b3429f6b1ca"
-  integrity sha512-OQ1ylGJXD/ALVrwxdAhf066mG5EuOmKD6JFI9IMpHEoFWFBJLs2usONajQS/Z1WCGrdthdiA2dU+dy+2z3VTpg==
+"@acrool/react-dropdown@link:..":
+  version "0.0.0"
+  uid ""
 
 "@acrool/react-grid@^5.2.1":
   version "5.2.1"

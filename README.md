@@ -78,6 +78,18 @@ const Example = () => {
 
 
 
+## Options
+
+if need use `null` value, options type
+
+```json
+{
+    "compilerOptions": {
+        "strictNullChecks": false
+    }
+}
+```
+
 There is also a codesandbox template that you can fork and play with it:
 
 [![Edit react-editext-template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/bear-react-dropdown-1uvhiw)
