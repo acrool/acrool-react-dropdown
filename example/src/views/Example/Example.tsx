@@ -1,7 +1,7 @@
 import {Dropdown, DropdownMulti, IDropdownOption, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
 import {groupBy} from 'bear-jsutils/array';
-import {data} from '@/config/data';
+import {data} from '../../config/data';
 import {useMemo, useState} from 'react';
 
 
