@@ -19,7 +19,7 @@ export default defineConfig({
         modules: {
             localsConvention: 'camelCase',
             scopeBehaviour: 'local',
-            generateScopedName: 'acrool-react-dropdown__[name]__[local]',
+            generateScopedName: 'acrool-react-dropdown__[local]',
         }
     },
     build: {
