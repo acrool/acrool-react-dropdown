@@ -98,7 +98,7 @@ if need use `null` value, options type
 
 There is also a example that you can play with it:
 
-[![Play react-editext-example](https://raw.githubusercontent.com/acrool/acrool-react-dropdown/main/preview.svg)](https://acrool-react-dropdown.pages.dev)
+[![Play react-editext-example](https://raw.githubusercontent.com/acrool/acrool-react-dropdown/main/play-in-example-button.svg)](https://acrool-react-dropdown.pages.dev)
 
 
 ## License
