@@ -74,7 +74,7 @@ const Example = () => {
 };
 ```
 
-<img src="https://raw.githubusercontent.com/imagine10255/bear-react-dropdown/main/docs/dropdown.jpg" width="700"/>
+<img src="https://acrool-react-dropdown.pages.dev/preview.webp" alt="Acrool React Dropdown Preview" width="700"/>
 
 
 
