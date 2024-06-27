@@ -1,36 +1,16 @@
 import './App.css';
-import Example from './views/Example';
-import Github from './assets/github.svg?react';
+// import Example from './views/Example';
+import Banner from './components/Banner';
 
 
 
 
 function App() {
-
-
-    const renderHeader = () => {
-
-        const repositoryUrl = 'https://github.com/acrool/acrool-react-dropdown';
-        const name = 'Acrool React Dropdown';
-
-        return <>
-            <a href={repositoryUrl} target="_blank" rel="noopener noreferrer">
-                <Github width={40} height={40}/>
-            </a>
-
-            <div className="banner-wrapper">
-                <img src="/logo.svg" alt={name}/>
-                <h1>{name}</h1>
-            </div>
-        </>;
-    };
-
-
     return (
         <div className="App">
-            {renderHeader()}
+            <Banner/>
 
-            <Example/>
+            {/*<Example/>*/}
         </div>
     );
 }

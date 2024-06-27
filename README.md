@@ -1,7 +1,7 @@
 # Acrool React Dropdown
 
 <a href="https://acrool-react-dropdown.pages.dev/" title="Acrool React Dropdown - Dropdown list with React Component">
-    <img src="https://acrool-react-dropdown.pages.dev/og.webp" alt="Acrool React Dropdown Logo"/>
+    <img src="https://raw.githubusercontent.com/acrool/acrool-react-dropdown/main/example/public/og.webp" alt="Acrool React Dropdown Logo"/>
 </a>
 
 <p align="center">
