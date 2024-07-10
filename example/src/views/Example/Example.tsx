@@ -34,7 +34,7 @@ const Example = () => {
     }, [value, options3]);
 
 
-    return <Flex className="align-items-start justify-content-start mb-5 gap-4">
+    return <Flex className="flex-wrap align-items-start justify-content-start mb-5 gap-4">
         <Dropdown value={value} onClick={setValue} options={null} isDark />
         <Dropdown value={value} onClick={setValue} options={undefined} isDark/>
 
