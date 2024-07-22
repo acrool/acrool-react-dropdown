@@ -33,8 +33,8 @@ interface IProps<T> {
     className?: string
     style?: CSS.Properties
     locale?: string
-    onClick?: (value: TOfNull<TOfNull<T>[]>, isDiff: boolean) => void
-    onEnter?: (value: TOfNull<TOfNull<T>[]>, isDiff: boolean) => void
+    onClick?: (value: TOfNull<T[]>, isDiff: boolean) => void
+    onEnter?: (value: TOfNull<T[]>, isDiff: boolean) => void
 
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void

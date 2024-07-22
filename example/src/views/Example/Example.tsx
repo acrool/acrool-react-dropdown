@@ -1,4 +1,4 @@
-import {Dropdown, DropdownMulti, IDropdownOption, TOption} from '@acrool/react-dropdown';
+import {Dropdown, DropdownMulti, IDropdownOption, TOfNull, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
 import {groupBy} from 'bear-jsutils/array';
 import {data} from '../../config/data';
@@ -8,7 +8,7 @@ import {useMemo, useState} from 'react';
 const Example = () => {
 
     const [value, setValue] = useState<string|null>(null);
-    const [multiValue, setMultiValue] = useState<Array<string>|null>(null);
+    const [multiValue, setMultiValue] = useState<TOfNull<string[]>>(null);
 
     const groupData = groupBy(data, row => row.role);
     const options3 = Object.keys(groupData)
@@ -35,15 +35,15 @@ const Example = () => {
 
 
     return <Flex className="flex-wrap align-items-start justify-content-start mb-5 gap-4">
-        <Dropdown value={value} onClick={setValue} options={null} isDark />
+        {/*<Dropdown value={value} onClick={setValue} options={null} isDark />*/}
         <Dropdown value={value} onClick={setValue} options={undefined} isDark/>
 
 
         <Dropdown value={value} onClick={setValue} options={options3} isDark isAvatarEnable />
         <Dropdown value={value} onClick={setValue} onEnter={setValue} options={placeholderOptions} isDark isSearchEnable={false} />
 
-        <DropdownMulti value={multiValue} onClick={setMultiValue} options={options3} isDark/>
-        <DropdownMulti value={multiValue} onClick={setMultiValue} onEnter={setMultiValue} isSearchEnable options={options3} isDark/>
+        <DropdownMulti value={multiValue} onClick={val => setMultiValue(val)} options={options3} isDark/>
+        <DropdownMulti value={multiValue} onClick={val => setMultiValue(val)} onEnter={val => setMultiValue(val)} isSearchEnable options={options3} isDark/>
 
     </Flex>;
 };
