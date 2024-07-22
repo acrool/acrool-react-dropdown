@@ -22,7 +22,7 @@ import {
 
 import styles from './dropdown.module.scss';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOfNull, TOption} from './types';
+import {IDropdownOption, TOption} from './types';
 import {isGroupOptions} from './utils';
 import useLocale from './locales';
 
@@ -33,16 +33,16 @@ interface IProps<T> {
     className?: string
     style?: CSS.Properties
     locale?: string
-    onClick?: (value: TOfNull<T>, isDiff: boolean) => void
-    onEnter?: (value: TOfNull<T>, isDiff: boolean) => void
+    onClick?: (value: T, isDiff: boolean) => void
+    onEnter?: (value: T, isDiff: boolean) => void
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void
     onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
     isSearchEnable?: boolean
     isCheckedEnable?: boolean
     isAvatarEnable?: boolean
-    value?: TOfNull<T>
-    options?: Array<TOption<TOfNull<T>>>
+    value?: T
+    options?: Array<TOption<T>>
     searchTextPlaceholder?: string
     isDark?: boolean
     searchForwardedRef?: ForwardedRef<HTMLInputElement>
@@ -83,7 +83,7 @@ const Dropdown = <T extends unknown>({
     const {i18n} = useLocale(locale);
     const [keyword, setKeyword] = useState<string>('');
     const listRef = useRef<HTMLUListElement>(null);
-    const [focusValue, setFocusValue] = useState<TOfNull<T>>(value);
+    const [focusValue, setFocusValue] = useState<T>(value);
     const [isComposing, setIsComposing] = useState(false);
 
 
@@ -197,7 +197,7 @@ const Dropdown = <T extends unknown>({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((e: React.MouseEvent, newValue: TOfNull<T>) => {
+    const handleOnClick = useCallback((e: React.MouseEvent, newValue: T) => {
         e.stopPropagation();
         e.preventDefault();
 
@@ -220,7 +220,7 @@ const Dropdown = <T extends unknown>({
      * 渲染子層 (兩種顯示方式子層顯示方式相同)
      * @param row
      */
-    const renderOptionsButton = (row: IDropdownOption<TOfNull<T>>) => {
+    const renderOptionsButton = (row: IDropdownOption<T>) => {
 
         const isActive = value === row.value;
         const isFocus = focusValue === row.value;

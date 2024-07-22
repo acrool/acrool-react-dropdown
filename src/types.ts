@@ -1,9 +1,9 @@
 
-export type TOfNull<T> = T|null;
+// export type TOfNull<T> = T|null;
 
 
 export interface IDropdownOption<T>  {
-    value: TOfNull<T>;
+    value: T;
     text: string;
     avatarUrl?: string,
     color?: string,

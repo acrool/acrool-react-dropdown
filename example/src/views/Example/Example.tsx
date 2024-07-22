@@ -1,4 +1,4 @@
-import {Dropdown, DropdownMulti, IDropdownOption, TOfNull, TOption} from '@acrool/react-dropdown';
+import {Dropdown, DropdownMulti, IDropdownOption, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
 import {groupBy} from 'bear-jsutils/array';
 import {data} from '../../config/data';
@@ -8,7 +8,7 @@ import {useMemo, useState} from 'react';
 const Example = () => {
 
     const [value, setValue] = useState<string|null>(null);
-    const [multiValue, setMultiValue] = useState<TOfNull<string[]>>(null);
+    const [multiValue, setMultiValue] = useState<string[]>([]);
 
     const groupData = groupBy(data, row => row.role);
     const options3 = Object.keys(groupData)

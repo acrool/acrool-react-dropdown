@@ -1,4 +1,4 @@
-import {IDropdownGroupOption, IDropdownOption, TOption, TOfNull} from './types';
+import {IDropdownGroupOption, IDropdownOption, TOption} from './types';
 
 /**
  * 檢查傳入類型
@@ -31,12 +31,12 @@ export function matchAZ09(str: string): boolean {
  * @param options
  * @param filterKeyword
  */
-export const filterOptions = <T>(options: Array<TOption<TOfNull<T>>>, filterKeyword: string): Array<TOption<TOfNull<T>>> => {
+export const filterOptions = <T>(options: Array<TOption<T>>, filterKeyword: string): Array<TOption<T>> => {
     if(filterKeyword?.length === 0) {
         return options;
     }
 
-    return options.reduce((curr: Array<TOption<TOfNull<T>>>, option) => {
+    return options.reduce((curr: Array<TOption<T>>, option) => {
         if(isGroupOptions(option)){
             const filteredChildren = filterOptions(option.children, filterKeyword);
 
