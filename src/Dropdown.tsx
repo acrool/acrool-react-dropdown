@@ -19,6 +19,7 @@ import {
     getFirstIndexValue,
     filterOptions, isEmpty, checkIsMobile,
 } from './utils';
+import dayjs from 'dayjs';
 
 import styles from './dropdown.module.scss';
 import {CheckIcon} from './Icon';
@@ -309,6 +310,7 @@ const Dropdown = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
+            {dayjs().format('YYYY-MM-DD')}
         </div>
 
     );
