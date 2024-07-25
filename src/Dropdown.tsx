@@ -287,7 +287,7 @@ const Dropdown = <T extends unknown>({
 
 
     return (
-        <div className={cx(styles.root, className, {[styles.darkTheme]: isDark})} style={style}>
+        <div className={cx(styles.root, className, {[styles.darkTheme]: isDark})} style={style} data-time={dayjs().format('YYYY-MM-DD')} data-version="3.0.12-test.1">
             {/*搜尋框*/}
             <input className={clsx(styles.textField, {[styles.textFieldHidden]: !isSearchEnable})}
                 type="text"
@@ -310,7 +310,6 @@ const Dropdown = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
-            {dayjs().format('YYYY-MM-DD')}
         </div>
 
     );

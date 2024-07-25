@@ -1,6 +1,6 @@
 {
   "name": "@acrool/react-dropdown",
-  "version": null,
+  "version": "3.0.12-test.2",
   "description": "Dropdown list with React Component",
   "keywords": [
     "react",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/acrool/acrool-react-dropdown.git"
+    "url": "git+https://github.com/acrool/acrool-react-dropdown.git"
   },
   "module": "./dist/acrool-react-dropdown.es.js",
   "types": "./dist/index.d.ts",
