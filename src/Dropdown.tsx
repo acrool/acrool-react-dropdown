@@ -33,15 +33,15 @@ interface IProps<T> {
     className?: string
     style?: CSS.Properties
     locale?: string
-    onClick?: (value: T|null, isDiff: boolean) => void
-    onEnter?: (value: T|null, isDiff: boolean) => void
+    onClick?: (value: T, isDiff: boolean) => void
+    onEnter?: (value: T, isDiff: boolean) => void
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void
     onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
     isSearchEnable?: boolean
     isCheckedEnable?: boolean
     isAvatarEnable?: boolean
-    value?: T|null
+    value?: T
     options?: Array<TOption<T>>
     searchTextPlaceholder?: string
     isDark?: boolean
@@ -67,7 +67,7 @@ const Dropdown = <T extends unknown>({
     style,
     locale = 'en-US',
     options,
-    value = null,
+    value,
     onClick,
     onEnter,
     onSearchFieldBlur,
@@ -83,7 +83,7 @@ const Dropdown = <T extends unknown>({
     const {i18n} = useLocale(locale);
     const [keyword, setKeyword] = useState<string>('');
     const listRef = useRef<HTMLUListElement>(null);
-    const [focusValue, setFocusValue] = useState<T|null>(value);
+    const [focusValue, setFocusValue] = useState<T|undefined>(value);
     const [isComposing, setIsComposing] = useState(false);
 
 
@@ -125,8 +125,8 @@ const Dropdown = <T extends unknown>({
             e.stopPropagation();
 
             const isDiff = JSON.stringify(value) !== JSON.stringify(focusValue);
-            if(onEnter){
-                onEnter(focusValue ?? null, isDiff);
+            if(onEnter && typeof focusValue !== 'undefined'){
+                onEnter(focusValue, isDiff);
             }
             return;
         }
@@ -199,12 +199,12 @@ const Dropdown = <T extends unknown>({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((e: React.MouseEvent, newValue: T|null) => {
+    const handleOnClick = useCallback((e: React.MouseEvent, newValue?: T) => {
         e.stopPropagation();
         e.preventDefault();
 
         const isDiff = JSON.stringify(value) !== JSON.stringify(newValue);
-        if(onClick){
+        if(onClick && typeof newValue !== 'undefined'){
             onClick(newValue, isDiff);
         }
 
@@ -276,7 +276,7 @@ const Dropdown = <T extends unknown>({
             return (<div
                 key="no-data"
                 className={styles.listItem}
-                onClick={(e) => handleOnClick(e,null)}
+                onClick={(e) => handleOnClick(e,)}
             >
                 <div className={cx(styles.listItemText, styles.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
             </div>);

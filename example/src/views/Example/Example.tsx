@@ -7,7 +7,7 @@ import {useMemo, useState} from 'react';
 
 const Example = () => {
 
-    const [value, setValue] = useState<string|null>(null);
+    const [value, setValue] = useState<string>(null);
     const [multiValue, setMultiValue] = useState<string[]>([]);
 
     const groupData = groupBy(data, row => row.role);
@@ -28,7 +28,7 @@ const Example = () => {
 
 
     const placeholderOptions: TOption<any>[] = useMemo(() => {
-        const placeholderOption: IDropdownOption<string|null> = {text: 'Select assigner...', value: null};
+        const placeholderOption: IDropdownOption<string> = {text: 'Select assigner...', value: null};
         return [placeholderOption].concat(options3 as any);
 
     }, [value, options3]);

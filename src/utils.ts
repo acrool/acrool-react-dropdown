@@ -247,14 +247,14 @@ export function getPrevIndexValue<T>(options: TOption<T>[], groupIndex: number, 
  * 取得 第一個 Index 位置
  * @param options
  */
-export function getFirstIndexValue<T>(options: TOption<T>[]): T|null{
+export function getFirstIndexValue<T>(options: TOption<T>[]): T|undefined{
     const typeCurrOpt = options && options.length > 0 ? options[0]: undefined;
 
     // Group
     if(isGroupOptions(typeCurrOpt)) {
         return typeCurrOpt.children[0].value;
     }
-    return typeCurrOpt?.value ?? null;
+    return typeCurrOpt?.value;
 }
 
 

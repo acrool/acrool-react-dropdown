@@ -85,9 +85,9 @@ const DropdownMulti = <T extends unknown>({
     const [keyword, setKeyword] = useState<string>('');
     const listRef = useRef<HTMLUListElement>(null);
 
-    const defaultValue = value && value.length > 0 ? value[0]: null;
+    const defaultValue = value && value.length > 0 ? value[0]: undefined;
 
-    const [focusValue, setFocusValue] = useState<T|null>(defaultValue);
+    const [focusValue, setFocusValue] = useState<T|undefined>(defaultValue);
     const [isComposing, setIsComposing] = useState(false);
 
 
@@ -206,7 +206,7 @@ const DropdownMulti = <T extends unknown>({
      */
     const handleOnEnter = useCallback((newValue: T) => {
         const index = value?.findIndex(rowVal => rowVal === newValue) ?? -1;
-        let formatValues: T[]|null = null;
+        let formatValues: T[] = [];
         const convertValue = value ?? [];
         if(index >= 0){
             formatValues = removeByIndex(convertValue, index);
@@ -226,7 +226,7 @@ const DropdownMulti = <T extends unknown>({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((e: React.MouseEvent, newValue: T|null) => {
+    const handleOnClick = useCallback((e: React.MouseEvent, newValue?: T) => {
         e.stopPropagation();
         e.preventDefault();
 
@@ -235,7 +235,7 @@ const DropdownMulti = <T extends unknown>({
         const convertValue = value ?? [];
         if(index >= 0){
             formatValues = removeByIndex(convertValue, index);
-        }else if(newValue !== null){
+        }else if(typeof newValue !== 'undefined'){
             formatValues = [...convertValue, newValue];
         }
 
@@ -312,7 +312,7 @@ const DropdownMulti = <T extends unknown>({
             return (<div
                 key="no-data"
                 className={styles.listItem}
-                onClick={(e) => handleOnClick(e,null)}
+                onClick={(e) => handleOnClick(e,)}
             >
                 <div className={clsx(styles.listItemText, styles.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
             </div>);

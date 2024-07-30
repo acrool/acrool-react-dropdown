@@ -1,5 +1,5 @@
 
-// export type TOfNull<T> = T|null;
+// export type TOfNull<T> = T;
 
 
 export interface IDropdownOption<T>  {
