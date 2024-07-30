@@ -33,15 +33,15 @@ interface IProps<T> {
     className?: string
     style?: CSS.Properties
     locale?: string
-    onClick?: (value: T, isDiff: boolean) => void
-    onEnter?: (value: T, isDiff: boolean) => void
+    onClick?: (value: T|null, isDiff: boolean) => void
+    onEnter?: (value: T|null, isDiff: boolean) => void
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void
     onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
     isSearchEnable?: boolean
     isCheckedEnable?: boolean
     isAvatarEnable?: boolean
-    value?: T
+    value?: T|null
     options?: Array<TOption<T>>
     searchTextPlaceholder?: string
     isDark?: boolean
@@ -67,7 +67,7 @@ const Dropdown = <T extends unknown>({
     style,
     locale = 'en-US',
     options,
-    value,
+    value = null,
     onClick,
     onEnter,
     onSearchFieldBlur,
@@ -83,7 +83,7 @@ const Dropdown = <T extends unknown>({
     const {i18n} = useLocale(locale);
     const [keyword, setKeyword] = useState<string>('');
     const listRef = useRef<HTMLUListElement>(null);
-    const [focusValue, setFocusValue] = useState<T>(value);
+    const [focusValue, setFocusValue] = useState<T|null>(value);
     const [isComposing, setIsComposing] = useState(false);
 
 
@@ -125,7 +125,9 @@ const Dropdown = <T extends unknown>({
             e.stopPropagation();
 
             const isDiff = JSON.stringify(value) !== JSON.stringify(focusValue);
-            onEnter && onEnter(focusValue, isDiff);
+            if(onEnter){
+                onEnter(focusValue ?? null, isDiff);
+            }
             return;
         }
         if(e.key === 'ArrowUp' && !isComposing){
@@ -197,12 +199,14 @@ const Dropdown = <T extends unknown>({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((e: React.MouseEvent, newValue: T) => {
+    const handleOnClick = useCallback((e: React.MouseEvent, newValue: T|null) => {
         e.stopPropagation();
         e.preventDefault();
 
         const isDiff = JSON.stringify(value) !== JSON.stringify(newValue);
-        onClick(newValue, isDiff);
+        if(onClick){
+            onClick(newValue, isDiff);
+        }
 
     }, [onClick, value]);
 

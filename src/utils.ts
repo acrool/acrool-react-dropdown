@@ -5,7 +5,7 @@ import {IDropdownGroupOption, IDropdownOption, TOption} from './types';
  * @param options
  */
 export const isGroupOptions = <T>(options?: TOption<T>): options is IDropdownGroupOption<T> => {
-    return options && 'groupName' in options;
+    return !!(options && 'groupName' in options);
 };
 
 
@@ -31,12 +31,12 @@ export function matchAZ09(str: string): boolean {
  * @param options
  * @param filterKeyword
  */
-export const filterOptions = <T>(options: Array<TOption<T>>, filterKeyword: string): Array<TOption<T>> => {
+export const filterOptions = <T>(options?: Array<TOption<T>>, filterKeyword = ''): Array<TOption<T>> => {
     if(filterKeyword?.length === 0) {
-        return options;
+        return options ?? [];
     }
 
-    return options.reduce((curr: Array<TOption<T>>, option) => {
+    return options?.reduce((curr: Array<TOption<T>>, option) => {
         if(isGroupOptions(option)){
             const filteredChildren = filterOptions(option.children, filterKeyword);
 
@@ -58,7 +58,7 @@ export const filterOptions = <T>(options: Array<TOption<T>>, filterKeyword: stri
         return curr;
 
         // return curr;
-    }, []);
+    }, []) ?? [];
 };
 
 
@@ -78,19 +78,33 @@ export const filterOptions = <T>(options: Array<TOption<T>>, filterKeyword: stri
 
 
 
+type Empty = null | undefined | false | '' | 0;
 
 /**
- * 判定是否為空
+ * 判断是否为空
  * @param value
+ * @param checkOption
  * @returns {boolean}
  */
-export function isEmpty(value: any): boolean {
+export function isEmpty<T>(value: T, checkOption?: {
+    isZero?: boolean,
+    isFalse?: boolean,
+}): value is Extract<T, Empty> {
+    const defaultCheckOption = {
+        isZero: checkOption?.isZero ?? true,
+        isFalse: checkOption?.isFalse ?? true,
+    };
     return (
         value === undefined
         || value === null
+        || (defaultCheckOption.isFalse && (value === false || value === 'false'))
+        || (defaultCheckOption.isZero && (value === 0 || value === '0'))
+        || (!(value instanceof Date) && typeof value === 'object' && Object.keys(value).length === 0)
         || (typeof value === 'string' && value.trim().length === 0)
     );
 }
+
+
 
 
 
@@ -123,7 +137,7 @@ export function getOptionStyle(args?: {avatarUrl?: string, color?: string}): Rea
 
 
 
-interface IGetIndexReturn {itemIndex: number, groupIndex?: number}
+interface IGetIndexReturn {itemIndex: number, groupIndex: number}
 
 /**
  * 取得 Index 位置
@@ -152,7 +166,7 @@ export function getIndex<T>(options?: Array<TOption<T>>, value?: T): IGetIndexRe
             return true;
         }
         return false;
-    });
+    }) ?? -1;
 
     return {
         groupIndex,
@@ -232,18 +246,13 @@ export function getPrevIndexValue<T>(options: TOption<T>[], groupIndex: number, 
 /**
  * 取得 第一個 Index 位置
  * @param options
- * @param groupIndex
- * @param itemIndex
  */
-export function getFirstIndexValue<T>(options: TOption<T>[]): T{
-    const typeCurrOpt = options && options.length > 0 && options[0];
+export function getFirstIndexValue<T>(options: TOption<T>[]): T|null{
+    const typeCurrOpt = options && options.length > 0 ? options[0]: undefined;
 
     // Group
     if(isGroupOptions(typeCurrOpt)) {
-        if(typeCurrOpt.children.length > 0){
-            return typeCurrOpt.children[0].value;
-        }
-        return null;
+        return typeCurrOpt.children[0].value;
     }
     return typeCurrOpt?.value ?? null;
 }

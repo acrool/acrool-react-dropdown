@@ -27,7 +27,7 @@ const useLocale = (locale?: string) => {
 
         if(typeof localeMap !== 'undefined' && typeof localeMap[id] !== 'undefined'){
             let resText = localeMap[id];
-            if(options.args){
+            if(options?.args){
                 Object.keys(options.args).forEach(argKey => {
                     resText = resText.replace(`{${argKey}}`, options.args[argKey]);
                 });
