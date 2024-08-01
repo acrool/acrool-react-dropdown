@@ -9,7 +9,7 @@ import React, {
     ChangeEvent, FocusEvent
 } from 'react';
 import CSS from 'csstype';
-import cx, {clsx} from 'clsx';
+import {clsx} from 'clsx';
 import {
     getOptionStyle,
     getIndex,
@@ -231,7 +231,7 @@ const Dropdown = <T extends unknown>({
 
         return <li
             role="option"
-            className={cx(styles.listItem, {[styles.listItemActive]: isActive})}
+            className={clsx(styles.listItem, {[styles.listItemActive]: isActive})}
             key={`option-${row.value}`}
             onMouseDown={(e) => handleOnClick(e, row.value)}
             aria-selected={isFocus ? true: undefined}
@@ -242,7 +242,7 @@ const Dropdown = <T extends unknown>({
             </div>
             }
             {isAvatarEnable && <div className={styles.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
-            <div className={cx(styles.listItemText, {[styles.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
+            <div className={clsx(styles.listItemText, {[styles.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
         </li>;
     };
 
@@ -278,7 +278,7 @@ const Dropdown = <T extends unknown>({
                 className={styles.listItem}
                 onClick={(e) => handleOnClick(e,)}
             >
-                <div className={cx(styles.listItemText, styles.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
+                <div className={clsx(styles.listItemText, styles.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
             </div>);
 
         }
@@ -290,10 +290,10 @@ const Dropdown = <T extends unknown>({
 
 
     return (
-        <div className={cx(styles.root, className, {[styles.darkTheme]: isDark})} style={style}>
+        <div className={clsx(styles.root, className, {[styles.darkTheme]: isDark})} style={style}>
             {/*搜尋框*/}
             {isSearchEnable &&
-                <input className={clsx(styles.textField)}
+                <input className={styles.textField}
                     type="text"
                     // ref={setForwardedRef(ref, searchFieldRef)}
                     ref={searchForwardedRef}
