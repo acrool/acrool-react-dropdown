@@ -292,21 +292,23 @@ const Dropdown = <T extends unknown>({
     return (
         <div className={cx(styles.root, className, {[styles.darkTheme]: isDark})} style={style}>
             {/*搜尋框*/}
-            <input className={clsx(styles.textField, {[styles.textFieldHidden]: !isSearchEnable})}
-                type="text"
-                // ref={setForwardedRef(ref, searchFieldRef)}
-                ref={searchForwardedRef}
-                value={keyword}
-                onChange={handleSetKeyword}
-                placeholder={searchTextPlaceholder}
-                tabIndex={-1}
-                onBlur={onSearchFieldBlur}
-                onFocus={onSearchFieldFocus}
-                onKeyDown={handleOnSearchInputKeyDown}
-                autoFocus={!checkIsMobile()}
-                onCompositionStart={handleCompositionStart}
-                onCompositionEnd={handleCompositionEnd}
-            />
+            {isSearchEnable &&
+                <input className={clsx(styles.textField)}
+                    type="text"
+                    // ref={setForwardedRef(ref, searchFieldRef)}
+                    ref={searchForwardedRef}
+                    value={keyword}
+                    onChange={handleSetKeyword}
+                    placeholder={searchTextPlaceholder}
+                    tabIndex={-1}
+                    onBlur={onSearchFieldBlur}
+                    onFocus={onSearchFieldFocus}
+                    onKeyDown={handleOnSearchInputKeyDown}
+                    autoFocus={!checkIsMobile()}
+                    onCompositionStart={handleCompositionStart}
+                    onCompositionEnd={handleCompositionEnd}
+                />
+            }
 
             {/* Options */}
             <ul className={styles.list} ref={listRef} role="listbox">
