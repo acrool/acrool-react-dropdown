@@ -1,6 +1,6 @@
 {
   "name": "@acrool/react-dropdown",
-  "version": "3.0.11",
+  "version": "3.0.13",
   "description": "Dropdown list with React Component",
   "keywords": [
     "react",
@@ -46,9 +46,11 @@
     "release:alpha": "standard-version --prerelease alpha"
   },
   "peerDependencies": {
-    "clsx": "2.x",
     "react": "^18.x",
     "react-dom": "^18.x"
+  },
+  "dependencies": {
+    "clsx": "2.1.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
@@ -67,7 +69,6 @@
     "typescript": "^5.0.3",
     "react": "^18.x",
     "react-dom": "^18.x",
-    "clsx": "2.1.1",
     "vite": "^4.3.9",
     "vite-plugin-dts": "^2.1.0",
     "vite-plugin-eslint": "^1.8.1",

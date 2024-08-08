@@ -9,7 +9,7 @@ import React, {
     ChangeEvent, FocusEvent
 } from 'react';
 import CSS from 'csstype';
-import cx, {clsx} from 'clsx';
+import {clsx} from 'clsx';
 import {
     getOptionStyle,
     getIndex,
@@ -22,7 +22,7 @@ import {
 
 import styles from './dropdown.module.scss';
 import {CheckIcon} from './Icon';
-import {IDropdownOption, TOfNull, TOption} from './types';
+import {IDropdownOption, TOption} from './types';
 import {isGroupOptions} from './utils';
 import useLocale from './locales';
 
@@ -33,16 +33,16 @@ interface IProps<T> {
     className?: string
     style?: CSS.Properties
     locale?: string
-    onClick?: (value: TOfNull<T>, isDiff: boolean) => void
-    onEnter?: (value: TOfNull<T>, isDiff: boolean) => void
+    onClick?: (value: T, isDiff: boolean) => void
+    onEnter?: (value: T, isDiff: boolean) => void
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void
     onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
     isSearchEnable?: boolean
     isCheckedEnable?: boolean
     isAvatarEnable?: boolean
-    value?: TOfNull<T>
-    options?: Array<TOption<TOfNull<T>>>
+    value?: T
+    options?: Array<TOption<T>>
     searchTextPlaceholder?: string
     isDark?: boolean
     searchForwardedRef?: ForwardedRef<HTMLInputElement>
@@ -83,7 +83,7 @@ const Dropdown = <T extends unknown>({
     const {i18n} = useLocale(locale);
     const [keyword, setKeyword] = useState<string>('');
     const listRef = useRef<HTMLUListElement>(null);
-    const [focusValue, setFocusValue] = useState<TOfNull<T>>(value);
+    const [focusValue, setFocusValue] = useState<T|undefined>(value);
     const [isComposing, setIsComposing] = useState(false);
 
 
@@ -125,7 +125,9 @@ const Dropdown = <T extends unknown>({
             e.stopPropagation();
 
             const isDiff = JSON.stringify(value) !== JSON.stringify(focusValue);
-            onEnter && onEnter(focusValue, isDiff);
+            if(onEnter && typeof focusValue !== 'undefined'){
+                onEnter(focusValue, isDiff);
+            }
             return;
         }
         if(e.key === 'ArrowUp' && !isComposing){
@@ -197,12 +199,14 @@ const Dropdown = <T extends unknown>({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((e: React.MouseEvent, newValue: TOfNull<T>) => {
+    const handleOnClick = useCallback((e: React.MouseEvent, newValue?: T) => {
         e.stopPropagation();
         e.preventDefault();
 
         const isDiff = JSON.stringify(value) !== JSON.stringify(newValue);
-        onClick(newValue, isDiff);
+        if(onClick && typeof newValue !== 'undefined'){
+            onClick(newValue, isDiff);
+        }
 
     }, [onClick, value]);
 
@@ -220,14 +224,14 @@ const Dropdown = <T extends unknown>({
      * 渲染子層 (兩種顯示方式子層顯示方式相同)
      * @param row
      */
-    const renderOptionsButton = (row: IDropdownOption<TOfNull<T>>) => {
+    const renderOptionsButton = (row: IDropdownOption<T>) => {
 
         const isActive = value === row.value;
         const isFocus = focusValue === row.value;
 
         return <li
             role="option"
-            className={cx(styles.listItem, {[styles.listItemActive]: isActive})}
+            className={clsx(styles.listItem, {[styles.listItemActive]: isActive})}
             key={`option-${row.value}`}
             onMouseDown={(e) => handleOnClick(e, row.value)}
             aria-selected={isFocus ? true: undefined}
@@ -238,7 +242,7 @@ const Dropdown = <T extends unknown>({
             </div>
             }
             {isAvatarEnable && <div className={styles.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
-            <div className={cx(styles.listItemText, {[styles.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
+            <div className={clsx(styles.listItemText, {[styles.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
         </li>;
     };
 
@@ -272,9 +276,9 @@ const Dropdown = <T extends unknown>({
             return (<div
                 key="no-data"
                 className={styles.listItem}
-                onClick={(e) => handleOnClick(e,null)}
+                onClick={(e) => handleOnClick(e,)}
             >
-                <div className={cx(styles.listItemText, styles.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
+                <div className={clsx(styles.listItemText, styles.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
             </div>);
 
         }
@@ -286,23 +290,25 @@ const Dropdown = <T extends unknown>({
 
 
     return (
-        <div className={cx(styles.root, className, {[styles.darkTheme]: isDark})} style={style}>
+        <div className={clsx(styles.root, className, {[styles.darkTheme]: isDark})} style={style}>
             {/*搜尋框*/}
-            <input className={clsx(styles.textField, {[styles.textFieldHidden]: !isSearchEnable})}
-                type="text"
-                // ref={setForwardedRef(ref, searchFieldRef)}
-                ref={searchForwardedRef}
-                value={keyword}
-                onChange={handleSetKeyword}
-                placeholder={searchTextPlaceholder}
-                tabIndex={-1}
-                onBlur={onSearchFieldBlur}
-                onFocus={onSearchFieldFocus}
-                onKeyDown={handleOnSearchInputKeyDown}
-                autoFocus={!checkIsMobile()}
-                onCompositionStart={handleCompositionStart}
-                onCompositionEnd={handleCompositionEnd}
-            />
+            {isSearchEnable &&
+                <input className={styles.textField}
+                    type="text"
+                    // ref={setForwardedRef(ref, searchFieldRef)}
+                    ref={searchForwardedRef}
+                    value={keyword}
+                    onChange={handleSetKeyword}
+                    placeholder={searchTextPlaceholder}
+                    tabIndex={-1}
+                    onBlur={onSearchFieldBlur}
+                    onFocus={onSearchFieldFocus}
+                    onKeyDown={handleOnSearchInputKeyDown}
+                    autoFocus={!checkIsMobile()}
+                    onCompositionStart={handleCompositionStart}
+                    onCompositionEnd={handleCompositionEnd}
+                />
+            }
 
             {/* Options */}
             <ul className={styles.list} ref={listRef} role="listbox">

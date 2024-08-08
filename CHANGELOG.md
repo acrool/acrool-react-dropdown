@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.13](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.13-alpha.0...v3.0.13) (2024-08-01)
+
+### [3.0.13-alpha.0](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.12...v3.0.13-alpha.0) (2024-08-01)
+
+### [3.0.12](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.12-alpha.4...v3.0.12) (2024-07-30)
+
+### [3.0.12-alpha.4](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.12-alpha.3...v3.0.12-alpha.4) (2024-07-30)
+
+### [3.0.12-alpha.3](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.12-alpha.2...v3.0.12-alpha.3) (2024-07-30)
+
+### [3.0.12-alpha.2](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.12-alpha.1...v3.0.12-alpha.2) (2024-07-28)
+
+### [3.0.12-alpha.1](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.12-alpha.0...v3.0.12-alpha.1) (2024-07-22)
+
+### [3.0.12-alpha.0](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.11...v3.0.12-alpha.0) (2024-07-22)
+
+
+### Bug Fixes
+
+* fix type fail (strictNullChecks: true) ([687b6c2](https://github.com/acrool/acrool-react-dropdown/commit/687b6c2c67df6926664d1f68d960c8c711e8c4be))
+
 ### [3.0.11](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.10...v3.0.11) (2024-06-26)
 
 ### [3.0.10](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.9...v3.0.10) (2024-06-26)

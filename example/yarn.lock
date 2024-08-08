@@ -2,9 +2,12 @@
 # yarn lockfile v1
 
 
-"@acrool/react-dropdown@link:..":
-  version "0.0.0"
-  uid ""
+"@acrool/react-dropdown@3.0.12-alpha.2":
+  version "3.0.12-alpha.2"
+  resolved "https://registry.yarnpkg.com/@acrool/react-dropdown/-/react-dropdown-3.0.12-alpha.2.tgz#d1ae3f8c832fbb9bd506cb523986017eb216890b"
+  integrity sha512-LJljH94qMKWllrO0KruK2oazwXioqRlNZBfaZieEAPYk9wvKFU2c8pu1Gk7iNabAwI+7hs9BC/7OsFDvpPOrTg==
+  dependencies:
+    clsx "2.1.1"
 
 "@acrool/react-grid@^5.2.2":
   version "5.2.2"
@@ -946,6 +949,11 @@ chokidar@^3.5.3:
     readdirp "~3.6.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+clsx@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.1.1.tgz#eed397c9fd8bd882bfb18deab7102049a2f32999"
+  integrity sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==
 
 color-convert@^1.9.0:
   version "1.9.3"
