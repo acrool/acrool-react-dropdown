@@ -3,6 +3,7 @@ import {Flex} from '@acrool/react-grid';
 import {groupBy} from 'bear-jsutils/array';
 import {data} from '../../config/data';
 import {useMemo, useState} from 'react';
+import Select2 from "../../components/Select2";
 
 
 const Example = () => {
@@ -36,6 +37,13 @@ const Example = () => {
 
     return <Flex className="flex-wrap align-items-start justify-content-start mb-5 gap-4">
         {/*<Dropdown value={value} onClick={setValue} options={null} isDark />*/}
+        <Select2
+            value={value}
+            options={placeholderOptions}
+            onChange={setValue}
+            isSearchEnable
+        />
+
         <Dropdown value={value} onClick={setValue} options={undefined} isDark/>
 
 
