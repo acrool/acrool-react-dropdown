@@ -149,8 +149,8 @@ const DropdownMulti = <T extends unknown>({
                 e.preventDefault();
                 e.stopPropagation();
                 setKeyword('');
-                return;
             }
+            return;
         }
 
         if(!isSearchEnable && !e.metaKey && e.key !== 'Tab'){

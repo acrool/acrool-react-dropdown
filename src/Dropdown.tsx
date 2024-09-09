@@ -146,8 +146,8 @@ const Dropdown = <T extends unknown>({
                 e.preventDefault();
                 e.stopPropagation();
                 setKeyword('');
-                return;
             }
+            return;
         }
 
         if(!isSearchEnable && !e.metaKey && e.key !== 'Tab'){
@@ -300,8 +300,8 @@ const Dropdown = <T extends unknown>({
                     onFocus={onSearchFieldFocus}
                     onKeyDown={handleOnSearchInputKeyDown}
                     autoFocus={!checkIsMobile()}
-                    onCompositionStart={handleCompositionStart}
-                    onCompositionEnd={handleCompositionEnd}
+                    onCompositionStart={handleCompositionStart} // 支援拼字問題
+                    onCompositionEnd={handleCompositionEnd} // 支援拼字問題
                 />
             }
 
