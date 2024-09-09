@@ -38,7 +38,6 @@ interface IProps<T> {
 
     onSearchFieldBlur?: (e?: FocusEvent) => void
     onSearchFieldFocus?: (e?: FocusEvent) => void
-    onSearchFieldEsc?: (e?: React.KeyboardEvent) => void
     isSearchEnable?: boolean
     isCheckedEnable?: boolean
     isAvatarEnable?: boolean
@@ -73,7 +72,6 @@ const DropdownMulti = <T extends unknown>({
     onEnter,
     onSearchFieldBlur,
     onSearchFieldFocus,
-    onSearchFieldEsc,
     searchTextPlaceholder = 'type keyword...',
     isSearchEnable = false,
     isCheckedEnable = true,
@@ -146,13 +144,10 @@ const DropdownMulti = <T extends unknown>({
             return;
         }
         if (e.key === 'Escape' && !isComposing) {
-            e.preventDefault();
-            e.stopPropagation();
 
-            if(isEmpty(keyword)){
-                onSearchFieldEsc && onSearchFieldEsc();
-                return;
-            }else{
+            if(!isEmpty(keyword)){
+                e.preventDefault();
+                e.stopPropagation();
                 setKeyword('');
                 return;
             }
