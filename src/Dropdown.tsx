@@ -128,6 +128,8 @@ const Dropdown = <T extends unknown>({
             }
             return;
         }
+        console.log('dropdown_1');
+
         if(e.key === 'ArrowUp' && !isComposing){
             e.preventDefault();
             e.stopPropagation();
@@ -140,21 +142,31 @@ const Dropdown = <T extends unknown>({
             handleMove('down')();
             return;
         }
+        console.log('dropdown_2');
+
         if (e.key === 'Escape' && !isComposing) {
+            console.log('dropdown_2_1');
 
             if(!isEmpty(keyword)){
                 e.preventDefault();
                 e.stopPropagation();
                 setKeyword('');
+                console.log('dropdown_2_1_1');
+
             }
+            console.log('dropdown_2_1_2');
+
             return;
         }
 
+        console.log('dropdown_2_1_3');
         if(!isSearchEnable && !e.metaKey && e.key !== 'Tab'){
             e.preventDefault();
             e.stopPropagation();
             return;
         }
+        console.log('dropdown_2_1_4');
+
 
     }, [isComposing, keyword, focusValue, isSearchEnable]);
 
