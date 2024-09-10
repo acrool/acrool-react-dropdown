@@ -3,6 +3,9 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {fn} from '@storybook/test';
 
 import Select2 from '../src/components/Select2';
+import {options} from "./data";
+import {Flex} from "@acrool/react-grid";
+import {Dropdown} from "../../dist";
 
 const meta = {
     title: 'Example/Select2',
@@ -24,15 +27,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {
         value: 'A',
-        options: [
-            {text: 'Apple', value: 'A'},
-            {text: 'Basic', value: 'B'},
-            {text: 'Cat & Car', value: 'C'},
-            {text: 'Dog & Desk', value: 'D'},
-            {text: 'Element', value: 'E'},
-            {text: 'Fake', value: 'F'},
-            {text: 'Google', value: 'G'},
-        ]
+        options,
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
@@ -47,3 +42,29 @@ export const Primary: Story = {
         />;
     },
 };
+
+
+export const WithHotkeyTab: Story = {
+    args: {
+        value: 'A',
+        options,
+        isSearchEnable: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+
+        function onChange(value: string) {
+            updateArgs({value});
+        }
+
+        return <Flex className="gap-2 align-items-start">
+            <input type="text" placeholder="input order 1"/>
+            <Select2
+                {...args}
+                onChange={onChange}
+            />
+            <input type="text" placeholder="input order 3"/>
+        </Flex>;
+    },
+};
+

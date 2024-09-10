@@ -4,6 +4,7 @@ import {fn} from '@storybook/test';
 
 import {DropdownMulti, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
+import {groupOptions, options} from "./data";
 
 const meta = {
     title: 'Components/DropdownMulti',
@@ -25,40 +26,6 @@ type Story = StoryObj<typeof meta>;
 
 
 
-const options: TOption<string>[] = [
-    {text: 'Apple', value: 'A'},
-    {text: 'Basic', value: 'B'},
-    {text: 'Cat & Car', value: 'C'},
-    {text: 'Dog & Desk', value: 'D'},
-    {text: 'Element', value: 'E'},
-    {text: 'Firefox', value: 'F'},
-    {text: 'Google', value: 'G'},
-];
-
-
-const groupOptions: TOption<string>[] = [
-    {text: 'Apple', value: 'A'},
-    {text: 'Basic', value: 'B'},
-    {
-        groupName: 'Item',
-        children: [
-            {text: 'Cat & Car', value: 'C'},
-            {text: 'Dog & Desk', value: 'D'},
-        ]
-    },
-    {text: 'Element', value: 'E'},
-    {
-        groupName: 'Chrome',
-        children: [
-            {text: 'Firefox', value: 'F'},
-            {text: 'Google', value: 'G'},
-        ]
-    },
-    {
-        groupName: 'None Children',
-        children: []
-    },
-];
 
 
 export const Primary: Story = {

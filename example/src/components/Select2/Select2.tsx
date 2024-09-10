@@ -1,10 +1,11 @@
 import {isEmpty} from '@acrool/js-utils/equal';
 import {Dropdown, IDropdownOption, isGroupOptions, TOption} from '@acrool/react-dropdown';
-import {Flex} from '@acrool/react-grid';
+import {Flex, fr} from '@acrool/react-grid';
 import {createPicker,usePicker} from '@acrool/react-picker';
 import clsx from 'clsx';
 import React, {ForwardedRef, useEffect, useMemo, useRef} from 'react';
 import styled, {css} from 'styled-components';
+import ArrowDownSvg from './arrow_down.svg?react';
 
 // import {createPicker, usePicker} from '@/library/acrool-react-picker';
 
@@ -90,7 +91,9 @@ const Select2 = <V extends null>({
         </Text>
 
         {!isLink && (
-            <ArrowDownIcon>V</ArrowDownIcon>
+            <ArrowDownIcon>
+                <ArrowDownSvg width={14} height={14}/>
+            </ArrowDownIcon>
         )}
     </Select2Root>;
 };
@@ -134,7 +137,6 @@ const Picker = <V extends null>(args: IProps<V>) => {
         value={value}
         onClick={handleOnClick}
         onEnter={handleOnClick}
-        isDark
         options={placeholderOptions}
         isAvatarEnable={isAvatarEnable}
         isSearchEnable={isSearchEnable}
@@ -165,6 +167,8 @@ const Text = styled.div<{
 const ArrowDownIcon = styled.div`
     flex: 0 0 auto;
     margin-left: 5px;
+    display: flex;
+    align-items: center;
 `;
 
 
