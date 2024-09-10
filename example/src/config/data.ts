@@ -1,4 +1,5 @@
 import {asset} from '../utils';
+import {TOption} from '@acrool/react-dropdown';
 
 export interface IPaginateData {
     id: string,
@@ -52,4 +53,32 @@ export const data: IPaginateData[] = [
     {id: '36', name: 'Hung Mak', email: 'hungMak@test.com', role: 'Guest', isJoined: false, createdAt: '2022-12-12 12:14:00', avatar: asset('/avatar/female-29.jpg'), amount: 200, subAmount: 400},
     {id: '37', name: 'Aro Hang', email: 'aroHang@test.com', role: 'Guest', isJoined: false, createdAt: '2022-12-12 12:14:00', avatar: asset('/avatar/female-30.jpg'), amount: 200, subAmount: 400},
     {id: '38', name: 'Onica Camilleri', email: 'onicaCamilleri@test.com', role: 'Guest', isJoined: false, createdAt: '2022-12-12 12:14:00', avatar: asset('/avatar/female-31.jpg'), amount: 200, subAmount: 400},
+];
+
+
+
+
+export const options: TOption<string>[] = [
+    ...data.slice(0, 12).map(row => ({text: row.name, value: row.id, avatarUrl: row.avatar})),
+];
+
+
+export const groupOptions: TOption<string>[] = [
+    ...data.slice(0, 2).map(row => ({text: row.name, value: row.id, avatarUrl: row.avatar})),
+    {
+        groupName: 'Frontend Team',
+        children: [
+            ...data.slice(3, 5).map(row => ({text: row.name, value: row.id, avatarUrl: row.avatar})),
+        ]
+    },
+    {
+        groupName: 'Backend Team',
+        children: [
+            ...data.slice(6, 10).map(row => ({text: row.name, value: row.id, avatarUrl: row.avatar})),
+        ]
+    },
+    {
+        groupName: 'PM Team',
+        children: []
+    },
 ];

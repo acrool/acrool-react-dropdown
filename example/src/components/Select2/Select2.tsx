@@ -7,8 +7,6 @@ import React, {ForwardedRef, useEffect, useMemo, useRef} from 'react';
 import styled, {css} from 'styled-components';
 import ArrowDownSvg from './arrow_down.svg?react';
 
-// import {createPicker, usePicker} from '@/library/acrool-react-picker';
-
 
 export interface IProps<V>  {
     value?: V

@@ -4,7 +4,7 @@ import {fn} from '@storybook/test';
 
 import {DropdownMulti, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
-import {groupOptions, options} from './data';
+import {groupOptions, options} from '../src/config/data';
 
 const meta = {
     title: 'Components/DropdownMulti',
@@ -74,11 +74,12 @@ export const WithAvatar: Story = {
         return <Flex className="gap-2">
             <DropdownMulti
                 {...args}
+                isDark={false}
                 onClick={onChange}
             />
             <DropdownMulti
-                isDark
                 {...args}
+                isDark
                 onClick={onChange}
             />
         </Flex>;
@@ -103,11 +104,12 @@ export const WithHiddenCheck: Story = {
         return <Flex className="gap-2">
             <DropdownMulti
                 {...args}
+                isDark={false}
                 onClick={onChange}
             />
             <DropdownMulti
-                isDark
                 {...args}
+                isDark
                 onClick={onChange}
             />
         </Flex>;
@@ -129,11 +131,12 @@ export const WithFilter: Story = {
         return <Flex className="gap-2">
             <DropdownMulti
                 {...args}
+                isDark={false}
                 onClick={onChange}
             />
             <DropdownMulti
-                isDark
                 {...args}
+                isDark
                 onClick={onChange}
             />
         </Flex>;
@@ -158,11 +161,12 @@ export const WithGroup: Story = {
         return <Flex className="gap-2">
             <DropdownMulti
                 {...args}
+                isDark={false}
                 onClick={onChange}
             />
             <DropdownMulti
-                isDark
                 {...args}
+                isDark
                 onClick={onChange}
             />
         </Flex>;

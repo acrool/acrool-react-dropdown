@@ -2,8 +2,8 @@ import {useArgs} from '@storybook/preview-api';
 import type {Meta, StoryObj} from '@storybook/react';
 import {fn} from '@storybook/test';
 
-import Select2 from '../src/components/Select2';
-import {options} from './data';
+import Select2 from './Select2';
+import {options} from '../../config/data';
 import {Flex} from '@acrool/react-grid';
 
 const meta = {
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {},
     render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
+        const [{value}, updateArgs] = useArgs<{value: string}>();
 
         function onChange(value: string) {
             updateArgs({value});
@@ -42,6 +42,8 @@ export const Primary: Story = {
         
         return <Select2
             {...args}
+            value={value}
+            options={options}
             onChange={onChange}
         />;
     },
@@ -55,7 +57,7 @@ export const WithHotkeyTab: Story = {
         isSearchEnable: true,
     },
     render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
+        const [{value}, updateArgs] = useArgs<{value: string}>();
 
         function onChange(value: string) {
             updateArgs({value});
@@ -65,6 +67,8 @@ export const WithHotkeyTab: Story = {
             <input type="text" placeholder="input order 1"/>
             <Select2
                 {...args}
+                value={value}
+                options={options}
                 onChange={onChange}
             />
             <input type="text" placeholder="input order 3"/>
