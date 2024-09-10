@@ -12,6 +12,11 @@ const meta = {
     parameters: {
         layout: 'centered',
         actions: {argTypesRegex: '^on.*'},
+        docs: {
+            description: {
+                component: 'Drop-down menu with rich functions, including search/groups options/avatar for Reactjs'
+            },
+        },
     },
     tags: ['autodocs'],
     argTypes: {},

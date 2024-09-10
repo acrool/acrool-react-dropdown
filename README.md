@@ -5,7 +5,7 @@
 </a>
 
 <p align="center">
-    Dropdown list with React Component
+    Drop-down menu with rich functions, including search/groups options/avatar/multi for Reactjs
 </p>
 
 <div align="center">
@@ -23,8 +23,10 @@
 
 - Supports two themes (light/dark)
 - Support multiple selection function
+- Support groups options
 - Support avatar display
 - Support search search function
+- Support value custom type (string, number, boolean, object...)
 - Support accessibility (keyboard Tab, Arrow Top, Bottom, Enter)
 
 ## Install
