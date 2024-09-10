@@ -45,13 +45,11 @@ export const Primary: Story = {
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
 
-        function onChange(value: string) {
-            updateArgs({value});
-        }
+        const onChange = (value: string) => updateArgs({value});
 
-        return  <Dropdown
+        return <Dropdown
             {...args}
-            onClick={onChange}
+            onClick={fn(onChange)}
         />;
     },
 };
@@ -63,19 +61,17 @@ export const WithAvatar: Story = {
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
 
-        function onChange(value: string) {
-            updateArgs({value});
-        }
+        const onChange = (value: string) => updateArgs({value});
 
         return <Flex className="gap-2">
             <Dropdown
                 {...args}
                 isDark={false}
-                onClick={onChange}
+                onClick={fn(onChange)}
             />
             <Dropdown
                 {...args}
-                onClick={onChange}
+                onClick={fn(onChange)}
             />
         </Flex>;
     },
@@ -91,21 +87,18 @@ export const WithHiddenCheck: Story = {
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
-
-        function onChange(value: string) {
-            updateArgs({value});
-        }
+        const onChange = (value: string) => updateArgs({value});
 
         return <Flex className="gap-2">
             <Dropdown
                 {...args}
                 isDark={false}
-                onClick={onChange}
+                onClick={fn(onChange)}
             />
             <Dropdown
                 {...args}
                 isDark
-                onClick={onChange}
+                onClick={fn(onChange)}
             />
         </Flex>;
     },
@@ -118,21 +111,18 @@ export const WithFilter: Story = {
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
-
-        function onChange(value: string) {
-            updateArgs({value});
-        }
+        const onChange = (value: string) => updateArgs({value});
 
         return <Flex className="gap-2">
             <Dropdown
                 {...args}
                 isDark={false}
-                onClick={onChange}
+                onClick={fn(onChange)}
             />
             <Dropdown
                 {...args}
                 isDark
-                onClick={onChange}
+                onClick={fn(onChange)}
             />
         </Flex>;
     },
@@ -146,21 +136,18 @@ export const WithGroup: Story = {
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
-
-        function onChange(value: string) {
-            updateArgs({value});
-        }
+        const onChange = (value: string) => updateArgs({value});
 
         return <Flex className="gap-2">
             <Dropdown
                 {...args}
                 isDark={false}
-                onClick={onChange}
+                onClick={fn(onChange)}
             />
             <Dropdown
                 {...args}
                 isDark
-                onClick={onChange}
+                onClick={fn(onChange)}
             />
         </Flex>;
     },
@@ -172,16 +159,13 @@ export const WithHotkeyTab: Story = {
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
-
-        function onChange(value: string) {
-            updateArgs({value});
-        }
+        const onChange = (value: string) => updateArgs({value});
 
         return <Flex className="gap-2 align-items-start">
             <input type="text" placeholder="input order 1"/>
             <Dropdown
                 {...args}
-                onClick={onChange}
+                onClick={fn(onChange)}
             />
             <input type="text" placeholder="input order 3"/>
         </Flex>;
