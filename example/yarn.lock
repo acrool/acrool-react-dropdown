@@ -28,10 +28,10 @@
   resolved "https://registry.yarnpkg.com/@acrool/react-iconsvg/-/react-iconsvg-4.1.1.tgz#c5cc698e74b04e1cffdb5a3b6b9194c06b903e96"
   integrity sha512-Atghr470fEAPBqbznJxtfdxhkTs3CPBFGHT6RDJj36czOpfXUkK4LqmT+dqhfJgraCdPJXsMbbf5LVWDj6GJ2Q==
 
-"@acrool/react-picker@^0.0.7-alpha.0":
-  version "0.0.7-alpha.0"
-  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.0.7-alpha.0.tgz#e617cda35b5bfdf1a463e9a8799c2ef2fd94e628"
-  integrity sha512-03VKlxu68t+In49Y1Tik2RuEs5r0VbseQIVVUfbM0VPA9SEI8V/nP9oFOW2y6eE91G1nhyTMvvTuOIB65NQSQA==
+"@acrool/react-picker@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.0.7.tgz#8d93690b3b9a06e2bdaa111e0bb79f8c248cfc3d"
+  integrity sha512-nxVD+g0N0TzE6cJ8zCDDPdLJyk0tMVMgjcaaII+aR0pb9ZxuB4l6Ro1m2dJyIW1IPusHxByIJa8t3S/3BNqRxA==
   dependencies:
     "@acrool/js-logger" "^1.0.23"
     "@acrool/react-portal" "^1.0.2"
