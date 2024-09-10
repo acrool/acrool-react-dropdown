@@ -1,36 +1,28 @@
-import {TOption} from "../../dist";
+import {TOption} from '@acrool/react-dropdown';
+import {data} from '../src/config/data';
+
 
 export const options: TOption<string>[] = [
-    {text: 'Apple', value: 'A'},
-    {text: 'Basic', value: 'B'},
-    {text: 'Cat & Car', value: 'C'},
-    {text: 'Dog & Desk', value: 'D'},
-    {text: 'Element', value: 'E'},
-    {text: 'Firefox', value: 'F'},
-    {text: 'Google', value: 'G'},
+    ...data.slice(0, 12).map(row => ({text: row.name, value: row.id, avatarUrl: row.avatar})),
 ];
 
 
 export const groupOptions: TOption<string>[] = [
-    {text: 'Apple', value: 'A'},
-    {text: 'Basic', value: 'B'},
+    ...data.slice(0, 2).map(row => ({text: row.name, value: row.id, avatarUrl: row.avatar})),
     {
-        groupName: 'Item',
+        groupName: 'Frontend Team',
         children: [
-            {text: 'Cat & Car', value: 'C'},
-            {text: 'Dog & Desk', value: 'D'},
-        ]
-    },
-    {text: 'Element', value: 'E'},
-    {
-        groupName: 'Chrome',
-        children: [
-            {text: 'Firefox', value: 'F'},
-            {text: 'Google', value: 'G'},
+            ...data.slice(3, 5).map(row => ({text: row.name, value: row.id, avatarUrl: row.avatar})),
         ]
     },
     {
-        groupName: 'None Children',
+        groupName: 'Backend Team',
+        children: [
+            ...data.slice(6, 10).map(row => ({text: row.name, value: row.id, avatarUrl: row.avatar})),
+        ]
+    },
+    {
+        groupName: 'PM Team',
         children: []
     },
 ];

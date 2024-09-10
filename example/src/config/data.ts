@@ -53,16 +53,3 @@ export const data: IPaginateData[] = [
     {id: '37', name: 'Aro Hang', email: 'aroHang@test.com', role: 'Guest', isJoined: false, createdAt: '2022-12-12 12:14:00', avatar: asset('/avatar/female-30.jpg'), amount: 200, subAmount: 400},
     {id: '38', name: 'Onica Camilleri', email: 'onicaCamilleri@test.com', role: 'Guest', isJoined: false, createdAt: '2022-12-12 12:14:00', avatar: asset('/avatar/female-31.jpg'), amount: 200, subAmount: 400},
 ];
-//
-// export const data: IPaginateData[][] = [
-//     paginateData1,
-//     paginateData2,
-//     paginateData3,
-//     paginateData4,
-// ];
-// export const dataTotal = [
-//     ...paginateData1,
-//     ...paginateData2,
-//     ...paginateData3,
-//     ...paginateData4,
-// ].length;

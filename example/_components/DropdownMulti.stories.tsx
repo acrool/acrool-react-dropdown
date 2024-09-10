@@ -4,7 +4,7 @@ import {fn} from '@storybook/test';
 
 import {DropdownMulti, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
-import {groupOptions, options} from "./data";
+import {groupOptions, options} from './data';
 
 const meta = {
     title: 'Components/DropdownMulti',
@@ -17,6 +17,13 @@ const meta = {
     argTypes: {},
     args: {
         onClick: fn(),
+        value: ['A', 'B'],
+        options,
+        searchTextPlaceholder: 'type input...',
+        isSearchEnable: false,
+        isAvatarEnable: false,
+        isCheckedEnable: true,
+        isDark: true,
     },
 } satisfies Meta<typeof DropdownMulti>;
 
@@ -30,8 +37,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
     args: {
-        value: ['A', 'B'],
-        options,
+        isSearchEnable: true,
+        isAvatarEnable: true,
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
@@ -40,24 +47,16 @@ export const Primary: Story = {
             updateArgs({value});
         }
 
-        return <Flex className="gap-2">
-            <DropdownMulti
-                {...args}
-                onClick={onChange}
-            />
-            <DropdownMulti
-                isDark
-                {...args}
-                onClick={onChange}
-            />
-        </Flex>;
+        return <DropdownMulti
+            isDark
+            {...args}
+            onClick={onChange}
+        />;
     },
 };
 
-export const Avatar: Story = {
+export const WithAvatar: Story = {
     args: {
-        value: ['A', 'B'],
-        options,
         isAvatarEnable: true,
     },
     render: function Render(args) {
@@ -85,10 +84,8 @@ export const Avatar: Story = {
 
 
 
-export const NonCheck: Story = {
+export const WithHiddenCheck: Story = {
     args: {
-        value: ['A', 'B'],
-        options,
         isCheckedEnable: false,
     },
     render: function Render(args) {
@@ -113,10 +110,8 @@ export const NonCheck: Story = {
 };
 
 
-export const Filter: Story = {
+export const WithFilter: Story = {
     args: {
-        value: ['A', 'B'],
-        options,
         isSearchEnable: true,
     },
     render: function Render(args) {
@@ -142,10 +137,10 @@ export const Filter: Story = {
 
 
 
-export const Group: Story = {
+export const WithGroup: Story = {
     args: {
-        value: ['A', 'B'],
         options: groupOptions,
+        isAvatarEnable: true,
         isSearchEnable: true,
     },
     render: function Render(args) {

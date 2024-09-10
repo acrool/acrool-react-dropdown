@@ -30,8 +30,6 @@ export interface IProps<V>  {
  * 下拉選單元件
  *
  * @param style
- * @param className
- * @param title 標題
  * @param options 下拉選單項目
  * @param disabled 是否禁用
  * @param value

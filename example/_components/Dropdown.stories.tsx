@@ -17,6 +17,13 @@ const meta = {
     argTypes: {},
     args: {
         onClick: fn(),
+        options,
+        value: '2',
+        searchTextPlaceholder: 'type input...',
+        isSearchEnable: false,
+        isAvatarEnable: false,
+        isCheckedEnable: true,
+        isDark: true,
     },
 } satisfies Meta<typeof Dropdown>;
 
@@ -27,13 +34,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
     args: {
-        value: 'A',
-        options,
-        searchTextPlaceholder: 'type input...',
-        isSearchEnable: false,
-        isAvatarEnable: false,
-        isCheckedEnable: true,
-        isDark: true,
+        isSearchEnable: true,
+        isAvatarEnable: true,
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
@@ -49,10 +51,8 @@ export const Primary: Story = {
     },
 };
 
-export const Avatar: Story = {
+export const WithAvatar: Story = {
     args: {
-        value: 'A',
-        options,
         isAvatarEnable: true,
     },
     render: function Render(args) {
@@ -80,10 +80,8 @@ export const Avatar: Story = {
 
 
 
-export const NonCheck: Story = {
+export const WithHiddenCheck: Story = {
     args: {
-        value: 'A',
-        options,
         isCheckedEnable: false,
     },
     render: function Render(args) {
@@ -108,10 +106,8 @@ export const NonCheck: Story = {
 };
 
 
-export const Filter: Story = {
+export const WithFilter: Story = {
     args: {
-        value: 'A',
-        options,
         isSearchEnable: true,
     },
     render: function Render(args) {
@@ -135,10 +131,10 @@ export const Filter: Story = {
     },
 };
 
-export const Group: Story = {
+export const WithGroup: Story = {
     args: {
-        value: 'A',
         options: groupOptions,
+        isAvatarEnable: true,
         isSearchEnable: true,
     },
     render: function Render(args) {
@@ -164,8 +160,6 @@ export const Group: Story = {
 
 export const WithHotkeyTab: Story = {
     args: {
-        value: 'A',
-        options,
         isSearchEnable: true,
     },
     render: function Render(args) {

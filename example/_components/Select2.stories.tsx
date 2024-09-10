@@ -3,9 +3,8 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {fn} from '@storybook/test';
 
 import Select2 from '../src/components/Select2';
-import {options} from "./data";
-import {Flex} from "@acrool/react-grid";
-import {Dropdown} from "../../dist";
+import {options} from './data';
+import {Flex} from '@acrool/react-grid';
 
 const meta = {
     title: 'Example/Select2',
@@ -18,6 +17,9 @@ const meta = {
     argTypes: {},
     args: {
         onChange: fn(),
+        options,
+        isSearchEnable: true,
+        value: '1',
     },
 } satisfies Meta<typeof Select2>;
 
@@ -25,10 +27,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
-    args: {
-        value: 'A',
-        options,
-    },
+    args: {},
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
 
@@ -46,7 +45,7 @@ export const Primary: Story = {
 
 export const WithHotkeyTab: Story = {
     args: {
-        value: 'A',
+        value: '1',
         options,
         isSearchEnable: true,
     },
