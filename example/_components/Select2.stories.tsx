@@ -2,7 +2,7 @@ import {useArgs} from '@storybook/preview-api';
 import type {Meta, StoryObj} from '@storybook/react';
 import {fn} from '@storybook/test';
 
-import Select2 from './Select2';
+import Select2 from '../src/components/Select2';
 
 const meta = {
     title: 'Example/Select2',

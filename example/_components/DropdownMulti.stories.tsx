@@ -2,13 +2,12 @@ import {useArgs} from '@storybook/preview-api';
 import type {Meta, StoryObj} from '@storybook/react';
 import {fn} from '@storybook/test';
 
-import {Dropdown, IDropdownOption, isGroupOptions, TOption} from '@acrool/react-dropdown';
-import Select2 from "../src/components/Select2/Select2";
-import {Flex} from "@acrool/react-grid";
+import {DropdownMulti, TOption} from '@acrool/react-dropdown';
+import {Flex} from '@acrool/react-grid';
 
 const meta = {
-    title: 'Example/Dropdown',
-    component: Dropdown,
+    title: 'Components/DropdownMulti',
+    component: DropdownMulti,
     parameters: {
         layout: 'centered',
         actions: {argTypesRegex: '^on.*'},
@@ -16,42 +15,70 @@ const meta = {
     tags: ['autodocs'],
     argTypes: {},
     args: {
-        onChange: fn(),
+        onClick: fn(),
     },
-} satisfies Meta<typeof Dropdown>;
+} satisfies Meta<typeof DropdownMulti>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 
-const options = [
+
+
+const options: TOption<string>[] = [
     {text: 'Apple', value: 'A'},
     {text: 'Basic', value: 'B'},
     {text: 'Cat & Car', value: 'C'},
     {text: 'Dog & Desk', value: 'D'},
     {text: 'Element', value: 'E'},
-    {text: 'Fake', value: 'F'},
+    {text: 'Firefox', value: 'F'},
     {text: 'Google', value: 'G'},
 ];
 
+
+const groupOptions: TOption<string>[] = [
+    {text: 'Apple', value: 'A'},
+    {text: 'Basic', value: 'B'},
+    {
+        groupName: 'Item',
+        children: [
+            {text: 'Cat & Car', value: 'C'},
+            {text: 'Dog & Desk', value: 'D'},
+        ]
+    },
+    {text: 'Element', value: 'E'},
+    {
+        groupName: 'Chrome',
+        children: [
+            {text: 'Firefox', value: 'F'},
+            {text: 'Google', value: 'G'},
+        ]
+    },
+    {
+        groupName: 'None Children',
+        children: []
+    },
+];
+
+
 export const Primary: Story = {
     args: {
-        value: 'A',
+        value: ['A', 'B'],
         options,
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
 
-        function onChange(value: string) {
+        function onChange(value: string[]) {
             updateArgs({value});
         }
 
         return <Flex className="gap-2">
-            <Dropdown
+            <DropdownMulti
                 {...args}
                 onClick={onChange}
             />
-            <Dropdown
+            <DropdownMulti
                 isDark
                 {...args}
                 onClick={onChange}
@@ -62,23 +89,23 @@ export const Primary: Story = {
 
 export const Avatar: Story = {
     args: {
-        value: 'A',
+        value: ['A', 'B'],
         options,
         isAvatarEnable: true,
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
 
-        function onChange(value: string) {
+        function onChange(value: string[]) {
             updateArgs({value});
         }
 
         return <Flex className="gap-2">
-            <Dropdown
+            <DropdownMulti
                 {...args}
                 onClick={onChange}
             />
-            <Dropdown
+            <DropdownMulti
                 isDark
                 {...args}
                 onClick={onChange}
@@ -93,23 +120,23 @@ export const Avatar: Story = {
 
 export const NonCheck: Story = {
     args: {
-        value: 'A',
+        value: ['A', 'B'],
         options,
         isCheckedEnable: false,
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
 
-        function onChange(value: string) {
+        function onChange(value: string[]) {
             updateArgs({value});
         }
 
         return <Flex className="gap-2">
-            <Dropdown
+            <DropdownMulti
                 {...args}
                 onClick={onChange}
             />
-            <Dropdown
+            <DropdownMulti
                 isDark
                 {...args}
                 onClick={onChange}
@@ -121,23 +148,23 @@ export const NonCheck: Story = {
 
 export const Filter: Story = {
     args: {
-        value: 'A',
+        value: ['A', 'B'],
         options,
         isSearchEnable: true,
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
 
-        function onChange(value: string) {
+        function onChange(value: string[]) {
             updateArgs({value});
         }
 
         return <Flex className="gap-2">
-            <Dropdown
+            <DropdownMulti
                 {...args}
                 onClick={onChange}
             />
-            <Dropdown
+            <DropdownMulti
                 isDark
                 {...args}
                 onClick={onChange}
@@ -145,3 +172,33 @@ export const Filter: Story = {
         </Flex>;
     },
 };
+
+
+
+export const Group: Story = {
+    args: {
+        value: ['A', 'B'],
+        options: groupOptions,
+        isSearchEnable: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+
+        function onChange(value: string[]) {
+            updateArgs({value});
+        }
+
+        return <Flex className="gap-2">
+            <DropdownMulti
+                {...args}
+                onClick={onChange}
+            />
+            <DropdownMulti
+                isDark
+                {...args}
+                onClick={onChange}
+            />
+        </Flex>;
+    },
+};
+

@@ -28,21 +28,21 @@
   resolved "https://registry.yarnpkg.com/@acrool/react-iconsvg/-/react-iconsvg-4.1.1.tgz#c5cc698e74b04e1cffdb5a3b6b9194c06b903e96"
   integrity sha512-Atghr470fEAPBqbznJxtfdxhkTs3CPBFGHT6RDJj36czOpfXUkK4LqmT+dqhfJgraCdPJXsMbbf5LVWDj6GJ2Q==
 
-"@acrool/react-picker@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.0.2.tgz#543e5cdf43e4eae9fd2d5632d57a0791c5fc9886"
-  integrity sha512-BCjkNl6MHk3e//Qm26GAIXCmxi1d1YI+xvXkBq5Z+Vj7uKE051l6jOxe9wVSNXUeo2sD5ZwuNxiEi/9e0GaKTw==
+"@acrool/react-picker@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.0.6.tgz#e4da3186f35162554b2c9d0274ff0acffe892d9c"
+  integrity sha512-ECdk0/Xu+oDNGURkmtQ9R8lDCriFL60Kk/MYqUAwKsFXXt4ms2zNnK+udpII9FvqDOWQ/QRJKpWQUM77maxU+w==
   dependencies:
     "@acrool/js-logger" "^1.0.23"
-    "@acrool/react-portal" "^1.0.1"
+    "@acrool/react-portal" "^1.0.2"
     clsx "^2.1.1"
     framer-motion "^11.3.19"
     ulid "^2.3.0"
 
-"@acrool/react-portal@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@acrool/react-portal/-/react-portal-1.0.1.tgz#2f8a11098aa9ec8786d2cde85261093eb571e2aa"
-  integrity sha512-oigaMgp/KJ8rd8WJtdVhlHSVI7+jzHV3ItyyUH6c0UqX1uW4m8fgqqxx1nVb3buY+MRLnVAbP6jLaObfZsz6Lw==
+"@acrool/react-portal@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@acrool/react-portal/-/react-portal-1.0.2.tgz#4027259c61d50b808513630ae0bf53fbe30bf0a3"
+  integrity sha512-/UviZkdnsfFoBdivsb8l1mbQzbFaudyAtNiq4lBolEDG3XvBDD39IZWch+pDkOs/Vdeebb+deVW3QlrM8r2oeQ==
   dependencies:
     clsx "^2.1.1"
 
@@ -2735,11 +2735,6 @@ base64-js@^1.3.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
-
-bear-jsutils@^3.2.0-alpha.1:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/bear-jsutils/-/bear-jsutils-3.2.4.tgz#70e0a6db6da66502667cd5123732774da5b5bcb9"
-  integrity sha512-DFeop9zvv6GgBpSe6v2XIJJdIXynbubq3DvWImHLg/J0L1MLtauPKAkBB9zTNarNb4uxahoVuZAiRPWiwNTfHw==
 
 binary-extensions@^2.0.0:
   version "2.3.0"

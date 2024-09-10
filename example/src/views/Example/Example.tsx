@@ -1,14 +1,14 @@
 import {Dropdown, DropdownMulti, IDropdownOption, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
-import {groupBy} from 'bear-jsutils/array';
+import {groupBy} from '@acrool/js-utils/array';
 import {data} from '../../config/data';
 import {useMemo, useState} from 'react';
-import Select2 from "../../components/Select2";
+import Select2 from '../../components/Select2';
 
 
 const Example = () => {
 
-    const [value, setValue] = useState<string>(null);
+    const [value, setValue] = useState<string|null>(null);
     const [multiValue, setMultiValue] = useState<string[]>([]);
 
     const groupData = groupBy(data, row => row.role);
@@ -29,7 +29,7 @@ const Example = () => {
 
 
     const placeholderOptions: TOption<any>[] = useMemo(() => {
-        const placeholderOption: IDropdownOption<string> = {text: 'Select assigner...', value: null};
+        const placeholderOption: IDropdownOption<string|null> = {text: 'Select assigner...', value: null};
         return [placeholderOption].concat(options3 as any);
 
     }, [value, options3]);
