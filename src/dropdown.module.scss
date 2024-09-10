@@ -11,6 +11,9 @@
 .root ul{
     text-align: left;
     padding-inline-start: 0;
+
+    display: flex;
+    flex-direction: var(--flex-direction);
 }
 .root strong{
     display: block;
@@ -25,6 +28,8 @@
     --bg-hover-color: #f5f5f5;
     --border-color: #f0f0f0;
     --search-filter-border: #eeeeee;
+
+    --flex-direction: column;
 }
 
 .root.dark-theme {
@@ -38,7 +43,9 @@
 }
 
 
-
+.root.reverse {
+    --flex-direction: column-reverse;
+}
 
 .root {
     width: auto;
@@ -51,8 +58,8 @@
 
 
     display: flex;
+    flex-direction: var(--flex-direction);
     border-radius: 3px;
-    flex-direction: column;
     background-color: var(--bg-color);
     margin: 0;
     box-shadow: 2px 1px 9px 1px #00000040;

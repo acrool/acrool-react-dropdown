@@ -44,6 +44,7 @@ interface IProps<T> {
     options?: Array<TOption<T>>
     searchTextPlaceholder?: string
     isDark?: boolean
+    isReverse?: boolean
     searchForwardedRef?: ForwardedRef<HTMLInputElement>
 }
 
@@ -59,6 +60,7 @@ interface IProps<T> {
  * @param onChange 選擇視窗當項目異動時
  * @param value Input Value
  * @param searchTextPlaceholder
+ * @param isReverse 上下反向模式
  * @param isDark 暗黑模式
  */
 const Dropdown = <T extends unknown>({
@@ -76,6 +78,7 @@ const Dropdown = <T extends unknown>({
     isCheckedEnable = true,
     isAvatarEnable = false,
     isDark = false,
+    isReverse = false,
     searchForwardedRef,
 }: IProps<T>) => {
     const {i18n} = useLocale(locale);
@@ -131,13 +134,13 @@ const Dropdown = <T extends unknown>({
         if(e.key === 'ArrowUp' && !isComposing){
             e.preventDefault();
             e.stopPropagation();
-            handleMove('up')();
+            handleMove(isReverse ? 'down': 'up')();
             return;
         }
         if(e.key === 'ArrowDown' && !isComposing){
             e.preventDefault();
             e.stopPropagation();
-            handleMove('down')();
+            handleMove(isReverse ? 'up' : 'down')();
             return;
         }
         if (e.key === 'Escape' && !isComposing) {
@@ -286,7 +289,7 @@ const Dropdown = <T extends unknown>({
 
 
     return (
-        <div className={clsx(styles.root, className, {[styles.darkTheme]: isDark})} style={style}>
+        <div className={clsx(styles.root, className, {[styles.darkTheme]: isDark, [styles.reverse]: isReverse})} style={style}>
             {/*搜尋框*/}
             {isSearchEnable &&
                 <input className={styles.textField}

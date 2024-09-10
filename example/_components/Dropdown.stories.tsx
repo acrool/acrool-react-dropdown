@@ -153,6 +153,27 @@ export const WithGroup: Story = {
     },
 };
 
+export const WithReverse: Story = {
+    args: {
+        options: groupOptions,
+        isAvatarEnable: true,
+        isSearchEnable: true,
+        isReverse: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+        const onChange = (value: string) => updateArgs({value});
+
+        return <Flex className="gap-2">
+            <Dropdown
+                {...args}
+                isDark={false}
+                onClick={fn(onChange)}
+            />
+        </Flex>;
+    },
+};
+
 export const WithHotkeyTab: Story = {
     args: {
         isSearchEnable: true,
