@@ -39,12 +39,17 @@
     --bg-active-color: #727373;
     --bg-hover-color: #5e5e5e;
     --border-color: rgba(255, 255, 255, 0.25);
-    --search-filter-border: rgb(70, 70, 72);
+    --search-filter-border: rgb(85, 85, 87);
 }
 
 
 .root.reverse {
     --flex-direction: column-reverse;
+
+    .text-field{
+        border-bottom: none;
+        border-top: 1px solid var(--search-filter-border);
+    }
 }
 
 .root {
@@ -202,6 +207,7 @@
     color: var(--text-color);
     padding: 4px 12px;
     border: none;
+    border-radius: 3px;
     border-bottom: 1px solid var(--search-filter-border);
 }
 .text-field-hidden{

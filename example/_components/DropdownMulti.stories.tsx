@@ -2,7 +2,7 @@ import {useArgs} from '@storybook/preview-api';
 import type {Meta, StoryObj} from '@storybook/react';
 import {fn} from '@storybook/test';
 
-import {DropdownMulti, TOption} from '@acrool/react-dropdown';
+import {DropdownMulti} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
 import {groupOptions, options} from '../src/config/data';
 
@@ -47,7 +47,7 @@ export const Primary: Story = {
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
-        const onChange = (value: string) => updateArgs({value});
+        const onChange = (value: string[]) => updateArgs({value});
 
 
         return <DropdownMulti
@@ -64,7 +64,7 @@ export const WithAvatar: Story = {
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
-        const onChange = (value: string) => updateArgs({value});
+        const onChange = (value: string[]) => updateArgs({value});
 
 
         return <Flex className="gap-2">
@@ -92,7 +92,7 @@ export const WithHiddenCheck: Story = {
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
-        const onChange = (value: string) => updateArgs({value});
+        const onChange = (value: string[]) => updateArgs({value});
 
 
         return <Flex className="gap-2">
@@ -117,7 +117,7 @@ export const WithFilter: Story = {
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
-        const onChange = (value: string) => updateArgs({value});
+        const onChange = (value: string[]) => updateArgs({value});
 
 
         return <Flex className="gap-2">
@@ -136,6 +136,26 @@ export const WithFilter: Story = {
 };
 
 
+export const WithReverse: Story = {
+    args: {
+        options: groupOptions,
+        isAvatarEnable: true,
+        isSearchEnable: true,
+        isReverse: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+        const onChange = (value: string[]) => updateArgs({value});
+
+        return <Flex className="gap-2">
+            <DropdownMulti
+                {...args}
+                isDark={false}
+                onClick={fn(onChange)}
+            />
+        </Flex>;
+    },
+};
 
 export const WithGroup: Story = {
     args: {
@@ -146,7 +166,7 @@ export const WithGroup: Story = {
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
 
-        const onChange = (value: string) => updateArgs({value});
+        const onChange = (value: string[]) => updateArgs({value});
 
 
         return <Flex className="gap-2">
