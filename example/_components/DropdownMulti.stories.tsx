@@ -42,6 +42,25 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
     args: {
+        isAvatarEnable: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+        const onChange = (value: string[]) => updateArgs({value});
+
+
+        return <DropdownMulti
+            isDark
+            {...args}
+            onEnter={fn(onChange)}
+            onClick={fn(onChange)}
+        />;
+    },
+};
+
+
+export const WithSearch: Story = {
+    args: {
         isSearchEnable: true,
         isAvatarEnable: true,
     },
@@ -53,6 +72,7 @@ export const Primary: Story = {
         return <DropdownMulti
             isDark
             {...args}
+            onEnter={fn(onChange)}
             onClick={fn(onChange)}
         />;
     },
@@ -71,11 +91,13 @@ export const WithAvatar: Story = {
             <DropdownMulti
                 {...args}
                 isDark={false}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
             <DropdownMulti
                 {...args}
                 isDark
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
         </Flex>;
@@ -99,11 +121,13 @@ export const WithHiddenCheck: Story = {
             <DropdownMulti
                 {...args}
                 isDark={false}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
             <DropdownMulti
                 {...args}
                 isDark
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
         </Flex>;
@@ -124,11 +148,13 @@ export const WithFilter: Story = {
             <DropdownMulti
                 {...args}
                 isDark={false}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
             <DropdownMulti
                 {...args}
                 isDark
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
         </Flex>;
@@ -151,6 +177,7 @@ export const WithReverse: Story = {
             <DropdownMulti
                 {...args}
                 isDark={false}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
         </Flex>;
@@ -173,11 +200,13 @@ export const WithGroup: Story = {
             <DropdownMulti
                 {...args}
                 isDark={false}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
             <DropdownMulti
                 {...args}
                 isDark
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
         </Flex>;

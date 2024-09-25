@@ -21,7 +21,6 @@ const meta = {
     tags: ['autodocs'],
     argTypes: {},
     args: {
-        onClick: fn(),
         options,
         value: '2',
         searchTextPlaceholder: 'type input...',
@@ -38,6 +37,23 @@ type Story = StoryObj<typeof meta>;
 
 
 export const Primary: Story = {
+    args: {
+        isAvatarEnable: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+
+        const onChange = (value: string) => updateArgs({value});
+
+        return <Dropdown
+            {...args}
+            onEnter={fn(onChange)}
+            onClick={fn(onChange)}
+        />;
+    },
+};
+
+export const WithSearch: Story = {
     args: {
         isSearchEnable: true,
         isAvatarEnable: true,
@@ -93,11 +109,13 @@ export const WithHiddenCheck: Story = {
             <Dropdown
                 {...args}
                 isDark={false}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
             <Dropdown
                 {...args}
                 isDark
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
         </Flex>;
@@ -117,11 +135,13 @@ export const WithFilter: Story = {
             <Dropdown
                 {...args}
                 isDark={false}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
             <Dropdown
                 {...args}
                 isDark
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
         </Flex>;
@@ -142,11 +162,13 @@ export const WithGroup: Story = {
             <Dropdown
                 {...args}
                 isDark={false}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
             <Dropdown
                 {...args}
                 isDark
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
         </Flex>;
@@ -168,6 +190,7 @@ export const WithReverse: Story = {
             <Dropdown
                 {...args}
                 isDark={false}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
         </Flex>;
@@ -186,6 +209,7 @@ export const WithHotkeyTab: Story = {
             <input type="text" placeholder="input order 1"/>
             <Dropdown
                 {...args}
+                onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
             <input type="text" placeholder="input order 3"/>

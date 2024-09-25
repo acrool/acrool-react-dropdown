@@ -25,6 +25,7 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOption} from './types';
 import {isGroupOptions} from './utils';
 import useLocale from './locales';
+import {HotkeyListener} from '@acrool/react-hotkey';
 
 
 
@@ -121,53 +122,23 @@ const DropdownMulti = <T extends unknown>({
     }, []);
 
 
-
-    /**
-     * 清空搜尋關鍵字
-     */
-    const handleOnSearchInputKeyDown = useCallback((e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' && !isComposing) {
-            e.preventDefault();
-            e.stopPropagation();
+    const _handleOnEnter = () => {
+        if (!isComposing) {
             if(focusValue){
                 handleOnEnter(focusValue);
             }
             return;
         }
-        if(e.key === 'ArrowUp' && !isComposing){
-            e.preventDefault();
-            e.stopPropagation();
-            handleMove(isReverse ? 'down': 'up')();
-            return;
+    };
+
+    /**
+     * 清除
+     */
+    const handleOnClean = () => {
+        if(!isComposing && !isEmpty(keyword)) {
+            setKeyword('');
         }
-        if(e.key === 'ArrowDown' && !isComposing){
-            e.preventDefault();
-            e.stopPropagation();
-            handleMove(isReverse ? 'up' : 'down')();
-            return;
-        }
-        if (e.key === 'Escape' && !isComposing) {
-
-            if(!isEmpty(keyword)){
-                e.preventDefault();
-                e.stopPropagation();
-                setKeyword('');
-            }
-            return;
-        }
-
-        if(!isSearchEnable && !e.metaKey && e.key !== 'Tab'){
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-        }
-
-    }, [isComposing, keyword, focusValue, isSearchEnable]);
-
-
-    
-
-
+    };
 
     /**
      * 處理上下移動
@@ -195,7 +166,6 @@ const DropdownMulti = <T extends unknown>({
             });
         };
     }, [focusValue, filteredOptions]);
-
 
 
 
@@ -337,7 +307,7 @@ const DropdownMulti = <T extends unknown>({
                 tabIndex={-1}
                 onBlur={onSearchFieldBlur}
                 onFocus={onSearchFieldFocus}
-                onKeyDown={handleOnSearchInputKeyDown}
+                // onKeyDown={handleOnSearchInputKeyDown}
                 autoFocus={!checkIsMobile()}
                 onCompositionStart={handleCompositionStart}
                 onCompositionEnd={handleCompositionEnd}
@@ -347,6 +317,12 @@ const DropdownMulti = <T extends unknown>({
             <ul className={styles.list} ref={listRef} role="listbox">
                 {renderOptions()}
             </ul>
+
+            <HotkeyListener hotKey="Enter" onKeyDown={_handleOnEnter} ignoreFormField/>
+            <HotkeyListener hotKey="ArrowUp" onKeyDown={handleMove(isReverse ? 'down': 'up')} ignoreFormField/>
+            <HotkeyListener hotKey="ArrowDown" onKeyDown={handleMove(isReverse ? 'up' : 'down')} ignoreFormField/>
+
+            {isSearchEnable && <HotkeyListener hotKey="Escape" onKeyDown={handleOnClean} ignoreFormField/>}
 
         </div>
 

@@ -25,6 +25,7 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOption} from './types';
 import {isGroupOptions} from './utils';
 import useLocale from './locales';
+import {HotkeyListener} from '@acrool/react-hotkey';
 
 
 
@@ -116,53 +117,27 @@ const Dropdown = <T extends unknown>({
     }, []);
 
 
-
     /**
-     * 清空搜尋關鍵字
+     * 處理按下Enter
      */
-    const handleOnSearchInputKeyDown = useCallback((e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' && !isComposing) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const isDiff = JSON.stringify(value) !== JSON.stringify(focusValue);
-            if(onEnter && typeof focusValue !== 'undefined'){
-                onEnter(focusValue, isDiff);
-            }
-            return;
+    const handleOnEnter = useCallback((e: React.KeyboardEvent) => {
+        const isDiff = JSON.stringify(value) !== JSON.stringify(focusValue);
+        if(onEnter && typeof focusValue !== 'undefined'){
+            onEnter(focusValue, isDiff);
         }
-        if(e.key === 'ArrowUp' && !isComposing){
-            e.preventDefault();
-            e.stopPropagation();
-            handleMove(isReverse ? 'down': 'up')();
-            return;
-        }
-        if(e.key === 'ArrowDown' && !isComposing){
-            e.preventDefault();
-            e.stopPropagation();
-            handleMove(isReverse ? 'up' : 'down')();
-            return;
-        }
-        if (e.key === 'Escape' && !isComposing) {
-
-            if(!isEmpty(keyword)){
-                e.preventDefault();
-                e.stopPropagation();
-                setKeyword('');
-            }
-            return;
-        }
-
-        if(!isSearchEnable && !e.metaKey && e.key !== 'Tab'){
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-        }
+        return;
 
     }, [isComposing, keyword, focusValue, isSearchEnable]);
 
 
-    
+    /**
+     * 清除
+     */
+    const handleOnClean = () => {
+        if(!isComposing && !isEmpty(keyword)) {
+            setKeyword('');
+        }
+    };
 
 
 
@@ -302,7 +277,7 @@ const Dropdown = <T extends unknown>({
                     tabIndex={-1}
                     onBlur={onSearchFieldBlur}
                     onFocus={onSearchFieldFocus}
-                    onKeyDown={handleOnSearchInputKeyDown}
+                    // onKeyDown={handleOnSearchInputKeyDown}
                     autoFocus={!checkIsMobile()}
                     onCompositionStart={handleCompositionStart} // 支援拼字問題
                     onCompositionEnd={handleCompositionEnd} // 支援拼字問題
@@ -313,6 +288,12 @@ const Dropdown = <T extends unknown>({
             <ul className={styles.list} ref={listRef} role="listbox">
                 {renderOptions()}
             </ul>
+
+            <HotkeyListener hotKey="Enter" onKeyDown={handleOnEnter} ignoreFormField/>
+            <HotkeyListener hotKey="ArrowUp" onKeyDown={handleMove(isReverse ? 'down': 'up')} ignoreFormField/>
+            <HotkeyListener hotKey="ArrowDown" onKeyDown={handleMove(isReverse ? 'up' : 'down')} ignoreFormField/>
+
+            {isSearchEnable && <HotkeyListener hotKey="Escape" onKeyDown={handleOnClean} ignoreFormField/>}
 
         </div>
 

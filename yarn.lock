@@ -2,6 +2,18 @@
 # yarn lockfile v1
 
 
+"@acrool/js-logger@^1.0.23":
+  version "1.0.23"
+  resolved "https://registry.yarnpkg.com/@acrool/js-logger/-/js-logger-1.0.23.tgz#2dd951fc3142cef0a9a050f02aaa4d94eab09042"
+  integrity sha512-UW4mXflIYYIKx4CaptY6HZmY+I2fRY76Eb/E4ACpEm7LXsZPdbgKwpGlzkky7212us8sPP8PyJnhWU7ftMhLXA==
+
+"@acrool/react-hotkey@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.3.tgz#eb11c2f93b33b909c792b9684f8b87c366a3b376"
+  integrity sha512-zLddMsgE9lypMC84xGHZackRnapdKUFkdkX/rDu0wn623awMZgI/h1cyNHA5wQO+DGmSFPqkg4dmHbMxIiaZlA==
+  dependencies:
+    "@acrool/js-logger" "^1.0.23"
+
 "@ampproject/remapping@^2.2.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.3.0.tgz#ed441b6fa600072520ce18b43d2c8cc8caecc7f4"
