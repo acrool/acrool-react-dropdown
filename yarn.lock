@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@acrool/js-logger/-/js-logger-1.0.23.tgz#2dd951fc3142cef0a9a050f02aaa4d94eab09042"
   integrity sha512-UW4mXflIYYIKx4CaptY6HZmY+I2fRY76Eb/E4ACpEm7LXsZPdbgKwpGlzkky7212us8sPP8PyJnhWU7ftMhLXA==
 
-"@acrool/react-hotkey@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.4.tgz#b1d1297fec372acb97172f115b5b4437b3276109"
-  integrity sha512-5yVyqf/hCQBXmQUCjSZe3Wd0GJpHlGHyxrh4vOm5kRL7xehYaQP5Ikvxe6FMGszWSs5+54NeTHjxO8pIbxPPYQ==
+"@acrool/react-hotkey@0.0.5-alpha.1":
+  version "0.0.5-alpha.1"
+  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.5-alpha.1.tgz#a6a75153afb007d116c63715bbf372ff8c1da9d9"
+  integrity sha512-R0NaLe64wTi1jluPrNiSZcjT+eEbCxhYEdXXfKnUYxUwkjQCjLRe6h7LnZPaZfkBIH4NtRJbbx0D/GV+7Aix0Q==
   dependencies:
     "@acrool/js-logger" "^1.0.23"
 

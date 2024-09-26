@@ -65,6 +65,7 @@ export const WithSearch: Story = {
 
         return <Dropdown
             {...args}
+            onEnter={fn(onChange)}
             onClick={fn(onChange)}
         />;
     },

@@ -25,7 +25,7 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOption} from './types';
 import {isGroupOptions} from './utils';
 import useLocale from './locales';
-import {HotkeyListener} from '@acrool/react-hotkey';
+import {EKeyboardKey, HotkeyListener} from '@acrool/react-hotkey';
 
 
 
@@ -318,11 +318,11 @@ const DropdownMulti = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
-            <HotkeyListener hotKey="Enter" onKeyDown={_handleOnEnter} ignoreFormField/>
-            <HotkeyListener hotKey="ArrowUp" onKeyDown={handleMove(isReverse ? 'down': 'up')} ignoreFormField/>
-            <HotkeyListener hotKey="ArrowDown" onKeyDown={handleMove(isReverse ? 'up' : 'down')} ignoreFormField/>
+            <HotkeyListener hotKey={EKeyboardKey.Enter} onKeyDown={_handleOnEnter} ignoreFormField stopPropagation preventDefault/>
+            <HotkeyListener hotKey={EKeyboardKey.ArrowUp} onKeyDown={handleMove(isReverse ? 'down': 'up')} ignoreFormField stopPropagation preventDefault/>
+            <HotkeyListener hotKey={EKeyboardKey.ArrowDown} onKeyDown={handleMove(isReverse ? 'up' : 'down')} ignoreFormField stopPropagation preventDefault/>
 
-            {isSearchEnable && <HotkeyListener hotKey="Escape" onKeyDown={handleOnClean} ignoreFormField/>}
+            {isSearchEnable && <HotkeyListener hotKey="Escape" onKeyDown={handleOnClean} ignoreFormField stopPropagation/>}
 
         </div>
 
