@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.17](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.17-alpha.0...v3.0.17) (2024-09-27)
+
 ### [3.0.17-alpha.0](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.16...v3.0.17-alpha.0) (2024-09-26)
 
 ### [3.0.16](https://github.com/acrool/acrool-react-dropdown/compare/v3.0.16-alpha.1...v3.0.16) (2024-09-25)
