@@ -50,8 +50,8 @@
     "react-dom": "^18.x"
   },
   "dependencies": {
-    "@acrool/react-hotkey": "0.0.6",
-    "clsx": "2.1.1"
+    "@acrool/react-hotkey": "^0.0.6",
+    "clsx": "^2.1.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
