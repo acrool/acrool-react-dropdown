@@ -192,7 +192,6 @@ export const WithGroup: Story = {
     },
     render: function Render(args) {
         const [{value}, updateArgs] = useArgs();
-
         const onChange = (value: string[]) => updateArgs({value});
 
 
@@ -213,3 +212,26 @@ export const WithGroup: Story = {
     },
 };
 
+
+
+
+export const WithOverScroll: Story = {
+    args: {
+        options: groupOptions,
+        isAvatarEnable: true,
+        isSearchEnable: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+        const onChange = (value: string[]) => updateArgs({value});
+
+        return <Flex className="gap-2" style={{maxHeight: '250px'}}>
+            <DropdownMulti
+                {...args}
+                isDark
+                onEnter={fn(onChange)}
+                onClick={fn(onChange)}
+            />
+        </Flex>;
+    },
+};

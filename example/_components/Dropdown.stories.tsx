@@ -217,3 +217,27 @@ export const WithHotkeyTab: Story = {
         </Flex>;
     },
 };
+
+
+
+export const WithOverScroll: Story = {
+    args: {
+        options: groupOptions,
+        isAvatarEnable: true,
+        isSearchEnable: true,
+        isReverse: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+        const onChange = (value: string) => updateArgs({value});
+
+        return <Flex className="gap-2" style={{maxHeight: '250px'}}>
+            <Dropdown
+                {...args}
+                isDark={false}
+                onEnter={fn(onChange)}
+                onClick={fn(onChange)}
+            />
+        </Flex>;
+    },
+};
