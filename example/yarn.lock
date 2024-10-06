@@ -30,27 +30,34 @@
   dependencies:
     "@acrool/js-logger" "^1.0.23"
 
+"@acrool/react-hotkey@^0.0.7-alpha.0":
+  version "0.0.7-alpha.0"
+  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.7-alpha.0.tgz#e1990c4a598ea9219cbb43421ba2057e3dcb2f9a"
+  integrity sha512-VY5md6W9FWvFi5+DUKD39GG0PhSh4OfnfAJyO602rJzyuSEpc5sqMUs7vhOhXLDd3n/pH1vSzSqyEQZ23/Ahbw==
+  dependencies:
+    "@acrool/js-logger" "^1.0.23"
+
 "@acrool/react-iconsvg@^4.1.1":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@acrool/react-iconsvg/-/react-iconsvg-4.1.1.tgz#c5cc698e74b04e1cffdb5a3b6b9194c06b903e96"
   integrity sha512-Atghr470fEAPBqbznJxtfdxhkTs3CPBFGHT6RDJj36czOpfXUkK4LqmT+dqhfJgraCdPJXsMbbf5LVWDj6GJ2Q==
 
-"@acrool/react-picker@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.0.11.tgz#9719fadcffa03039be0511c2ea0e008e7bfef211"
-  integrity sha512-2YhxqVt0YK9q8ORFt/K6SrOn1aQOZ9v4XxgZuzGtBgu0q/q/oUKr09rOdSnUmQhFpBBjE49AN/D6xxY5++ulDw==
+"@acrool/react-picker@^0.1.0-alpha.2":
+  version "0.1.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.1.0-alpha.2.tgz#a1125850189a7faa7b04e0abe8fe5f1cd71f7b74"
+  integrity sha512-1tnjO+GwhbFAahYrA/UScv1rVToQTqv2/CES6lc5wjYVo75Fve68qMxHN+D2b5+UHxtuh2QCCQ9X+yQDSvueyQ==
   dependencies:
     "@acrool/js-logger" "^1.0.23"
     "@acrool/react-hotkey" "^0.0.6"
-    "@acrool/react-portal" "^1.0.2"
+    "@acrool/react-portal" "^1.0.3"
     clsx "^2.1.1"
     framer-motion "^11.3.19"
     ulid "^2.3.0"
 
-"@acrool/react-portal@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@acrool/react-portal/-/react-portal-1.0.2.tgz#4027259c61d50b808513630ae0bf53fbe30bf0a3"
-  integrity sha512-/UviZkdnsfFoBdivsb8l1mbQzbFaudyAtNiq4lBolEDG3XvBDD39IZWch+pDkOs/Vdeebb+deVW3QlrM8r2oeQ==
+"@acrool/react-portal@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@acrool/react-portal/-/react-portal-1.0.3.tgz#8c717393b6b92bfa7e9a97574034b565a92fe4d0"
+  integrity sha512-y2/ooRSOza0mCnFrv69Zac/jTOJSzV5DMrdIkoi6DzeRlfHM8ryAVikhtwAoMQTfquMs7Us3NNqLrCzSncYYeQ==
   dependencies:
     clsx "^2.1.1"
 

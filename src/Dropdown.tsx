@@ -289,7 +289,10 @@ const Dropdown = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
-            <HotkeyListener hotKey={EKeyboardKey.Enter} onKeyDown={handleOnEnter} ignoreFormField stopPropagation preventDefault/>
+            {/* Enter 選擇下拉項目(需避開輸入框輸入法輸入中 */}
+            <HotkeyListener hotKey={EKeyboardKey.Enter} onKeyDown={handleOnEnter} stopPropagation ignoreFormField/>
+
+            {/* 上下選擇項目 */}
             <HotkeyListener hotKey={EKeyboardKey.ArrowUp} onKeyDown={handleMove(isReverse ? 'down': 'up')} ignoreFormField stopPropagation preventDefault/>
             <HotkeyListener hotKey={EKeyboardKey.ArrowDown} onKeyDown={handleMove(isReverse ? 'up' : 'down')} ignoreFormField stopPropagation preventDefault/>
 
