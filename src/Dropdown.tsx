@@ -25,7 +25,7 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOption} from './types';
 import {isGroupOptions} from './utils';
 import useLocale from './locales';
-import {EKeyboardKey, HotkeyListener} from '@acrool/react-hotkey';
+import {EKeyboardKey, generateOnKeydown, HotkeyListener} from '@acrool/react-hotkey';
 
 
 
@@ -86,7 +86,6 @@ const Dropdown = <T extends unknown>({
     const [keyword, setKeyword] = useState<string>('');
     const listRef = useRef<HTMLUListElement>(null);
     const [focusValue, setFocusValue] = useState<T|undefined>(value);
-    const [isComposing, setIsComposing] = useState(false);
 
 
     const filteredOptions = useMemo(() => filterOptions(options, keyword), [JSON.stringify(options), keyword]);
@@ -127,14 +126,15 @@ const Dropdown = <T extends unknown>({
         }
         return;
 
-    }, [isComposing, keyword, focusValue, isSearchEnable]);
+    }, [keyword, focusValue, isSearchEnable]);
 
 
     /**
      * 清除
      */
-    const handleOnClean = () => {
-        if(!isComposing && !isEmpty(keyword)) {
+    const handleOnClean = (e: React.KeyboardEvent) => {
+        if(!isEmpty(keyword)) {
+            e.stopPropagation();
             setKeyword('');
         }
     };
@@ -184,13 +184,6 @@ const Dropdown = <T extends unknown>({
     }, [onClick, value]);
 
 
-    const handleCompositionStart = () => {
-        setIsComposing(true);
-    };
-
-    const handleCompositionEnd = () => {
-        setIsComposing(false);
-    };
 
 
     /**
@@ -277,10 +270,8 @@ const Dropdown = <T extends unknown>({
                     tabIndex={-1}
                     onBlur={onSearchFieldBlur}
                     onFocus={onSearchFieldFocus}
-                    // onKeyDown={handleOnSearchInputKeyDown}
+                    onKeyDown={generateOnKeydown(EKeyboardKey.Escape, handleOnClean, {ignoreFormField: true, preventDefault: true})}
                     autoFocus={!checkIsMobile()}
-                    onCompositionStart={handleCompositionStart} // 支援拼字問題
-                    onCompositionEnd={handleCompositionEnd} // 支援拼字問題
                 />
             }
 
@@ -295,8 +286,6 @@ const Dropdown = <T extends unknown>({
             {/* 上下選擇項目 */}
             <HotkeyListener hotKey={EKeyboardKey.ArrowUp} onKeyDown={handleMove(isReverse ? 'down': 'up')} ignoreFormField stopPropagation preventDefault/>
             <HotkeyListener hotKey={EKeyboardKey.ArrowDown} onKeyDown={handleMove(isReverse ? 'up' : 'down')} ignoreFormField stopPropagation preventDefault/>
-
-            {isSearchEnable && <HotkeyListener hotKey="Escape" onKeyDown={handleOnClean} ignoreFormField stopPropagation/>}
 
         </div>
 

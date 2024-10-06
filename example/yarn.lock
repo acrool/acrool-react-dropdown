@@ -23,17 +23,10 @@
   resolved "https://registry.yarnpkg.com/@acrool/react-grid/-/react-grid-5.2.4.tgz#8ad917b1270170bef18f3cf264fdd15364eb516b"
   integrity sha512-ywv43YWf1pJDPZMqKApq4CYz9saoTO3w03EaEd0din88gThNJXs9J2+MpGoeAVvsAmfulODephWLu5rqD2G0rg==
 
-"@acrool/react-hotkey@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.6.tgz#e37d5fd5b2cadc201d60fac3bf1f151ce7efe66f"
-  integrity sha512-Gi0B6GQfb7TcuW0yCEsUflTs6Jh874No8Y4supzODb3eb2KPof9jUrvOTYpbZuFOKLc+cUbP4Zpw4x3MOHXO8A==
-  dependencies:
-    "@acrool/js-logger" "^1.0.23"
-
-"@acrool/react-hotkey@^0.0.7-alpha.0":
-  version "0.0.7-alpha.0"
-  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.7-alpha.0.tgz#e1990c4a598ea9219cbb43421ba2057e3dcb2f9a"
-  integrity sha512-VY5md6W9FWvFi5+DUKD39GG0PhSh4OfnfAJyO602rJzyuSEpc5sqMUs7vhOhXLDd3n/pH1vSzSqyEQZ23/Ahbw==
+"@acrool/react-hotkey@^0.0.7-alpha.1":
+  version "0.0.7-alpha.1"
+  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.7-alpha.1.tgz#6077d17d886642d01982ea96887a6f4fcc453c02"
+  integrity sha512-R6i+RIOnDi7UNkHEFGIkwSdzyGIDOQftMmFi0nL4kEZtTb2PVNwA+0kxEumUOGLRHN2LjvfZDkCDnRl7hqoyAQ==
   dependencies:
     "@acrool/js-logger" "^1.0.23"
 
@@ -42,17 +35,9 @@
   resolved "https://registry.yarnpkg.com/@acrool/react-iconsvg/-/react-iconsvg-4.1.1.tgz#c5cc698e74b04e1cffdb5a3b6b9194c06b903e96"
   integrity sha512-Atghr470fEAPBqbznJxtfdxhkTs3CPBFGHT6RDJj36czOpfXUkK4LqmT+dqhfJgraCdPJXsMbbf5LVWDj6GJ2Q==
 
-"@acrool/react-picker@^0.1.0-alpha.2":
-  version "0.1.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.1.0-alpha.2.tgz#a1125850189a7faa7b04e0abe8fe5f1cd71f7b74"
-  integrity sha512-1tnjO+GwhbFAahYrA/UScv1rVToQTqv2/CES6lc5wjYVo75Fve68qMxHN+D2b5+UHxtuh2QCCQ9X+yQDSvueyQ==
-  dependencies:
-    "@acrool/js-logger" "^1.0.23"
-    "@acrool/react-hotkey" "^0.0.6"
-    "@acrool/react-portal" "^1.0.3"
-    clsx "^2.1.1"
-    framer-motion "^11.3.19"
-    ulid "^2.3.0"
+"@acrool/react-picker@link:../../acrool-react-picker":
+  version "0.0.0"
+  uid ""
 
 "@acrool/react-portal@^1.0.3":
   version "1.0.3"
