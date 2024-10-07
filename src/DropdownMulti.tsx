@@ -25,7 +25,8 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOption} from './types';
 import {isGroupOptions} from './utils';
 import useLocale from './locales';
-import {EKeyboardKey, HotkeyListener} from '@acrool/react-hotkey';
+import {EKeyboardKey} from './config';
+import useComposition from './hooks/useComposition';
 
 
 
@@ -47,7 +48,6 @@ interface IProps<T> {
     searchTextPlaceholder?: string
     isDark?: boolean
     isReverse?: boolean
-    searchForwardedRef?: ForwardedRef<HTMLInputElement>
 }
 
 
@@ -81,21 +81,32 @@ const DropdownMulti = <T extends unknown>({
     isAvatarEnable = false,
     isDark = false,
     isReverse = false,
-    searchForwardedRef,
 }: IProps<T>) => {
     const {i18n} = useLocale(locale);
     const [keyword, setKeyword] = useState<string>('');
     const listRef = useRef<HTMLUListElement>(null);
-
+    const searchRef = useRef<HTMLInputElement>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
     const defaultValue = value && value.length > 0 ? value[0]: undefined;
-
     const [focusValue, setFocusValue] = useState<T|undefined>(defaultValue);
-    const [isComposing, setIsComposing] = useState(false);
 
+    const {onCompositionFn, compositionStatusRef} = useComposition();
 
-    const t = !isEmpty(value);
     const filteredOptions = useMemo(() => filterOptions(options, keyword), [JSON.stringify(options), keyword]);
 
+
+    useEffect(() => {
+        window.setTimeout(() => {
+            if(searchRef.current){
+                searchRef.current.focus();
+                return;
+            }
+            if(rootRef.current){
+                rootRef.current.focus();
+                return;
+            }
+        }, 10);
+    }, []);
 
 
     useEffect(() => {
@@ -122,29 +133,80 @@ const DropdownMulti = <T extends unknown>({
     }, []);
 
 
-    const _handleOnEnter = () => {
-        if (!isComposing) {
-            if(focusValue){
-                handleOnEnter(focusValue);
-            }
-            return;
+    /**
+     * 處理按鍵
+     */
+    const handleOnKeyDown = useCallback((e: React.KeyboardEvent) => {
+        switch (e.key){
+        case EKeyboardKey.Enter:
+            handleOnEnter(focusValue, value)(e);
+            break;
+
+        case EKeyboardKey.ArrowUp:
+            handleMove(isReverse ? 'down': 'up')(e);
+            break;
+
+        case EKeyboardKey.ArrowDown:
+            handleMove(isReverse ? 'up' : 'down')(e);
+            break;
         }
-    };
+    }, [isReverse, focusValue, value]);
+
+
+
+    /**
+     * 處理按下Enter
+     */
+    const handleOnEnter = useCallback((focusValue?: T, value?: T[]) => {
+
+        return (e: React.KeyboardEvent) => {
+            if(e.repeat) return;
+            if(compositionStatusRef.current) return;
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            const index = value?.findIndex(rowVal => rowVal === focusValue) ?? -1;
+            let formatValues: T[] = [];
+            const convertValue = value ?? [];
+            if(index >= 0){
+                formatValues = removeByIndex(convertValue, index);
+            }else if(focusValue){
+                formatValues = [...convertValue, focusValue];
+            }
+
+
+            const isDiff = JSON.stringify(formatValues) !== JSON.stringify(value);
+            if(onEnter){
+                onEnter(formatValues, isDiff);
+            }
+
+        };
+
+    }, []);
+    
 
     /**
      * 清除
      */
-    const handleOnClean = () => {
-        if(!isComposing && !isEmpty(keyword)) {
+    const handleOnClean = useCallback((e: React.KeyboardEvent) => {
+
+        if(e.key === EKeyboardKey.Escape && !isEmpty(keyword)) {
+            e.stopPropagation();
             setKeyword('');
         }
-    };
+    }, [keyword]);
+
+
 
     /**
      * 處理上下移動
      */
     const handleMove = useCallback((direction: 'up'|'down') => {
-        return () => {
+        return (e: React.KeyboardEvent) => {
+            e.stopPropagation();
+            e.preventDefault();
+
             startTransition(() => {
                 // 設定新的位置
                 setFocusValue(curr => {
@@ -168,60 +230,34 @@ const DropdownMulti = <T extends unknown>({
     }, [focusValue, filteredOptions]);
 
 
-
     /**
      * 處理點擊項目
      */
-    const handleOnEnter = useCallback((newValue: T) => {
-        const index = value?.findIndex(rowVal => rowVal === newValue) ?? -1;
-        let formatValues: T[] = [];
-        const convertValue = value ?? [];
-        if(index >= 0){
-            formatValues = removeByIndex(convertValue, index);
-        }else{
-            formatValues = [...convertValue, newValue];
-        }
+    const handleOnClick = useCallback((newValue?: T) => {
 
+        return (e: React.MouseEvent) => {
+            e.stopPropagation();
+            e.preventDefault();
 
-        const isDiff = JSON.stringify(formatValues) !== JSON.stringify(value);
-        if(onEnter){
-            onEnter(formatValues, isDiff);
-        }
+            const index = value?.findIndex(rowVal => rowVal === newValue) ?? -1;
+            let formatValues: T[] = [];
+            const convertValue = value ?? [];
+            if(index >= 0){
+                formatValues = removeByIndex(convertValue, index);
+            }else if(typeof newValue !== 'undefined'){
+                formatValues = [...convertValue, newValue];
+            }
 
-    }, [onEnter, JSON.stringify(value)]);
-
-
-    /**
-     * 處理點擊項目
-     */
-    const handleOnClick = useCallback((e: React.MouseEvent, newValue?: T) => {
-        e.stopPropagation();
-        e.preventDefault();
-
-        const index = value?.findIndex(rowVal => rowVal === newValue) ?? -1;
-        let formatValues: T[] = [];
-        const convertValue = value ?? [];
-        if(index >= 0){
-            formatValues = removeByIndex(convertValue, index);
-        }else if(typeof newValue !== 'undefined'){
-            formatValues = [...convertValue, newValue];
-        }
-
-        const isDiff = JSON.stringify(formatValues) !== JSON.stringify(value);
-        if(onClick){
-            onClick(formatValues, isDiff);
-        }
+            const isDiff = JSON.stringify(formatValues) !== JSON.stringify(value);
+            if(onClick){
+                onClick(formatValues, isDiff);
+            }
+        };
+            
 
     }, [onClick, value]);
 
 
-    const handleCompositionStart = () => {
-        setIsComposing(true);
-    };
-
-    const handleCompositionEnd = () => {
-        setIsComposing(false);
-    };
 
 
     /**
@@ -237,8 +273,8 @@ const DropdownMulti = <T extends unknown>({
             role="option"
             className={clsx(styles.listItem, {[styles.listItemActive]: isActive})}
             key={`option-${row.value}`}
-            onMouseDown={(e) => handleOnClick(e, row.value)}
             aria-selected={isFocus ? true: undefined}
+            onMouseDown={handleOnClick(row.value)}
             onMouseOver={() => setFocusValue(row.value)}
         >
             {isCheckedEnable && <div className={styles.listItemChecked}>
@@ -281,7 +317,7 @@ const DropdownMulti = <T extends unknown>({
             return (<div
                 key="no-data"
                 className={styles.listItem}
-                onClick={(e) => handleOnClick(e,)}
+                onClick={handleOnClick()}
             >
                 <div className={clsx(styles.listItemText, styles.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
             </div>);
@@ -295,34 +331,34 @@ const DropdownMulti = <T extends unknown>({
 
 
     return (
-        <div className={clsx(styles.root, className, {[styles.darkTheme]: isDark, [styles.reverse]: isReverse})} style={style}>
+        <div className={clsx(styles.root, className, {[styles.darkTheme]: isDark, [styles.reverse]: isReverse})} 
+            style={style}
+            onKeyDown={handleOnKeyDown}
+            tabIndex={0}
+            ref={rootRef}
+        >
             {/*搜尋框*/}
-            <input className={clsx(styles.textField, {[styles.textFieldHidden]: !isSearchEnable})}
-                type="text"
-                // ref={setForwardedRef(ref, searchFieldRef)}
-                ref={searchForwardedRef}
-                value={keyword}
-                onChange={handleSetKeyword}
-                placeholder={searchTextPlaceholder}
-                tabIndex={-1}
-                onBlur={onSearchFieldBlur}
-                onFocus={onSearchFieldFocus}
-                // onKeyDown={handleOnSearchInputKeyDown}
-                autoFocus={!checkIsMobile()}
-                onCompositionStart={handleCompositionStart}
-                onCompositionEnd={handleCompositionEnd}
-            />
+            {isSearchEnable &&
+                <input className={clsx(styles.textField, {[styles.textFieldHidden]: !isSearchEnable})}
+                    type="text"
+                    ref={searchRef}
+                    value={keyword}
+                    onChange={handleSetKeyword}
+                    placeholder={searchTextPlaceholder}
+                    tabIndex={-1}
+                    onBlur={onSearchFieldBlur}
+                    onFocus={onSearchFieldFocus}
+                    onKeyDown={handleOnClean}
+                    autoFocus={!checkIsMobile()}
+                    {...onCompositionFn()}
+                />
+            }
 
             {/* Options */}
             <ul className={styles.list} ref={listRef} role="listbox">
                 {renderOptions()}
             </ul>
 
-            <HotkeyListener hotKey={EKeyboardKey.Enter} onKeyDown={_handleOnEnter} ignoreFormField stopPropagation preventDefault/>
-            <HotkeyListener hotKey={EKeyboardKey.ArrowUp} onKeyDown={handleMove(isReverse ? 'down': 'up')} ignoreFormField stopPropagation preventDefault/>
-            <HotkeyListener hotKey={EKeyboardKey.ArrowDown} onKeyDown={handleMove(isReverse ? 'up' : 'down')} ignoreFormField stopPropagation preventDefault/>
-
-            {isSearchEnable && <HotkeyListener hotKey="Escape" onKeyDown={handleOnClean} ignoreFormField stopPropagation/>}
 
         </div>
 
