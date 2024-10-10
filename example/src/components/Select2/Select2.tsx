@@ -137,7 +137,6 @@ const Picker = <V extends null>(args: IProps<V>) => {
         isAvatarEnable={isAvatarEnable}
         isSearchEnable={isSearchEnable}
         isCheckedEnable
-        searchForwardedRef={searchForwardedRef}
         searchTextPlaceholder="type keyword..."
     />;
 };

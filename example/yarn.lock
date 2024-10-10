@@ -23,36 +23,14 @@
   resolved "https://registry.yarnpkg.com/@acrool/react-grid/-/react-grid-5.2.4.tgz#8ad917b1270170bef18f3cf264fdd15364eb516b"
   integrity sha512-ywv43YWf1pJDPZMqKApq4CYz9saoTO3w03EaEd0din88gThNJXs9J2+MpGoeAVvsAmfulODephWLu5rqD2G0rg==
 
-"@acrool/react-hotkey@0.0.7-test.0":
-  version "0.0.7-test.0"
-  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.7-test.0.tgz#ca1f55839a47694eeb57817ce4190100e0bd45b7"
-  integrity sha512-K0+Wqk04r/4wbaLQaL6AIcUmvmHssnOnR+AyD+21GZvZx+MvoiRHTqKDq/bEOjHPZbHvt1Mlh0hMl61Mus53Tg==
-  dependencies:
-    "@acrool/js-logger" "^1.0.23"
-
-"@acrool/react-hotkey@^0.0.7-test.2":
-  version "0.0.7-test.2"
-  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.7-test.2.tgz#3d00badfc90e0233bd88c1461bdb47cc9c45fd91"
-  integrity sha512-0z1WRSxhvH5GPIjDqJ5YiFzS2v9ofeUK5lgVuCTedYXqtgQdYiU0DagHdR6WYUmdwoBjEJLDrlRHwvrV67aWXA==
-  dependencies:
-    "@acrool/js-logger" "^1.0.23"
-
 "@acrool/react-iconsvg@^4.1.1":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@acrool/react-iconsvg/-/react-iconsvg-4.1.1.tgz#c5cc698e74b04e1cffdb5a3b6b9194c06b903e96"
   integrity sha512-Atghr470fEAPBqbznJxtfdxhkTs3CPBFGHT6RDJj36czOpfXUkK4LqmT+dqhfJgraCdPJXsMbbf5LVWDj6GJ2Q==
 
-"@acrool/react-picker@^0.1.0-test.3":
-  version "0.1.0-test.3"
-  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.1.0-test.3.tgz#9bf49eff92f7d7da7c8f167749e973c87230e326"
-  integrity sha512-xcFTIQ8bZ0HYj+p7sVi9IWnJvYSyuCD4Cac7ByUE1DckCtRYu0FejdbxkOeh+tua88m0bm38ddO0bod7VSnVcg==
-  dependencies:
-    "@acrool/js-logger" "^1.0.23"
-    "@acrool/react-hotkey" "^0.0.7-test.2"
-    "@acrool/react-portal" "^1.0.3"
-    clsx "^2.1.1"
-    framer-motion "^11.3.19"
-    ulid "^2.3.0"
+"@acrool/react-picker@link:../../acrool-react-picker":
+  version "0.0.0"
+  uid ""
 
 "@acrool/react-portal@^1.0.3":
   version "1.0.3"
