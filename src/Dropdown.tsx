@@ -117,7 +117,7 @@ const Dropdown = <T extends unknown>({
 
             }
         });
-        
+
     }, [focusValue, filteredOptions]);
 
 
@@ -146,9 +146,9 @@ const Dropdown = <T extends unknown>({
             handleMove(isReverse ? 'up' : 'down')(e);
             break;
         }
-    }, [isReverse, focusValue, value]);
-    
-    
+    }, [isReverse, focusValue, value, filteredOptions]);
+
+
 
     /**
      * 處理按下Enter
