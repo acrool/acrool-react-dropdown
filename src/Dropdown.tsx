@@ -5,7 +5,6 @@ import React, {
     useCallback,
     startTransition,
     useMemo,
-    ForwardedRef,
     ChangeEvent, FocusEvent
 } from 'react';
 import CSS from 'csstype';
@@ -25,7 +24,8 @@ import {CheckIcon} from './Icon';
 import {IDropdownOption, TOption} from './types';
 import {isGroupOptions} from './utils';
 import useLocale from './locales';
-import {EKeyboardKey, HotkeyListener} from '@acrool/react-hotkey';
+import {EKeyboardKey} from './config';
+import useComposition from './hooks/useComposition';
 
 
 
@@ -46,7 +46,6 @@ interface IProps<T> {
     searchTextPlaceholder?: string
     isDark?: boolean
     isReverse?: boolean
-    searchForwardedRef?: ForwardedRef<HTMLInputElement>
 }
 
 
@@ -80,17 +79,30 @@ const Dropdown = <T extends unknown>({
     isAvatarEnable = false,
     isDark = false,
     isReverse = false,
-    searchForwardedRef,
 }: IProps<T>) => {
     const {i18n} = useLocale(locale);
     const [keyword, setKeyword] = useState<string>('');
     const listRef = useRef<HTMLUListElement>(null);
+    const searchRef = useRef<HTMLInputElement>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
     const [focusValue, setFocusValue] = useState<T|undefined>(value);
-    const [isComposing, setIsComposing] = useState(false);
 
+    const {onCompositionFn, compositionStatusRef} = useComposition();
 
     const filteredOptions = useMemo(() => filterOptions(options, keyword), [JSON.stringify(options), keyword]);
 
+    useEffect(() => {
+        window.setTimeout(() => {
+            if(searchRef.current){
+                searchRef.current.focus();
+                return;
+            }
+            if(rootRef.current){
+                rootRef.current.focus();
+                return;
+            }
+        }, 10);
+    }, []);
 
 
     useEffect(() => {
@@ -118,26 +130,57 @@ const Dropdown = <T extends unknown>({
 
 
     /**
+     * 處理按鍵
+     */
+    const handleOnKeyDown = useCallback((e: React.KeyboardEvent) => {
+        switch (e.key){
+        case EKeyboardKey.Enter:
+            handleOnEnter(focusValue, value)(e);
+            break;
+
+        case EKeyboardKey.ArrowUp:
+            handleMove(isReverse ? 'down': 'up')(e);
+            break;
+
+        case EKeyboardKey.ArrowDown:
+            handleMove(isReverse ? 'up' : 'down')(e);
+            break;
+        }
+    }, [isReverse, focusValue, value]);
+    
+    
+
+    /**
      * 處理按下Enter
      */
-    const handleOnEnter = useCallback((e: React.KeyboardEvent) => {
-        const isDiff = JSON.stringify(value) !== JSON.stringify(focusValue);
-        if(onEnter && typeof focusValue !== 'undefined'){
-            onEnter(focusValue, isDiff);
-        }
-        return;
+    const handleOnEnter = useCallback((focusValue?: T, value?: T) => {
 
-    }, [isComposing, keyword, focusValue, isSearchEnable]);
+        return (e: React.KeyboardEvent) => {
+            if(e.repeat) return;
+            if(compositionStatusRef.current) return;
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            const isDiff = JSON.stringify(value) !== JSON.stringify(focusValue);
+            if(onEnter && typeof focusValue !== 'undefined'){
+                onEnter(focusValue, isDiff);
+            }
+        };
+
+    }, []);
 
 
     /**
      * 清除
      */
-    const handleOnClean = () => {
-        if(!isComposing && !isEmpty(keyword)) {
+    const handleOnClean = useCallback((e: React.KeyboardEvent) => {
+
+        if(e.key === EKeyboardKey.Escape && !isEmpty(keyword)) {
+            e.stopPropagation();
             setKeyword('');
         }
-    };
+    }, [keyword]);
 
 
 
@@ -145,7 +188,10 @@ const Dropdown = <T extends unknown>({
      * 處理上下移動
      */
     const handleMove = useCallback((direction: 'up'|'down') => {
-        return () => {
+        return (e: React.KeyboardEvent) => {
+            e.stopPropagation();
+            e.preventDefault();
+
             startTransition(() => {
                 // 設定新的位置
                 setFocusValue(curr => {
@@ -172,25 +218,22 @@ const Dropdown = <T extends unknown>({
     /**
      * 處理點擊項目
      */
-    const handleOnClick = useCallback((e: React.MouseEvent, newValue?: T) => {
-        e.stopPropagation();
-        e.preventDefault();
+    const handleOnClick = useCallback((newValue?: T) => {
 
-        const isDiff = JSON.stringify(value) !== JSON.stringify(newValue);
-        if(onClick && typeof newValue !== 'undefined'){
-            onClick(newValue, isDiff);
-        }
+        return (e: React.MouseEvent) => {
+            e.stopPropagation();
+            e.preventDefault();
+
+            const isDiff = JSON.stringify(value) !== JSON.stringify(newValue);
+            if(onClick && typeof newValue !== 'undefined'){
+                onClick(newValue, isDiff);
+            }
+        };
+
 
     }, [onClick, value]);
 
 
-    const handleCompositionStart = () => {
-        setIsComposing(true);
-    };
-
-    const handleCompositionEnd = () => {
-        setIsComposing(false);
-    };
 
 
     /**
@@ -206,8 +249,8 @@ const Dropdown = <T extends unknown>({
             role="option"
             className={clsx(styles.listItem, {[styles.listItemActive]: isActive})}
             key={`option-${row.value}`}
-            onMouseDown={(e) => handleOnClick(e, row.value)}
             aria-selected={isFocus ? true: undefined}
+            onMouseDown={handleOnClick(row.value)}
             onMouseOver={() => setFocusValue(row.value)}
         >
             {isCheckedEnable && <div className={styles.listItemChecked}>
@@ -250,7 +293,7 @@ const Dropdown = <T extends unknown>({
             return (<div
                 key="no-data"
                 className={styles.listItem}
-                onClick={(e) => handleOnClick(e,)}
+                onClick={handleOnClick()}
             >
                 <div className={clsx(styles.listItemText, styles.listItemTextNoData)}>{i18n('com.dropdown.noData', {def: 'No data'})}</div>
             </div>);
@@ -264,23 +307,26 @@ const Dropdown = <T extends unknown>({
 
 
     return (
-        <div className={clsx(styles.root, className, {[styles.darkTheme]: isDark, [styles.reverse]: isReverse})} style={style}>
+        <div className={clsx(styles.root, className, {[styles.darkTheme]: isDark, [styles.reverse]: isReverse})}
+            style={style}
+            onKeyDown={handleOnKeyDown}
+            tabIndex={0}
+            ref={rootRef}
+        >
             {/*搜尋框*/}
             {isSearchEnable &&
                 <input className={styles.textField}
                     type="text"
-                    // ref={setForwardedRef(ref, searchFieldRef)}
-                    ref={searchForwardedRef}
+                    ref={searchRef}
                     value={keyword}
                     onChange={handleSetKeyword}
                     placeholder={searchTextPlaceholder}
                     tabIndex={-1}
                     onBlur={onSearchFieldBlur}
                     onFocus={onSearchFieldFocus}
-                    // onKeyDown={handleOnSearchInputKeyDown}
+                    onKeyDown={handleOnClean}
                     autoFocus={!checkIsMobile()}
-                    onCompositionStart={handleCompositionStart} // 支援拼字問題
-                    onCompositionEnd={handleCompositionEnd} // 支援拼字問題
+                    {...onCompositionFn()}
                 />
             }
 
@@ -289,11 +335,6 @@ const Dropdown = <T extends unknown>({
                 {renderOptions()}
             </ul>
 
-            <HotkeyListener hotKey={EKeyboardKey.Enter} onKeyDown={handleOnEnter} ignoreFormField stopPropagation preventDefault/>
-            <HotkeyListener hotKey={EKeyboardKey.ArrowUp} onKeyDown={handleMove(isReverse ? 'down': 'up')} ignoreFormField stopPropagation preventDefault/>
-            <HotkeyListener hotKey={EKeyboardKey.ArrowDown} onKeyDown={handleMove(isReverse ? 'up' : 'down')} ignoreFormField stopPropagation preventDefault/>
-
-            {isSearchEnable && <HotkeyListener hotKey="Escape" onKeyDown={handleOnClean} ignoreFormField stopPropagation/>}
 
         </div>
 

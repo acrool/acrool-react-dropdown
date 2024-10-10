@@ -105,11 +105,11 @@ const Picker = <V extends null>(args: IProps<V>) => {
     const searchForwardedRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        window.requestAnimationFrame(() => {
+        window.setTimeout(() => {
             if(searchForwardedRef.current){
                 searchForwardedRef.current.focus();
             }
-        });
+        }, 100);
     }, []);
 
     /**`
@@ -137,7 +137,6 @@ const Picker = <V extends null>(args: IProps<V>) => {
         isAvatarEnable={isAvatarEnable}
         isSearchEnable={isSearchEnable}
         isCheckedEnable
-        searchForwardedRef={searchForwardedRef}
         searchTextPlaceholder="type keyword..."
     />;
 };

@@ -23,34 +23,19 @@
   resolved "https://registry.yarnpkg.com/@acrool/react-grid/-/react-grid-5.2.4.tgz#8ad917b1270170bef18f3cf264fdd15364eb516b"
   integrity sha512-ywv43YWf1pJDPZMqKApq4CYz9saoTO3w03EaEd0din88gThNJXs9J2+MpGoeAVvsAmfulODephWLu5rqD2G0rg==
 
-"@acrool/react-hotkey@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@acrool/react-hotkey/-/react-hotkey-0.0.6.tgz#e37d5fd5b2cadc201d60fac3bf1f151ce7efe66f"
-  integrity sha512-Gi0B6GQfb7TcuW0yCEsUflTs6Jh874No8Y4supzODb3eb2KPof9jUrvOTYpbZuFOKLc+cUbP4Zpw4x3MOHXO8A==
-  dependencies:
-    "@acrool/js-logger" "^1.0.23"
-
 "@acrool/react-iconsvg@^4.1.1":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@acrool/react-iconsvg/-/react-iconsvg-4.1.1.tgz#c5cc698e74b04e1cffdb5a3b6b9194c06b903e96"
   integrity sha512-Atghr470fEAPBqbznJxtfdxhkTs3CPBFGHT6RDJj36czOpfXUkK4LqmT+dqhfJgraCdPJXsMbbf5LVWDj6GJ2Q==
 
-"@acrool/react-picker@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.0.11.tgz#9719fadcffa03039be0511c2ea0e008e7bfef211"
-  integrity sha512-2YhxqVt0YK9q8ORFt/K6SrOn1aQOZ9v4XxgZuzGtBgu0q/q/oUKr09rOdSnUmQhFpBBjE49AN/D6xxY5++ulDw==
-  dependencies:
-    "@acrool/js-logger" "^1.0.23"
-    "@acrool/react-hotkey" "^0.0.6"
-    "@acrool/react-portal" "^1.0.2"
-    clsx "^2.1.1"
-    framer-motion "^11.3.19"
-    ulid "^2.3.0"
+"@acrool/react-picker@link:../../acrool-react-picker":
+  version "0.0.0"
+  uid ""
 
-"@acrool/react-portal@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@acrool/react-portal/-/react-portal-1.0.2.tgz#4027259c61d50b808513630ae0bf53fbe30bf0a3"
-  integrity sha512-/UviZkdnsfFoBdivsb8l1mbQzbFaudyAtNiq4lBolEDG3XvBDD39IZWch+pDkOs/Vdeebb+deVW3QlrM8r2oeQ==
+"@acrool/react-portal@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@acrool/react-portal/-/react-portal-1.0.3.tgz#8c717393b6b92bfa7e9a97574034b565a92fe4d0"
+  integrity sha512-y2/ooRSOza0mCnFrv69Zac/jTOJSzV5DMrdIkoi6DzeRlfHM8ryAVikhtwAoMQTfquMs7Us3NNqLrCzSncYYeQ==
   dependencies:
     clsx "^2.1.1"
 

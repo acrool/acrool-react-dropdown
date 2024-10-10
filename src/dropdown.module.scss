@@ -54,9 +54,9 @@
 
 .root {
     width: auto;
-    min-width: 150px;
-    min-height: 30px;
-    max-height: 450px;
+    min-width: var(--dropdown-min-width, 80px);
+    min-height: var(--dropdown-min-height, 30px);
+    max-height: var(--dropdown-max-width, 450px);
     height: auto;
 
     z-index: 10;
