@@ -150,7 +150,7 @@ const DropdownMulti = <T extends unknown>({
             handleMove(isReverse ? 'up' : 'down')(e);
             break;
         }
-    }, [isReverse, focusValue, value]);
+    }, [isReverse, focusValue, value, filteredOptions]);
 
 
 
