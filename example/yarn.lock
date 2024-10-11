@@ -7,12 +7,12 @@
   resolved "https://registry.yarnpkg.com/@acrool/js-logger/-/js-logger-1.0.23.tgz#2dd951fc3142cef0a9a050f02aaa4d94eab09042"
   integrity sha512-UW4mXflIYYIKx4CaptY6HZmY+I2fRY76Eb/E4ACpEm7LXsZPdbgKwpGlzkky7212us8sPP8PyJnhWU7ftMhLXA==
 
-"@acrool/js-utils@^3.2.9":
-  version "3.2.9"
-  resolved "https://registry.yarnpkg.com/@acrool/js-utils/-/js-utils-3.2.9.tgz#cfd88bbb6eaf938e7597a09a48911b86072520d0"
-  integrity sha512-neYRhjHztT3n3sy/z407DLgGvREataa3HtcLsG97VS2yenLnH0hl8aC90CEwrrcULbXvYpB8z6S+cZA1q8iLKQ==
+"@acrool/js-utils@^3.2.12":
+  version "3.2.12"
+  resolved "https://registry.yarnpkg.com/@acrool/js-utils/-/js-utils-3.2.12.tgz#ebab43062442808be9a190ef004c3ea2fa368ce4"
+  integrity sha512-G8b/Kf8r+sD2yWW5/tTzD5MA2cpC9caNu35jCp6f97W61aPyOLJIxIdFL29o+DFCMd80IuHhK7hXy3S4VsG6/A==
   dependencies:
-    dayjs "^1.11.12"
+    dayjs "^1.x"
 
 "@acrool/react-dropdown@link:..":
   version "0.0.0"
@@ -23,14 +23,16 @@
   resolved "https://registry.yarnpkg.com/@acrool/react-grid/-/react-grid-5.2.4.tgz#8ad917b1270170bef18f3cf264fdd15364eb516b"
   integrity sha512-ywv43YWf1pJDPZMqKApq4CYz9saoTO3w03EaEd0din88gThNJXs9J2+MpGoeAVvsAmfulODephWLu5rqD2G0rg==
 
-"@acrool/react-iconsvg@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@acrool/react-iconsvg/-/react-iconsvg-4.1.1.tgz#c5cc698e74b04e1cffdb5a3b6b9194c06b903e96"
-  integrity sha512-Atghr470fEAPBqbznJxtfdxhkTs3CPBFGHT6RDJj36czOpfXUkK4LqmT+dqhfJgraCdPJXsMbbf5LVWDj6GJ2Q==
-
-"@acrool/react-picker@link:../../acrool-react-picker":
-  version "0.0.0"
-  uid ""
+"@acrool/react-picker@0.1.0-alpha.7":
+  version "0.1.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/@acrool/react-picker/-/react-picker-0.1.0-alpha.7.tgz#0981ec9226e2c39c48eda799a8052dbc52b3e28f"
+  integrity sha512-CoHK1Hgwq76yg2DHacxcSBJOfWg0zdmo0xark3sAI7hWBrSwjcAnYdQt0m0izZ9J6Po9lnGO3+uDuLnlGD08Tw==
+  dependencies:
+    "@acrool/js-logger" "^1.0.23"
+    "@acrool/react-portal" "^1.0.3"
+    clsx "^2.1.1"
+    framer-motion "^11.3.19"
+    ulid "^2.3.0"
 
 "@acrool/react-portal@^1.0.3":
   version "1.0.3"
@@ -3119,7 +3121,7 @@ data-uri-to-buffer@^2.0.0:
   resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-2.0.2.tgz#d296973d5a4897a5dbe31716d118211921f04770"
   integrity sha512-ND9qDTLc6diwj+Xe5cdAgVTbLVdXbtxTJRXRhli8Mowuaan+0EJOtdqJ0QCHNSSPyoXGx9HX2/VMnKeC34AChA==
 
-dayjs@^1.11.12:
+dayjs@^1.x:
   version "1.11.13"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.13.tgz#92430b0139055c3ebb60150aa13e860a4b5a366c"
   integrity sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==
