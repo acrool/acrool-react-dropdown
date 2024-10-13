@@ -2,9 +2,9 @@ import {useArgs} from '@storybook/preview-api';
 import type {Meta, StoryObj} from '@storybook/react';
 import {fn} from '@storybook/test';
 
-import {DropdownMulti} from '@acrool/react-dropdown';
+import {Dropdown, DropdownMulti} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
-import {groupOptions, options} from '../src/config/data';
+import {groupOptions, NodeOptions, options} from '../src/config/data';
 
 const meta = {
     title: 'Components/DropdownMulti',
@@ -229,6 +229,31 @@ export const WithOverScroll: Story = {
             <DropdownMulti
                 {...args}
                 isDark
+                onEnter={fn(onChange)}
+                onClick={fn(onChange)}
+            />
+        </Flex>;
+    },
+};
+
+
+
+
+export const WithReactNode: Story = {
+    args: {
+        options: NodeOptions,
+        isAvatarEnable: true,
+        isSearchEnable: true,
+        isReverse: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+        const onChange = (value: string[]) => updateArgs({value});
+
+        return <Flex className="gap-2" style={{maxHeight: '250px'}}>
+            <DropdownMulti
+                {...args}
+                isDark={false}
                 onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />

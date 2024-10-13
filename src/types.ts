@@ -2,7 +2,8 @@ import {ReactNode} from 'react';
 
 export interface IDropdownOption<T>  {
     value: T
-    text: string|ReactNode
+    text: string
+    nodeText?: ReactNode
     searchTags?: string[]
     avatarUrl?: string
     color?: string

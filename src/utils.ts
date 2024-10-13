@@ -61,9 +61,7 @@ export const filterOptions = <T>(options?: Array<TOption<T>>, filterKeyword = ''
             return curr;
         }
 
-        const originTags = !isEmpty(option.searchTags) ? option.searchTags :
-            typeof option.text === 'string' ? [option.text] : [];
-
+        const originTags = !isEmpty(option.searchTags) ? option.searchTags : [option.text];
         if(filterStringTags(originTags, filterKeyword)){
             return [...curr, option];
         }

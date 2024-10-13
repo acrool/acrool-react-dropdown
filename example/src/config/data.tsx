@@ -90,7 +90,8 @@ export const groupOptions: TOption<string>[] = [
 export const NodeOptions: TOption<string>[] = [
     ...data.slice(0, 12).map(row => {
         return {
-            text: <Flex className="justify-content-between gap-4">
+            text: row.name,
+            nodeText: <Flex className="justify-content-between gap-4">
                 <div>{row.name}</div>
                 <div>${row.amount}</div>
             </Flex>,
