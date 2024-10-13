@@ -3,7 +3,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {fn} from '@storybook/test';
 
 import Select2 from './Select2';
-import {options} from '../../config/data';
+import {NodeOptions, options} from '../../config/data';
 import {Flex} from '@acrool/react-grid';
 
 const meta = {
@@ -43,7 +43,6 @@ export const Primary: Story = {
         return <Select2
             {...args}
             value={value}
-            options={options}
             onChange={onChange}
         />;
     },
@@ -68,11 +67,34 @@ export const WithHotkeyTab: Story = {
             <Select2
                 {...args}
                 value={value}
-                options={options}
                 onChange={onChange}
             />
             <input type="text" placeholder="input order 3"/>
         </Flex>;
+    },
+};
+
+
+
+
+export const WithReactNode: Story = {
+    args: {
+        value: '1',
+        options: NodeOptions,
+        isSearchEnable: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs<{value: string}>();
+
+        function onChange(value: string) {
+            updateArgs({value});
+        }
+
+        return <Select2
+            {...args}
+            value={value}
+            onChange={onChange}
+        />;
     },
 };
 

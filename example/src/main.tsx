@@ -6,7 +6,6 @@ import './index.css';
 import {GridThemeProvider} from '@acrool/react-grid';
 import '@acrool/react-grid/dist/index.css';
 import '@acrool/react-dropdown/dist/index.css';
-import '@acrool/react-iconsvg/dist/index.css';
 import '@acrool/react-picker/dist/index.css';
 
 

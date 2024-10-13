@@ -27,8 +27,26 @@ const Example = () => {
             };
         });
 
+    const optionsNode3 = data.map(row => {
+        return {
+            text: row.name,
+            nodeText: <Flex className="justify-content-between gap-2">
+                <div>{row.name}</div>
+                <div>${row.amount}</div>
+            </Flex>,
+            value: row.id,
+            avatarUrl: row.avatar
+        };
+    });
+
 
     const placeholderOptions: TOption<any>[] = useMemo(() => {
+        const placeholderOption: IDropdownOption<string|null> = {text: 'Select assigner...', value: null};
+        return [placeholderOption].concat(options3 as any);
+
+    }, [value, options3]);
+
+    const placeholderNodeOptions: TOption<any>[] = useMemo(() => {
         const placeholderOption: IDropdownOption<string|null> = {text: 'Select assigner...', value: null};
         return [placeholderOption].concat(options3 as any);
 
@@ -49,6 +67,7 @@ const Example = () => {
 
         <Dropdown value={value} onClick={setValue} options={options3} isDark isAvatarEnable />
         <Dropdown value={value} onClick={setValue} onEnter={setValue} options={placeholderOptions} isDark isSearchEnable={false} />
+        <Dropdown value={value} onClick={setValue} onEnter={setValue} options={optionsNode3} isDark isSearchEnable={false} />
 
         <DropdownMulti value={multiValue} onClick={val => setMultiValue(val)} options={options3} isDark/>
         <DropdownMulti value={multiValue} onClick={val => setMultiValue(val)} onEnter={val => setMultiValue(val)} isSearchEnable options={options3} isDark/>

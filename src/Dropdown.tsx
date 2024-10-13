@@ -89,7 +89,7 @@ const Dropdown = <T extends unknown>({
 
     const {onCompositionFn, compositionStatusRef} = useComposition();
 
-    const filteredOptions = useMemo(() => filterOptions(options, keyword), [JSON.stringify(options), keyword]);
+    const filteredOptions = useMemo(() => filterOptions(options, keyword), [options, keyword]);
 
     useEffect(() => {
         window.setTimeout(() => {
