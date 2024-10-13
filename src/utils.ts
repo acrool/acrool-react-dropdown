@@ -18,6 +18,15 @@ const filterString = (text: string, filterKeyword: string) => {
     return String(text).toLowerCase().indexOf(filterKeyword.toLowerCase()) !== -1;
 };
 
+/**
+ * 過濾文字列表 (Tags)
+ * @param tags
+ * @param filterKeyword
+ */
+const filterStringTags = (tags: string[], filterKeyword: string) => {
+    return tags.filter(tag => filterString(tag, filterKeyword)).length > 0;
+};
+
 
 export function matchAZ09(str: string): boolean {
     const regex = /^[a-z0-9]+$/;
@@ -27,7 +36,7 @@ export function matchAZ09(str: string): boolean {
 
 
 /**
- * 過濾項目
+ * 依輸入關鍵字過濾項目
  * @param options
  * @param filterKeyword
  */
@@ -52,7 +61,10 @@ export const filterOptions = <T>(options?: Array<TOption<T>>, filterKeyword = ''
             return curr;
         }
 
-        if(filterString(option.text, filterKeyword)){
+        const originTags = !isEmpty(option.searchTags) ? option.searchTags :
+            typeof option.text === 'string' ? [option.text] : [];
+
+        if(filterStringTags(originTags, filterKeyword)){
             return [...curr, option];
         }
         return curr;

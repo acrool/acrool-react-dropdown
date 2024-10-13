@@ -4,7 +4,7 @@ import {fn} from '@storybook/test';
 
 import {Dropdown, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
-import {groupOptions, options} from '../src/config/data';
+import {groupOptions, NodeOptions, options} from '../src/config/data';
 
 const meta = {
     title: 'Components/Dropdown',
@@ -223,6 +223,29 @@ export const WithHotkeyTab: Story = {
 export const WithOverScroll: Story = {
     args: {
         options: groupOptions,
+        isAvatarEnable: true,
+        isSearchEnable: true,
+        isReverse: true,
+    },
+    render: function Render(args) {
+        const [{value}, updateArgs] = useArgs();
+        const onChange = (value: string) => updateArgs({value});
+
+        return <Flex className="gap-2" style={{maxHeight: '250px'}}>
+            <Dropdown
+                {...args}
+                isDark={false}
+                onEnter={fn(onChange)}
+                onClick={fn(onChange)}
+            />
+        </Flex>;
+    },
+};
+
+
+export const WithReactNode: Story = {
+    args: {
+        options: NodeOptions,
         isAvatarEnable: true,
         isSearchEnable: true,
         isReverse: true,

@@ -1,5 +1,6 @@
 import {asset} from '../utils';
 import {TOption} from '@acrool/react-dropdown';
+import {Flex} from '@acrool/react-grid';
 
 export interface IPaginateData {
     id: string,
@@ -81,4 +82,21 @@ export const groupOptions: TOption<string>[] = [
         groupName: 'PM Team',
         children: []
     },
+];
+
+
+
+
+export const NodeOptions: TOption<string>[] = [
+    ...data.slice(0, 12).map(row => {
+        return {
+            text: <Flex className="justify-content-between gap-4">
+                <div>{row.name}</div>
+                <div>${row.amount}</div>
+            </Flex>,
+            searchTags: [row.name, row.email],
+            value: row.id,
+            avatarUrl: row.avatar
+        };
+    }),
 ];
