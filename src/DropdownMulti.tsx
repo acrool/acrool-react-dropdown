@@ -92,7 +92,7 @@ const DropdownMulti = <T extends unknown>({
 
     const {onCompositionFn, compositionStatusRef} = useComposition();
 
-    const filteredOptions = useMemo(() => filterOptions(options, keyword), [JSON.stringify(options), keyword]);
+    const filteredOptions = useMemo(() => filterOptions(options, keyword), [options, keyword]);
 
 
     useEffect(() => {
@@ -282,7 +282,7 @@ const DropdownMulti = <T extends unknown>({
             </div>
             }
             {isAvatarEnable && <div className={styles.listItemAvatar} style={getOptionStyle({avatarUrl: row.avatarUrl, color: row.color})}/>}
-            <div className={clsx(styles.listItemText, {[styles.listItemTextPlaceholder]: row.value === ''})}>{row.text}</div>
+            <div className={clsx(styles.listItemText, {[styles.listItemTextPlaceholder]: row.value === ''})}>{row.nodeText ?? row.text}</div>
         </li>;
     };
 
