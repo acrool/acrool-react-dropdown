@@ -1,13 +1,17 @@
 import type { Preview } from "@storybook/react";
-// import './reset.css';
-import '@acrool/react-picker/dist/index.css';
+import './reset.css';
 import '@acrool/react-dropdown/dist/index.css';
 import '@acrool/react-grid/dist/index.css';
 import {GridThemeProvider} from "@acrool/react-grid";
+import { themes } from '@storybook/theming';
 
 
 const preview: Preview = {
   parameters: {
+    darkMode: {
+        dark: { ...themes.dark, appPreviewBg: '#000' },
+        light: { ...themes.dark, appPreviewBg: '#fff' }
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

@@ -3,11 +3,11 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {fn} from '@storybook/test';
 
 import Select2 from './Select2';
-import {NodeOptions, options} from '../../config/data';
+import {NodeOptions, options} from '../../../config/data';
 import {Flex} from '@acrool/react-grid';
 
 const meta = {
-    title: 'Example/Select2',
+    title: 'Examples/Select2',
     component: Select2,
     parameters: {
         layout: 'centered',

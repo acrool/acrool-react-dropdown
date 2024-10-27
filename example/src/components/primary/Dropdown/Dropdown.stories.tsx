@@ -4,10 +4,11 @@ import {fn} from '@storybook/test';
 
 import {Dropdown, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
-import {groupOptions, NodeOptions, options} from '../src/config/data';
+import {groupOptions, NodeOptions, options} from '../../../config/data';
+import {useDarkMode} from "storybook-dark-mode";
 
 const meta = {
-    title: 'Components/Dropdown',
+    title: 'Primary/Dropdown',
     component: Dropdown,
     parameters: {
         layout: 'centered',
@@ -27,7 +28,19 @@ const meta = {
         isSearchEnable: false,
         isAvatarEnable: false,
         isCheckedEnable: true,
-        isDark: true,
+    },
+    render: function Render(args) {
+        const isDark = useDarkMode();
+        const [, updateArgs] = useArgs();
+
+        const onChange = (value: string) => updateArgs({value});
+
+        return <Dropdown
+            {...args}
+            isDark={isDark}
+            onEnter={fn(onChange)}
+            onClick={fn(onChange)}
+        />;
     },
 } satisfies Meta<typeof Dropdown>;
 
@@ -40,17 +53,6 @@ export const Primary: Story = {
     args: {
         isAvatarEnable: true,
     },
-    render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
-
-        const onChange = (value: string) => updateArgs({value});
-
-        return <Dropdown
-            {...args}
-            onEnter={fn(onChange)}
-            onClick={fn(onChange)}
-        />;
-    },
 };
 
 export const WithSearch: Story = {
@@ -58,25 +60,14 @@ export const WithSearch: Story = {
         isSearchEnable: true,
         isAvatarEnable: true,
     },
-    render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
-
-        const onChange = (value: string) => updateArgs({value});
-
-        return <Dropdown
-            {...args}
-            onEnter={fn(onChange)}
-            onClick={fn(onChange)}
-        />;
-    },
 };
 
-export const WithAvatar: Story = {
+export const WithThemeDiff: Story = {
     args: {
         isAvatarEnable: true,
     },
     render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
+        const [, updateArgs] = useArgs();
 
         const onChange = (value: string) => updateArgs({value});
 
@@ -88,6 +79,7 @@ export const WithAvatar: Story = {
             />
             <Dropdown
                 {...args}
+                isDark
                 onClick={fn(onChange)}
             />
         </Flex>;
@@ -102,50 +94,12 @@ export const WithHiddenCheck: Story = {
     args: {
         isCheckedEnable: false,
     },
-    render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
-        const onChange = (value: string) => updateArgs({value});
-
-        return <Flex className="gap-2">
-            <Dropdown
-                {...args}
-                isDark={false}
-                onEnter={fn(onChange)}
-                onClick={fn(onChange)}
-            />
-            <Dropdown
-                {...args}
-                isDark
-                onEnter={fn(onChange)}
-                onClick={fn(onChange)}
-            />
-        </Flex>;
-    },
 };
 
 
 export const WithFilter: Story = {
     args: {
         isSearchEnable: true,
-    },
-    render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
-        const onChange = (value: string) => updateArgs({value});
-
-        return <Flex className="gap-2">
-            <Dropdown
-                {...args}
-                isDark={false}
-                onEnter={fn(onChange)}
-                onClick={fn(onChange)}
-            />
-            <Dropdown
-                {...args}
-                isDark
-                onEnter={fn(onChange)}
-                onClick={fn(onChange)}
-            />
-        </Flex>;
     },
 };
 
@@ -155,25 +109,7 @@ export const WithGroup: Story = {
         isAvatarEnable: true,
         isSearchEnable: true,
     },
-    render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
-        const onChange = (value: string) => updateArgs({value});
 
-        return <Flex className="gap-2">
-            <Dropdown
-                {...args}
-                isDark={false}
-                onEnter={fn(onChange)}
-                onClick={fn(onChange)}
-            />
-            <Dropdown
-                {...args}
-                isDark
-                onEnter={fn(onChange)}
-                onClick={fn(onChange)}
-            />
-        </Flex>;
-    },
 };
 
 export const WithReverse: Story = {
@@ -183,19 +119,7 @@ export const WithReverse: Story = {
         isSearchEnable: true,
         isReverse: true,
     },
-    render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
-        const onChange = (value: string) => updateArgs({value});
 
-        return <Flex className="gap-2">
-            <Dropdown
-                {...args}
-                isDark={false}
-                onEnter={fn(onChange)}
-                onClick={fn(onChange)}
-            />
-        </Flex>;
-    },
 };
 
 export const WithHotkeyTab: Story = {
@@ -203,13 +127,15 @@ export const WithHotkeyTab: Story = {
         isSearchEnable: true,
     },
     render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
+        const isDark = useDarkMode();
+        const [, updateArgs] = useArgs();
         const onChange = (value: string) => updateArgs({value});
 
         return <Flex className="gap-2 align-items-start">
             <input type="text" placeholder="input order 1"/>
             <Dropdown
                 {...args}
+                isDark={isDark}
                 onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
@@ -228,13 +154,14 @@ export const WithOverScroll: Story = {
         isReverse: true,
     },
     render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
+        const isDark = useDarkMode();
+        const [, updateArgs] = useArgs();
         const onChange = (value: string) => updateArgs({value});
 
         return <Flex className="gap-2" style={{maxHeight: '250px'}}>
             <Dropdown
                 {...args}
-                isDark={false}
+                isDark={isDark}
                 onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
@@ -251,13 +178,14 @@ export const WithReactNode: Story = {
         isReverse: true,
     },
     render: function Render(args) {
-        const [{value}, updateArgs] = useArgs();
+        const isDark = useDarkMode();
+        const [, updateArgs] = useArgs();
         const onChange = (value: string) => updateArgs({value});
 
         return <Flex className="gap-2" style={{maxHeight: '250px'}}>
             <Dropdown
                 {...args}
-                isDark={false}
+                isDark={isDark}
                 onEnter={fn(onChange)}
                 onClick={fn(onChange)}
             />
