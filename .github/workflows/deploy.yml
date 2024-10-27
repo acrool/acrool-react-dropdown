@@ -2,6 +2,8 @@ name: Deploy Storybook to Pages
 
 on:
   push:
+    branch:
+      - 'main'
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
@@ -24,7 +26,7 @@ jobs:
 
       - name: Replace local links with actual versions
         run: |
-          sed -i 's#"@acrool/react-img": "link:.."#"@acrool/react-dropdown": "latest"#' package.json
+          sed -i 's#"@acrool/react-dropdown": "link:.."#"@acrool/react-dropdown": "latest"#' package.json
           sed -i 's#"react": "link:../node_modules/react"#"react": "^18.0.0"#' package.json
           sed -i 's#"react-dom": "link:../node_modules/react-dom"#"react-dom": "^18.0.0"#' package.json
 
