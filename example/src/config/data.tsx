@@ -64,6 +64,14 @@ export const options: TOption<string>[] = [
 ];
 
 
+export const optionsWithHidden: TOption<string>[] = [
+    ...data.slice(0, 12).map(row => {
+        return {text: row.name, value: row.id, avatarUrl: row.avatar};
+    }),
+    {text: 'Disabled User', value: '999'}
+];
+
+
 export const groupOptions: TOption<string>[] = [
     ...data.slice(0, 2).map(row => ({text: row.name, value: row.id, avatarUrl: row.avatar})),
     {

@@ -268,7 +268,13 @@ const Dropdown = <T extends unknown>({
     const renderOptions = useCallback(() => {
 
         const elOptions = filteredOptions
-            ?.filter(option => isGroupOptions(option) ? !isEmpty(option.children): true)
+            ?.filter(option => {
+                if(isGroupOptions(option)){
+                    return !isEmpty(option.children);
+                }
+
+                return !option.isHidden;
+            })
             .map(option => {
                 if(isGroupOptions(option)) {
                     return <li key={`group_${option.groupName}`} role="group">

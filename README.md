@@ -19,6 +19,10 @@
 
 </div>
 
+
+`^3.1.0 support react >=18.0.0 <20.0.0`
+
+
 ## Features
 
 - Supports two themes (light/dark)

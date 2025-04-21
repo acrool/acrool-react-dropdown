@@ -7,6 +7,7 @@ export interface IDropdownOption<T>  {
     searchTags?: string[]
     avatarUrl?: string
     color?: string
+    isHidden?: boolean
 }
 
 export interface IDropdownGroupOption<T>  {

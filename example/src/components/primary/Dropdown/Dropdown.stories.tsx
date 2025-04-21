@@ -4,8 +4,8 @@ import {fn} from '@storybook/test';
 
 import {Dropdown, TOption} from '@acrool/react-dropdown';
 import {Flex} from '@acrool/react-grid';
-import {groupOptions, NodeOptions, options} from '../../../config/data';
-import {useDarkMode} from "storybook-dark-mode";
+import {groupOptions, NodeOptions, options, optionsWithHidden} from '../../../config/data';
+import {useDarkMode} from 'storybook-dark-mode';
 
 const meta = {
     title: 'Primary/Dropdown',
@@ -109,7 +109,13 @@ export const WithGroup: Story = {
         isAvatarEnable: true,
         isSearchEnable: true,
     },
+};
 
+export const WithHidden: Story = {
+    args: {
+        options: optionsWithHidden,
+        isSearchEnable: true,
+    },
 };
 
 export const WithReverse: Story = {
